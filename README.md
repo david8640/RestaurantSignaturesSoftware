@@ -1,6 +1,2 @@
 Restaurant Signature Software
 ==============================
-
-
-
-a
