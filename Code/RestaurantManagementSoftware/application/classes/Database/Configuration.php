@@ -25,13 +25,13 @@ class Database_Configuration {
      */
     public function __construct() {
         // Get configuration from the configuration manager 
-        $configuration = Lib_ConfigurationManager::getDatabaseConfigurations();
+        //$configuration = Lib_ConfigurationManager::getDatabaseConfigurations();
         // Set the configuration
-        $this->hostname = $configuration->Host;
+        /*$this->hostname = $configuration->Host;
         $this->username = $configuration->User;
         $this->password = $configuration->Password;
         $this->databaseName = $configuration->Database;
-        $this->port = $configuration->Port;
+        $this->port = $configuration->Port;*/
     }
     
     /**
