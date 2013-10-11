@@ -25,7 +25,8 @@ class Database_Configuration {
      */
     public function __construct() {
         // Get configuration from the configuration manager 
-        $configuration = Lib_ConfigurationManager::getDatabaseConfigurations();
+        $configurationManager = new Lib_ConfigurationManager();
+        $configuration = $configurationManager->getDatabaseConfigurations();
         // Set the configuration
         $this->hostname = $configuration->Host;
         $this->username = $configuration->User;
