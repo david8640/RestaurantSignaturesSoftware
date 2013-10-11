@@ -10,6 +10,11 @@
  */
 class Controller_Supplier extends Controller {
     public function action_findAll() {
+        $repo = new Repository_Supplier();
+        //$repo->add(new Model_Supplier(-1, 'dave', '123123'));
+        //$suppliers = $repo->get(53);
+        //$suppliers = $repo->getAll();
+        
         $supplier1 = new Model_Supplier(1, 'David', 1234);
         $supplier2 = new Model_Supplier(2, 'David', 1234);
         $supplier3 = new Model_Supplier(3, 'David', 1234);
@@ -22,3 +27,5 @@ class Controller_Supplier extends Controller {
         $this->response->body($view);
     }
 }
+
+?>

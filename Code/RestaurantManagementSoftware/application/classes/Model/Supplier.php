@@ -76,3 +76,5 @@ class Model_Supplier extends Model {
         $this->phoneNumber = $phoneNumber;
     }
 }
+
+?>

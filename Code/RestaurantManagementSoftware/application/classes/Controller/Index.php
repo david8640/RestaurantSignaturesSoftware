@@ -15,3 +15,4 @@ class Controller_Index extends Controller {
     }
 }
 
+?>

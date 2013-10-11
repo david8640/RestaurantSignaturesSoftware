@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ <copyright file="config.xml" company="RestaurantManagementSoftware">
+    Copyright (c) 2013, 2014 All Right Reserved
+ </copyright>
+ <author>David Fortin</author>
+ <date>2013-10-05</date>
+ <summary>Contains all type of configuration. This file is manage by the 
+          ConfigurationManager class.</summary>
+-->
+<config>
+    <db>
+        <Host>localhost</Host>
+        <User>root</User>
+        <Password>root</Password>
+        <Database>webxper_fitness</Database>
+        <Port>8889</Port>
+    </db>
+</config>
