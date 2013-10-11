@@ -13,8 +13,8 @@ class Lib_ConfigurationManager {
      * Get the database configurations.
      * @return xml database configurations
      */
-    public function getDatabaseConfigurations() {
-        $config = $this->loadConfigFile('./application/config/config.xml'); 
+    public static function getDatabaseConfigurations() {
+        $config = Lib_ConfigurationManager::loadConfigFile('./application/config/config.xml'); 
         return (object) array (
             'Host' => $config->db->Host,
             'User' => $config->db->User,
@@ -28,7 +28,7 @@ class Lib_ConfigurationManager {
      * Load all the configuration in an object and returns it.
      * @return xml configurations
      */
-    private function loadConfigFile($filename) {
+    private static function loadConfigFile($filename) {
         if (!file_exists($filename)) {
             throw new Exception("Configuration file do not exists.");
         } else {
