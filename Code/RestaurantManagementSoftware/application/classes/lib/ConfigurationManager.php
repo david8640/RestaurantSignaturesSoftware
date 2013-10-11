@@ -14,7 +14,7 @@ class Lib_ConfigurationManager {
      * @return xml database configurations
      */
     public static function getDatabaseConfigurations() {
-        $config = Lib_ConfigurationManager::loadConfigFile('./application/config/config.xml');
+        $config = Lib_ConfigurationManager::loadConfigFile('./application/config/config.xml'); 
         return (object) array (
             'Host' => $config->db->Host,
             'User' => $config->db->User,
