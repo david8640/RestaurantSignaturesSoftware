@@ -10,8 +10,8 @@
  */
 
 
-class UnitTest extends PHPUnit_Framework_TestCase {
-    public function pass() {
-        assertTrue();
+class SupplierTest extends PHPUnit_Framework_TestCase {
+    public function testpass() {
+        assert(True);
     }    
 }
