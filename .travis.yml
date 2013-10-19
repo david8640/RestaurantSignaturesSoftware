@@ -2,4 +2,6 @@ language: php
 php:
   - 5.5
 
-script: phpunit application/phpunit/
+before_script: wget http://getcomposer.org/composer.phar
+before_script: php composer.phar install --dev
+script: phpunit
