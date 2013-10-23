@@ -11,14 +11,9 @@
 class Controller_Supplier extends Controller {
     public function action_findAll() {
         $repo = new Repository_Supplier();
-        //$repo->add(new Model_Supplier(-1, 'dave', '123123'));
-        //$suppliers = $repo->get(53);
+        //$repo->update(new Model_Supplier(10, "david bob henry", 123123, 123123));
+        //$suppliers = $repo->delete(75);
         //$suppliers = $repo->getAll();
-        
-        $supplier1 = new Model_Supplier(1, 'David', 1234);
-        $supplier2 = new Model_Supplier(2, 'David', 1234);
-        $supplier3 = new Model_Supplier(3, 'David', 1234);
-        $suppliers = array($supplier1, $supplier2, $supplier3);
         
         $view = View::factory('suppliers')
                     ->set('suppliers', $suppliers)

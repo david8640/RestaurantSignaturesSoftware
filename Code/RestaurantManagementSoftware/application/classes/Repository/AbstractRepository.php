@@ -99,7 +99,7 @@ abstract class  Repository_AbstractRepository {
      * @param statement $statement
      * @param array(StatementParameter) $params
      */
-    private function bindParameters($statement, $params) {
+    private function bindParameters($statement, $params) {        
         foreach ($params as $param) {
             $value = $param->getValue();    // We have to do this because bindParam 
                                             // keep a reference to the object and
@@ -107,6 +107,8 @@ abstract class  Repository_AbstractRepository {
                                             // getValue();
             $statement->bindParam($param->getColumnName(), $value, 
                                     $param->getType(), $param->getLength());
+            unset($value);  // unset the variable to remove the reference to avoid
+                            // problem in the next loop iteration
         }
     }
     

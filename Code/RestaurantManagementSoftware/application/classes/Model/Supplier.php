@@ -13,18 +13,21 @@ class Model_Supplier extends Model {
     private $id;
     private $name;
     private $phoneNumber;
+    private $faxNumber;
     
     // Ctr
     /**
      * Constructor of a supplier model
-     * @param type $id the id of the supplier
-     * @param type $name the name of the supplier
-     * @param type $phoneNumber the phone number of the supplier
+     * @param int $id the id of the supplier
+     * @param string $name the name of the supplier
+     * @param int $phoneNumber the phone number of the supplier
+     * @param int $faxNumber the fax number of the supplier
      */
-    public function __construct($id, $name, $phoneNumber) {
+    public function __construct($id, $name, $phoneNumber, $faxNumber) {
         $this->setId($id);
         $this->setName($name);
         $this->setPhoneNumber($phoneNumber);
+        $this->setFaxNumber($faxNumber);
     }
    
     // Getters and setters
@@ -74,6 +77,22 @@ class Model_Supplier extends Model {
      */
     public function setPhoneNumber($phoneNumber) {
         $this->phoneNumber = $phoneNumber;
+    }
+    
+    /**
+     * Get the fax number of the supplier
+     * @return int
+     */
+    public function getFaxNumber() {
+        return $this->faxNumber;
+    }
+    
+    /**
+     * Get the fax number of the supplier
+     * @param int $faxNumber
+     */
+    public function setFaxNumber($faxNumber) {
+        $this->faxNumber = $faxNumber;
     }
 }
 
