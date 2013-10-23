@@ -13,7 +13,7 @@ class Controller_Supplier extends Controller {
         $repo = new Repository_Supplier();
         //$repo->update(new Model_Supplier(10, "david bob henry", 123123, 123123));
         //$suppliers = $repo->delete(75);
-        //$suppliers = $repo->getAll();
+        $suppliers = $repo->getAll();
         
         $view = View::factory('suppliers')
                     ->set('suppliers', $suppliers)
