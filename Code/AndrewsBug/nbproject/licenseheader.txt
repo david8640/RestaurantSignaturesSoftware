@@ -1,0 +1,12 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} <copyright file="{...}.php" company="RestaurantManagementSoftware">
+${licensePrefix}    Copyright (c) 2013, 2014 All Right Reserved
+${licensePrefix} </copyright>
+${licensePrefix} <author>David Fortin</author>
+${licensePrefix} <date>2013-10-05</date>
+${licensePrefix} <summary>{Summary...}</summary>
+<#if licenseLast??>
+${licenseLast}
+</#if>
