@@ -20,7 +20,7 @@ DROP VIEW IF EXISTS `v_getUsers`
 GO
 CREATE VIEW v_getUsers
 AS
-	SELECT id_user, username, first_name, last_name, email, password, salt
+	SELECT id_user, username, name, email, password, salt
 	FROM users;
 GO
 
@@ -31,7 +31,7 @@ DROP VIEW IF EXISTS `v_getLoginAttempts`
 GO
 CREATE VIEW v_getLoginAttempts
 AS
-	SELECT id_user, timeOfAttempt, ip_address
+	SELECT id_user, time_of_attempt, ip_address
 	FROM login_attempts;
 GO
 
@@ -97,12 +97,12 @@ GO
 DROP PROCEDURE IF EXISTS `sp_getUser`
 GO
 CREATE PROCEDURE sp_getUser(
-    IN s_user_id INT
+    IN u_user_id INT
 )
 BEGIN
- 	SELECT id_user, username, first_name, last_name, email, password, salt
+ 	SELECT id_user, username, name, email, password, salt
  	FROM users
- 	WHERE id_user = s_user_id;
+ 	WHERE id_user = u_user_id;
 END
 GO
 
@@ -112,13 +112,13 @@ GO
 DROP PROCEDURE IF EXISTS `sp_delete_User`
 GO
 CREATE PROCEDURE sp_delete_User(
-	IN s_user_id INT
+	IN u_user_id INT
 )
 BEGIN
 	DELETE FROM users 
-	WHERE id_user = s_user_id;
+	WHERE id_user = u_user_id;
 	DELETE FROM login_attempts 
-	WHERE id_user = s_user_id;
+	WHERE id_user = u_user_id;
 END
 GO
 
@@ -130,25 +130,23 @@ GO
 CREATE PROCEDURE sp_saveUser(
 	IN id_user INT(11),
 	IN username VARCHAR(30),
-	IN first_name VARCHAR(75),
-	IN last_name VARCHAR(50),
+	IN name VARCHAR(75),
 	IN email VARCHAR(50),
 	IN password VARCHAR(128),
 	IN salt VARCHAR(128)
 )
 BEGIN
-	IF EXISTS (SELECT * FROM users WHERE id_user = s_id_user) THEN
+	IF EXISTS (SELECT * FROM users WHERE id_user = u_id_user) THEN
 		UPDATE users SET
-			username = s_username,
-			first_name = s_first_name,
-			last_name = s_last_name,
-			email = s_email,
-			password = s_password,
-			salt = s_salt
-		WHERE id_user = s_id_user;
+			username = u_username,
+			first_name = u_name,
+			email = u_email,
+			password = u_password,
+			salt = u_salt
+		WHERE id_user = u_id_user;
 	ELSE
-		INSERT INTO `users` (`username`, `first_name`, `last_name`, `email`, `password`, `salt`) 
-		VALUES (s_username, s_first_name, s_last_name, s_email, s_password, s_salt);
+		INSERT INTO `users` (`username`, `name`, `email`, `password`, `salt`) 
+		VALUES (u_username, u_name, u_email, u_password, u_salt);
 	END IF;
 END
 GO

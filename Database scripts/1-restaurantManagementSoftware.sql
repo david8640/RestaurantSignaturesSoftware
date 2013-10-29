@@ -37,23 +37,22 @@ CREATE TABLE IF NOT EXISTS `supplier` (
 -- Table users
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
-  `id_user` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL,
-  `first_name` varchar(75) NOT NULL,
-  `last_name` varchar(75) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` char(128) NOT NULL,
-  `salt` char(128) NOT NULL,
+  `id_user` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(30) NOT NULL,
+  `name` VARCHAR(75) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `password` CHAR(128) NOT NULL,
+  `salt` CHAR(128) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ---------------------------------------------------------------------------
 -- Table login_attempts
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `login_attempts` (
-  `id_user` int(11) NOT NULL,
-  `timeOfAttempt` varchar(30) NOT NULL,
-  `ip_address` varchar(30) DEFAULT 'n/a',
+  `id_user` INT(11) NOT NULL,
+  `time_of_attempt` VARCHAR(30) NOT NULL,
+  `ip_address` VARCHAR(30) DEFAULT 'n/a',
   KEY `id_user` (`id_user`),
   CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
