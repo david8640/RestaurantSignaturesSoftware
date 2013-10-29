@@ -12,11 +12,11 @@
 ?>
 <html>
 <head>
-    <title><?php echo $title ?></title>
+    <title>Suppliers</title>
 </head>
  
 <body>
-    <h2><?php echo $title ?></h2>
+    <h2>Suppliers</h2>
     <table border="1">
         <tr>
             <th>Id</th>
