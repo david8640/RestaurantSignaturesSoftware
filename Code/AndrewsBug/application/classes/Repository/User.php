@@ -21,13 +21,13 @@ class Repository_User extends Repository_AbstractRepository {
     }
     
     /**
-     * Get the supplier with the id pass in parameter.
+     * Get the user with the id pass in parameter.
      * @param int $id
      * @return a user
      */
     public function get($id) {
         $params = array (
-            new Database_StatementParameter(':id_user', $id, PDO::PARAM_INT, 11)
+            new Database_StatementParameter(':id_user', $id_user, PDO::PARAM_INT, 11)
         );
         
         return $this->fetchNConstruct('CALL sp_getuser(:id_user)', $params);
@@ -55,7 +55,7 @@ class Repository_User extends Repository_AbstractRepository {
      * @param Model_User $user
      * @return int
      */
-    public function update($supplier) {
+    public function update($user) {
         $params = array (
             new Database_StatementParameter(':uusername', $user->getUsername(), PDO::PARAM_STR),
             new Database_StatementParameter(':uname', $user->getUsername(), PDO::PARAM_STR, 75),

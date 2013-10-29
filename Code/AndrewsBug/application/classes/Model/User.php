@@ -71,7 +71,7 @@ class Model_User extends Model {
      * Get the name of the user
      * @return string
      */
-    public function getFirstName() {
+    public function getName() {
         return $this->first_name;
     }
     
@@ -79,27 +79,9 @@ class Model_User extends Model {
      * Set the name of the user
      * @param string $name
      */
-    public function setFirstName($first_name) {
-        $this->first_name = $first_name;
+    public function setName($name) {
+        $this->first_name = name;
     }
-    
-     /**
-     * Get the name of the user
-     * @return string
-     */
-    public function getLastName() {
-        return $this->last_name;
-    }
-    
-    /**
-     * Set the name of the user
-     * @param string $name
-     */
-    public function setLastName($last_name) {
-        $this->last_name = $last_name;
-    }
-            
-    
     /**
      * Get the number of the user
      * @return int
