@@ -175,7 +175,6 @@ class Controller_Supplier extends Controller {
                 ->rule('contactName', 'not_empty')
                 ->rule('phoneNumber', 'not_empty')
                 ->rule('phoneNumber', 'regex', array(':value', '/^(\d-)?\(?\d{3}(-|\)\s)\d{3}-\d{4}$/'))
-                ->rule('faxNumber', 'not_empty')
                 ->rule('faxNumber', 'regex', array(':value', '/^(\d-)?\(?\d{3}(-|\)\s)\d{3}-\d{4}$/'));
     }
 }
