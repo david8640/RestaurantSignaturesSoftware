@@ -40,20 +40,32 @@ class Controller_Supplier extends Controller {
         $this->response->body($view);
     }
     
+    public function action_addPrepare() {
+        $view = View::factory('addSupplier');
+        $this->response->body($view);
+    }
+    
     /**
      * Add a supplier.
-     * @param string $name
-     * @param int $phoneNumber
-     * @param int $faxNumber
      */
-    public function action_add($name, $phoneNumber, $faxNumber) {
-        // Get all the informations from the repository.
+    public function action_add() {
+        // Get all the informations from the page
+        $name = $_POST['name'];
+        $contactName = $_POST['contactName'];
+        $phoneNumber = $_POST['phoneNumber'];
+        $faxNumber = $_POST['faxNumber'];
+        
         $repo = new Repository_Supplier();
+        // Add the supplier in the database
         $success = $repo->add(new Model_Supplier(-1, $name, $phoneNumber, $faxNumber));
+        
+        // Get all the suppliers
+        $suppliers = $repo->getAll();
         
         // Transfert the information to the view.
         $view = View::factory('suppliers')
-                    ->set('success', $success);
+                    ->set('suppliers', $suppliers);
+                    //->set('success', $success);
         
         $this->response->body($view);
     }

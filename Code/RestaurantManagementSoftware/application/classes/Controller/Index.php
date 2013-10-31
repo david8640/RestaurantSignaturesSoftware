@@ -11,7 +11,11 @@
 class Controller_Index extends Controller {
     public function action_index() {
         $supplierView = Request::factory('supplier/findAll')->execute();
-        $this->response->body($supplierView);
+        
+        $view = View::factory('index')
+                    ->set('body', $supplierView);
+        
+        $this->response->body($view);
     }
 }
 
