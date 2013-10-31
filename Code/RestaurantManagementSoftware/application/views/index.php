@@ -17,6 +17,20 @@
     <link rel="stylesheet" type="text/css" href="../style/style.css" />
 </head>
     <body>
-        <?php echo $body; ?>
+        <?php
+            if (isset($feedbackMessage)) {
+                $messages = $feedbackMessage;
+            } elseif (Session::instance()->get('feedbackMessage') != '') {
+                $messages = Session::instance()->get_once('feedbackMessage');
+            } else {
+                $messages = array();
+            }
+
+            foreach ($messages as $message):
+                echo $message."<br/>";
+            endforeach;
+        
+            echo $body; 
+        ?>
     </body>
 </html>

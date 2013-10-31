@@ -27,9 +27,10 @@ DROP TABLE IF EXISTS `login_attempts`;
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `supplier` (
   `id_supplier` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
   `contact_name` VARCHAR(100) NOT NULL,
-  `phone_number` INT(11) NOT NULL,
-  `fax_number` INT(11),
+  `phone_number` VARCHAR(14) NOT NULL,
+  `fax_number` VARCHAR(14),
   PRIMARY KEY (`id_supplier`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
 

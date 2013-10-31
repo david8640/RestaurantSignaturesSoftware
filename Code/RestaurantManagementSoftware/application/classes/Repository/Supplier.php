@@ -30,7 +30,8 @@ class Repository_Supplier extends Repository_AbstractRepository {
             new Database_StatementParameter(':sid', $id, PDO::PARAM_INT, 11)
         );
         
-        return $this->fetchNConstruct('CALL sp_getSupplier(:sid)', $params);
+        $suppliers = $this->fetchNConstruct('CALL sp_getSupplier(:sid)', $params);
+        return (sizeof($suppliers) > 0) ? $suppliers[0] : null;
     }
     
     /**
@@ -41,11 +42,12 @@ class Repository_Supplier extends Repository_AbstractRepository {
     public function add($supplier) {
         $params = array (
             new Database_StatementParameter(':sname', $supplier->getName(), PDO::PARAM_STR, 100),
-            new Database_StatementParameter(':sphoneNumber', $supplier->getPhoneNumber(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':sfaxNumber', $supplier->getFaxNumber(), PDO::PARAM_INT, 11)
+            new Database_StatementParameter(':scontactName', $supplier->getContactName(), PDO::PARAM_STR, 100),
+            new Database_StatementParameter(':sphoneNumber', $supplier->getPhoneNumber(), PDO::PARAM_STR, 11),
+            new Database_StatementParameter(':sfaxNumber', $supplier->getFaxNumber(), PDO::PARAM_STR, 11)
         );
         
-        return $this->execute('CALL sp_saveSupplier(-1, :sname, :sphoneNumber, :sfaxNumber)', $params);
+        return $this->execute('CALL sp_saveSupplier(-1, :sname, :scontactName, :sphoneNumber, :sfaxNumber)', $params);
     }
     
     /**
@@ -57,11 +59,12 @@ class Repository_Supplier extends Repository_AbstractRepository {
         $params = array (
             new Database_StatementParameter(':sid', $supplier->getId(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':sname', $supplier->getName(), PDO::PARAM_STR, 100),
-            new Database_StatementParameter(':sphoneNumber', $supplier->getPhoneNumber(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':sfaxNumber', $supplier->getFaxNumber(), PDO::PARAM_INT, 11)
+            new Database_StatementParameter(':scontactName', $supplier->getContactName(), PDO::PARAM_STR, 100),
+            new Database_StatementParameter(':sphoneNumber', $supplier->getPhoneNumber(), PDO::PARAM_STR, 11),
+            new Database_StatementParameter(':sfaxNumber', $supplier->getFaxNumber(), PDO::PARAM_STR, 11)
         );
 
-        return $this->execute('CALL sp_saveSupplier(:sid, :sname, :sphoneNumber, :sfaxNumber)', $params);
+        return $this->execute('CALL sp_saveSupplier(:sid, :sname, :scontactName, :sphoneNumber, :sfaxNumber)', $params);
     }
     
     /**
@@ -83,7 +86,7 @@ class Repository_Supplier extends Repository_AbstractRepository {
      * @return \Model_Supplier
      */
     protected function construct($obj) {
-        return new Model_Supplier($obj->id_supplier, $obj->contact_name, $obj->phone_number, $obj->fax_number);
+        return new Model_Supplier($obj->id_supplier, $obj->name, $obj->contact_name, $obj->phone_number, $obj->fax_number);
     }
 }
 

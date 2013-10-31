@@ -5,7 +5,7 @@
  *  </copyright>
  *  <author>David Fortin</author>
  *  <date>2013-10-05</date>
- *  <summary>The view that print all the suppliers</summary>
+ *  <summary>The view that print all the suppliers.</summary>
  */
 ?>
 <h2>Suppliers</h2>
@@ -13,7 +13,9 @@
     <tr>
         <th>Id</th>
         <th>Name</th>
+        <th>Contact Name</th>
         <th>Phone Number</th>
+        <th>Fax Number</th>
         <th>Edit</th>
         <th>Remove</th>
     </tr>
@@ -21,10 +23,12 @@
         <tr>
             <td><?php echo $s->getId(); ?></td>
             <td><?php echo $s->getName(); ?></td>
+            <td><?php echo $s->getContactName(); ?></td>
             <td><?php echo $s->getPhoneNumber(); ?></td>
-            <td></td>
-            <td></td>
+            <td><?php echo $s->getFaxNumber(); ?></td>
+            <td><?php echo HTML::anchor('supplier/edit/'.$s->getId(), 'Edit'); ?></td>
+            <td><?php echo HTML::anchor('supplier/delete/'.$s->getId(), 'Delete'); ?></td>
         </tr>
     <?php } ?>
 </table>
-<?php echo HTML::anchor('supplier/addPrepare', 'Add'); ?>
+<?php echo HTML::anchor('supplier/create', 'Add'); ?>

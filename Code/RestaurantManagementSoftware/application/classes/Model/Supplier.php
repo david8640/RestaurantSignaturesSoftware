@@ -12,6 +12,7 @@ class Model_Supplier extends Model {
     // Private members
     private $id;
     private $name;
+    private $contactName;
     private $phoneNumber;
     private $faxNumber;
     
@@ -20,12 +21,14 @@ class Model_Supplier extends Model {
      * Constructor of a supplier model
      * @param int $id the id of the supplier
      * @param string $name the name of the supplier
-     * @param int $phoneNumber the phone number of the supplier
-     * @param int $faxNumber the fax number of the supplier
+     * @param string $contactName the name of the contact
+     * @param string $phoneNumber the phone number of the supplier
+     * @param string $faxNumber the fax number of the supplier
      */
-    public function __construct($id, $name, $phoneNumber, $faxNumber) {
+    public function __construct($id, $name, $contactName, $phoneNumber, $faxNumber) {
         $this->setId($id);
         $this->setName($name);
+        $this->setContactName($contactName);
         $this->setPhoneNumber($phoneNumber);
         $this->setFaxNumber($faxNumber);
     }
@@ -64,8 +67,24 @@ class Model_Supplier extends Model {
     }
     
     /**
+     * Get the contact name of the supplier
+     * @return string
+     */
+    public function getContactName() {
+        return $this->contactName;
+    }
+    
+    /**
+     * Set the contact name of the supplier
+     * @param string $contactName
+     */
+    public function setContactName($contactName) {
+        $this->contactName = $contactName;
+    }
+    
+    /**
      * Get the number of the supplier
-     * @return int
+     * @return string
      */
     public function getPhoneNumber() {
         return $this->phoneNumber;
@@ -73,7 +92,7 @@ class Model_Supplier extends Model {
     
     /**
      * Get the number of the supplier
-     * @param int $phoneNumber
+     * @param string $phoneNumber
      */
     public function setPhoneNumber($phoneNumber) {
         $this->phoneNumber = $phoneNumber;
@@ -81,7 +100,7 @@ class Model_Supplier extends Model {
     
     /**
      * Get the fax number of the supplier
-     * @return int
+     * @return string
      */
     public function getFaxNumber() {
         return $this->faxNumber;
@@ -89,7 +108,7 @@ class Model_Supplier extends Model {
     
     /**
      * Get the fax number of the supplier
-     * @param int $faxNumber
+     * @param string $faxNumber
      */
     public function setFaxNumber($faxNumber) {
         $this->faxNumber = $faxNumber;

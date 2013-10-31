@@ -14,7 +14,6 @@ class Controller_Index extends Controller {
         
         $view = View::factory('index')
                     ->set('body', $supplierView);
-        
         $this->response->body($view);
     }
 }

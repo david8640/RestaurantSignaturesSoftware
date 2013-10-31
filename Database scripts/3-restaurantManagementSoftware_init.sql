@@ -3,12 +3,12 @@ USE `restaurantManagementSoftware`;
 -- ---------------------------------------------------------------------------
 -- Insert table supplier
 -- ---------------------------------------------------------------------------
-INSERT INTO `supplier` (`id_supplier`, `contact_name`, `phone_number`, `fax_number`) VALUES
-(1, 'David Fortin', 4504504500, 4504504000),
-(2, 'Alexandre Dubé', 4504504501, 4504504001),
-(3, 'Paul Germound', 4504504502, 4504504002),
-(4, 'Doris Laprade', 4504504503, 4504504003),
-(5, 'Henry Tibault', 4504504504, 4504504004);
+INSERT INTO `supplier` (`id_supplier`, `name`, `contact_name`, `phone_number`, `fax_number`) VALUES
+(1, 'Supplier 1', 'David Fortin', '450-450-4500', '450-450-4000'),
+(2, 'Supplier 2', 'Alexandre Dubé', '450-450-4501', '450-450-4001'),
+(3, 'Supplier 3', 'Paul Germound', '1-450-450-4502', '1-450-450-4002'),
+(4, 'Supplier 4', 'Doris Laprade', '450-450-4503', '450-450-4003'),
+(5, 'Supplier 5', 'Henry Tibault', '1-450-450-4504', '1-450-450-4004');
 
 
 -- ---------------------------------------------------------------------------
