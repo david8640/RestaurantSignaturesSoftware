@@ -8,20 +8,11 @@
  *  <date>2013-10-05</date>
  *  <summary>Add/Update a supplier.</summary>
  */
-if (isset($feedbackMessage)) {
-    $messages = $feedbackMessage;
-} elseif (Session::instance()->get('feedbackMessage') != '') {
-    $messages = Session::instance()->get_once('feedbackMessage');
-} else {
-    $messages = array();
-}
-
-foreach ($messages as $message):
-    echo $message."<br/>";
-endforeach;
-
 if (!isset($supplier)) {
     $supplier = new Model_Supplier(-1, '', '', '', '');
+    $pageName = 'Add Supplier';
+} else {
+    $pageName = 'Edit Supplier';
 }  
 
 if (!isset($submitAction)) {
@@ -29,7 +20,7 @@ if (!isset($submitAction)) {
 }
 
 ?>
-<h1>Add Supplier</h1>
+<h1><?php echo $pageName; ?></h1>
 <?php
 echo form::open($submitAction);
 echo form::hidden('id', $supplier->getId()) . "<br/>";

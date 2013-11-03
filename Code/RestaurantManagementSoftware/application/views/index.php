@@ -9,28 +9,5 @@
  *  <summary>The main container of the application.</summary>
  */
 
+echo Html::anchor('supplier/findAll', 'Suppliers');
 ?>
-<html>
-<head>
-    <title></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="../style/style.css" />
-</head>
-    <body>
-        <?php
-            if (isset($feedbackMessage)) {
-                $messages = $feedbackMessage;
-            } elseif (Session::instance()->get('feedbackMessage') != '') {
-                $messages = Session::instance()->get_once('feedbackMessage');
-            } else {
-                $messages = array();
-            }
-
-            foreach ($messages as $message):
-                echo $message."<br/>";
-            endforeach;
-        
-            echo $body; 
-        ?>
-    </body>
-</html>

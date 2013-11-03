@@ -8,7 +8,7 @@
  *  <date>2013-10-05</date>
  *  <summary>The controller that handle all the manipulation on suppliers.</summary>
  */
-class Controller_Supplier extends Controller {
+class Controller_Supplier extends Controller_Template_Generic {
     /**
      * Get all the suppliers.
      */
@@ -18,18 +18,20 @@ class Controller_Supplier extends Controller {
         $suppliers = $repo->getAll();
         
         // Transfert the information to the view.
-        $view = View::factory('suppliers')
+        $view = View::factory('supplier/suppliers')
                     ->set('suppliers', $suppliers);
         
-        $this->response->body($view);
+        $this->template->title = __('Suppliers');
+        $this->template->content = $view;
     }
     
     /**
      * Initiate the creation of a supplier.
      */
     public function action_create() {
-        $view = View::factory('supplier');
-        $this->response->body($view);
+        $view = View::factory('supplier/supplier');
+        $this->template->title = __('Create Supplier');
+        $this->template->content = $view;
     }
     
     /**
@@ -50,22 +52,23 @@ class Controller_Supplier extends Controller {
                 // Redirect if the add was successful
                 if ($success) {
                     Session::instance()->set('feedbackMessage', array('The supplier was added.'));
-                    $this->redirect ('index/index');
+                    $this->redirect('supplier/findAll');
                 }
             } else {
                 // Invalid fields
                 $feedbackMessage = $post->errors('supplier');
             }
             
-            $view = View::factory('supplier')
+            $view = View::factory('supplier/supplier')
                     ->set('supplier', $supplier)
-                    ->set('feedbackMessage', $feedbackMessage)
                     ->set('submitAction', 'supplier/add');
-            $this->response->body($view);
+            $this->template->title = __('Create Supplier');
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->content = $view;
         } else {
             // Empty POST
             Session::instance()->set('feedbackMessage', array('An error occured.'));
-            $this->redirect ('index/index');
+            $this->redirect ('supplier/findAll');
         }
     }
     
@@ -77,7 +80,7 @@ class Controller_Supplier extends Controller {
         // Validate id
         if (!(Valid::not_empty($id) && Valid::numeric($id))) {
             Session::instance()->set('feedbackMessage', array('Invalid supplier id.'));
-            $this->redirect ('index/index');
+            $this->redirect ('supplier/findAll');
         }
         
         // Get the supplier to edit
@@ -87,14 +90,15 @@ class Controller_Supplier extends Controller {
         // The id do not refer to a valid supplier
         if (!is_object($supplier)) {
             Session::instance()->set('feedbackMessage', array('Invalid supplier id.'));
-            $this->redirect ('index/index');
+            $this->redirect ('supplier/findAll');
         }
 
-        $view = View::factory('supplier')
+        $view = View::factory('supplier/supplier')
                 ->set('supplier', $supplier)
                 ->set('submitAction', 'supplier/update');
         
-        $this->response->body($view);
+        $this->template->title = __('Edit Supplier');
+        $this->template->content = $view;
     }
     
     /**
@@ -115,23 +119,24 @@ class Controller_Supplier extends Controller {
                 // Redirect if the update was successful
                 if ($success) {
                     Session::instance()->set('feedbackMessage', array('The supplier was updated.'));
-                    $this->redirect ('index/index');
+                    $this->redirect ('supplier/findAll');
                 }
             } else {
                 // Invalid fields
                 $feedbackMessage = $post->errors('supplier');
             }
             
-            $view = View::factory('supplier')
+            $view = View::factory('supplier/supplier')
                     ->set('supplier', $supplier)
-                    ->set('feedbackMessage', $feedbackMessage)
                     ->set('submitAction', 'supplier/update');
         
-            $this->response->body($view);
+            $this->template->title = __('Edit Supplier');
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->content = $view;
         } else {
             // Empty POST
             Session::instance()->set('feedbackMessage', array('An error occured.'));
-            $this->redirect ('index/index');
+            $this->redirect ('supplier/findAll');
         }
     }
     
@@ -143,7 +148,7 @@ class Controller_Supplier extends Controller {
         // Validate id
         if (!(Valid::not_empty($id) && Valid::numeric($id))) {
             Session::instance()->set('feedbackMessage', array('Invalid supplier id.'));
-            $this->redirect ('index/index');
+            $this->redirect ('supplier/findAll');
         }
         
         // Delete the supplier
@@ -153,12 +158,12 @@ class Controller_Supplier extends Controller {
         // Delete failed
         if (!$success) {
             Session::instance()->set('feedbackMessage', array('An error occuring while deleting the supplier.'));
-            $this->redirect ('index/index');
+            $this->redirect ('supplier/findAll');
         }
         
         // Delete succeed
         Session::instance()->set('feedbackMessage', array('The supplier was deleted.'));
-        $this->redirect ('index/index');
+        $this->redirect ('supplier/findAll');
     }
     
     /**

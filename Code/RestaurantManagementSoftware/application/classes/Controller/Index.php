@@ -8,13 +8,12 @@
  *  <date>2013-10-05</date>
  *  <summary>The default controller that will handle and dispatch all the request</summary>
  */
-class Controller_Index extends Controller {
-    public function action_index() {
-        $supplierView = Request::factory('supplier/findAll')->execute();
+class Controller_Index extends Controller_Template_Generic {
+    public function action_index() { 
+        $view = View::factory('index');
         
-        $view = View::factory('index')
-                    ->set('body', $supplierView);
-        $this->response->body($view);
+        $this->template->title = __('Index');
+        $this->template->content = $view;
     }
 }
 
