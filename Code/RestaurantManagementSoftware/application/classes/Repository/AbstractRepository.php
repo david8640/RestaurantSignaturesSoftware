@@ -74,7 +74,9 @@ abstract class  Repository_AbstractRepository {
         try {
             $connection = new PDO($this->configuration->getConnectionString(), 
                                 $this->configuration->getUsername(), 
-                                $this->configuration->getPassword());
+                                $this->configuration->getPassword(),
+                                // Configure client in UTF-8
+                                array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             return $connection;
         } catch(PDOException $e) {
             throw new Exception('Connection to database failed.\n'.$e);
