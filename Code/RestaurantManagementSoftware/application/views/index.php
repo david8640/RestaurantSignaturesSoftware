@@ -10,4 +10,5 @@
  */
 
 echo Html::anchor('supplier/findAll', 'Suppliers');
+
 ?>
