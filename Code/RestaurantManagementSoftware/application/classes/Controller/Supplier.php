@@ -18,7 +18,7 @@ class Controller_Supplier extends Controller {
         $suppliers = $repo->getAll();
         
         // Transfert the information to the view.
-        $view = View::factory('/supplier/suppliers')
+        $view = View::factory('supplier/suppliers')
                     ->set('suppliers', $suppliers);
         
         $this->response->body($view);
@@ -28,7 +28,7 @@ class Controller_Supplier extends Controller {
      * Initiate the creation of a supplier.
      */
     public function action_create() {
-        $view = View::factory('/supplier/supplier');
+        $view = View::factory('supplier/supplier');
         $this->response->body($view);
     }
     
@@ -57,7 +57,7 @@ class Controller_Supplier extends Controller {
                 $feedbackMessage = $post->errors('supplier');
             }
             
-            $view = View::factory('/supplier/supplier')
+            $view = View::factory('supplier/supplier')
                     ->set('supplier', $supplier)
                     ->set('feedbackMessage', $feedbackMessage)
                     ->set('submitAction', 'supplier/add');
@@ -90,7 +90,7 @@ class Controller_Supplier extends Controller {
             $this->redirect ('index/index');
         }
 
-        $view = View::factory('/supplier/supplier')
+        $view = View::factory('supplier/supplier')
                 ->set('supplier', $supplier)
                 ->set('submitAction', 'supplier/update');
         
@@ -122,7 +122,7 @@ class Controller_Supplier extends Controller {
                 $feedbackMessage = $post->errors('supplier');
             }
             
-            $view = View::factory('/supplier/supplier')
+            $view = View::factory('supplier/supplier')
                     ->set('supplier', $supplier)
                     ->set('feedbackMessage', $feedbackMessage)
                     ->set('submitAction', 'supplier/update');
