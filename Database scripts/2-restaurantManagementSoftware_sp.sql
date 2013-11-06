@@ -99,12 +99,12 @@ GO
 DROP PROCEDURE IF EXISTS `sp_getUser`
 GO
 CREATE PROCEDURE sp_getUser(
-    IN u_user_id INT
+    IN u_username VARCHAR(30)
 )
 BEGIN
  	SELECT id_user, username, name, email, password, salt
  	FROM users
- 	WHERE id_user = u_user_id;
+ 	WHERE username = u_username;
 END
 GO
 
