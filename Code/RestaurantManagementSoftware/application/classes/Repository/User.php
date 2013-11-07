@@ -69,11 +69,11 @@ class Repository_User extends Repository_AbstractRepository {
      */
     public function add($user) {
         $params = array(
-            new Database_StatementParameter(':uusername', $user->getUsername(), PDO::Param_STR, 30),
+            new Database_StatementParameter(':uusername', $user->getUsername(), PDO::PARAM_STR, 30),
             new Database_StatementParameter(':uname', $user->getUsername(), PDO::PARAM_STR, 75),
             new Database_StatementParameter(':uemail', $user->getEmail(), PDO::PARAM_STR, 50),
-            new Database_StatementParameter(':upassword', $user->getPassword(), PDO::PARAM_CHAR, 128),
-            new Database_StatementParameter(':usalt', $user->getSalt(), PDO::PARAM_CHAR, 128)
+            new Database_StatementParameter(':upassword', $user->getPassword(), PDO::PARAM_STR, 128),
+            new Database_StatementParameter(':usalt', $user->getSalt(), PDO::PARAM_STR, 128)
         );
 
         return $this->execute('CALL sp_saveUser(-1, :uusername, :uname, :uemail, :upassword, :usalt)', $params);

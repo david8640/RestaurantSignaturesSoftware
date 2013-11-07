@@ -73,6 +73,23 @@ if (isset($_POST['username'], $_POST['password'])) {
         $_SESSION['username'] = $username;
         $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
 
+
+
+        //if we could use cookies, then use this method for a session... it's more secure.
+//        session_regenerate_id(); // regenerated the session, delete the old one. 
+//        $session_name = 'sec_session_id'; // Set a custom session name
+//        $secure = false; // Set to true if using https.
+//        $httponly = true; // This stops javascript being able to access the session id. 
+//        
+//        
+//        ini_set('session.use_only_cookies', 1); // Forces sessions to only use cookies. 
+//        $cookieParams = session_get_cookie_params(); // Gets current cookies params.
+//        
+//        session_set_cookie_params($cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], $secure, $httponly); 
+//        session_name($session_name); // Sets the session name to the one set above.
+//        session_start(); // Start the php session
+
+
         echo 'Success: You have been logged in!';
         unset($password);
         unset($salt);
