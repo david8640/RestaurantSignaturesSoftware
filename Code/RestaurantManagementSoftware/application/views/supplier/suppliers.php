@@ -9,7 +9,7 @@
  */
 ?>
 <h2>Suppliers</h2>
-<table border="1">
+<table border="1" id="suppliers">
     <tr>
         <th>Id</th>
         <th>Name</th>

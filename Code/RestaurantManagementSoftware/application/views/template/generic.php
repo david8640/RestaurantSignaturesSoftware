@@ -19,7 +19,6 @@
     <body>
         <?php
             if (isset($feedbackMessage)) {
-                echo 'test';
                 $messages = $feedbackMessage;
             } elseif (Session::instance()->get('feedbackMessage') != '') {
                 $messages = Session::instance()->get_once('feedbackMessage');

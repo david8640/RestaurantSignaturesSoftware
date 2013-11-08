@@ -60,8 +60,13 @@ CREATE PROCEDURE sp_deleteSupplier(
 	IN s_supplier_id INT(11)
 )
 BEGIN
-	DELETE FROM supplier 
-	WHERE id_supplier = s_supplier_id;
+	IF EXISTS (SELECT * FROM supplier WHERE id_supplier = s_supplier_id) THEN
+		DELETE FROM supplier 
+		WHERE id_supplier = s_supplier_id;
+	ELSE
+		SIGNAL SQLSTATE VALUE '0'
+		SET MESSAGE_TEXT = 'An error occurred';
+	END IF;
 END
 GO
 
