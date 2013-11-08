@@ -24,7 +24,7 @@ class Kohana_Valid {
 		}
 
 		// Value cannot be NULL, FALSE, '', or an empty array
-		return ! in_array($value, array(NULL, FALSE, '', array()), TRUE);
+		return ! in_array($value, array(NULL, FALSE, '', array()));
 	}
 
 	/**

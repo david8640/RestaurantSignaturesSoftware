@@ -104,12 +104,12 @@ GO
 DROP PROCEDURE IF EXISTS `sp_getUser`
 GO
 CREATE PROCEDURE sp_getUser(
-    IN u_user_id INT
+    IN u_username VARCHAR(30)
 )
 BEGIN
  	SELECT id_user, username, name, email, password, salt
  	FROM users
- 	WHERE id_user = u_user_id;
+ 	WHERE username = u_username;
 END
 GO
 
@@ -135,12 +135,12 @@ GO
 DROP PROCEDURE IF EXISTS `sp_saveUser`
 GO
 CREATE PROCEDURE sp_saveUser(
-	IN id_user INT(11),
-	IN username VARCHAR(30),
-	IN name VARCHAR(75),
-	IN email VARCHAR(50),
-	IN password VARCHAR(128),
-	IN salt VARCHAR(128)
+	IN u_id_user INT(11),
+	IN u_username VARCHAR(30),
+	IN u_name VARCHAR(75),
+	IN u_email VARCHAR(50),
+	IN u_password VARCHAR(128),
+	IN u_salt VARCHAR(128)
 )
 BEGIN
 	IF EXISTS (SELECT * FROM users WHERE id_user = u_id_user) THEN
