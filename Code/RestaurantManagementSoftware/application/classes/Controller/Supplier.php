@@ -95,7 +95,8 @@ class Controller_Supplier extends Controller_Template_Generic {
 
         $view = View::factory('supplier/supplier')
                 ->set('supplier', $supplier)
-                ->set('submitAction', 'supplier/update');
+                ->set('submitAction', 'supplier/update')
+                ->set('pageName', 'Edit Supplier');
         
         $this->template->title = __('Edit Supplier');
         $this->template->content = $view;
@@ -128,7 +129,8 @@ class Controller_Supplier extends Controller_Template_Generic {
             
             $view = View::factory('supplier/supplier')
                     ->set('supplier', $supplier)
-                    ->set('submitAction', 'supplier/update');
+                    ->set('submitAction', 'supplier/update')
+                    ->set('pageName', 'Edit Supplier');
         
             $this->template->title = __('Edit Supplier');
             $this->template->feedbackMessage = $feedbackMessage;
