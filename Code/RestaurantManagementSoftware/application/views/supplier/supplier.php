@@ -19,6 +19,8 @@ if (!isset($submitAction)) {
     $submitAction = 'supplier/add';
 }
 
+throw new Exception('Test');
+
 ?>
 <h1><?php echo $pageName; ?></h1>
 <?php
