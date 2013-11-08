@@ -49,19 +49,19 @@
         <?php
         //Login Form
         echo "Registration:";
-        echo form::open($submitAction);
-        echo form::hidden('id', $user->getId()) . "<br/>";
-        echo form::label('username', 'Username: ');
-        echo form::input('username') . "<br/>";
-        echo form::label('name', 'Name: ');
-        echo form::input('name') . "<br/>";
-        echo form::label('email', 'Email Address: ');
-        echo form::input('email') . "<br/>";
-        echo form::label('password', 'Password: ');
-        echo form::password('password') . "<br/>";
-        echo form::hidden('salt',$user->getSalt());
-        echo form::submit(NULL, 'Register');
-        echo form::close();
+        echo Form::open($submitAction);
+        echo Form::hidden('id', $user->getId()) . "<br/>";
+        echo Form::label('username', 'Username: ');
+        echo Form::input('username') . "<br/>";
+        echo Form::label('name', 'Name: ');
+        echo Form::input('name') . "<br/>";
+        echo Form::label('email', 'Email Address: ');
+        echo Form::input('email') . "<br/>";
+        echo Form::label('password', 'Password: ');
+        echo Form::password('password') . "<br/>";
+        echo Form::hidden('salt',$user->getSalt());
+        echo Form::submit(NULL, 'Register');
+        echo Form::close();
         ?>  
     </body>
 </html>

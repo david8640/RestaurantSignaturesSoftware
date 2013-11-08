@@ -39,13 +39,13 @@ if (!isset($submitAction)) {
 
         <?php //Login Form
         echo "Login";
-        echo form::open($submitAction);
-        echo form::label('username', 'Username :');
-        echo form::input('username') . "<br/>";
-        echo form::label('password', 'Password :');
-        echo form::password('password') . "<br/>";
-        echo form::submit(NULL, 'Login');
-        echo form::close();
+        echo Form::open($submitAction);
+        echo Form::label('username', 'Username :');
+        echo Form::input('username') . "<br/>";
+        echo Form::label('password', 'Password :');
+        echo Form::password('password') . "<br/>";
+        echo Form::submit(NULL, 'Login');
+        echo Form::close();
         ?>  
     </body>
 </html>

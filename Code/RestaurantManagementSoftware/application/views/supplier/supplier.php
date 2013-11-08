@@ -24,16 +24,16 @@ throw new Exception('Test');
 ?>
 <h1><?php echo $pageName; ?></h1>
 <?php
-echo form::open($submitAction);
-echo form::hidden('id', $supplier->getId()) . "<br/>";
-echo form::label('name', 'Name :');
-echo form::input('name', $supplier->getName()) . "<br/>";
-echo form::label('contactName', 'Contact name :');
-echo form::input('contactName', $supplier->getContactName()). "<br/>";
-echo form::label('phoneNumber', 'Phone number :');
-echo form::input('phoneNumber', $supplier->getPhoneNumber()). "<br/>";
-echo form::label('faxNumber', 'Fax number :');
-echo form::input('faxNumber', $supplier->getFaxNumber()). "<br/>";
-echo form::submit(NULL, 'Save');
-echo form::close();
+echo Form::open($submitAction);
+echo Form::hidden('id', $supplier->getId()) . "<br/>";
+echo Form::label('name', 'Name :');
+echo Form::input('name', $supplier->getName()) . "<br/>";
+echo Form::label('contactName', 'Contact name :');
+echo Form::input('contactName', $supplier->getContactName()). "<br/>";
+echo Form::label('phoneNumber', 'Phone number :');
+echo Form::input('phoneNumber', $supplier->getPhoneNumber()). "<br/>";
+echo Form::label('faxNumber', 'Fax number :');
+echo Form::input('faxNumber', $supplier->getFaxNumber()). "<br/>";
+echo Form::submit(NULL, 'Save');
+echo Form::close();
 ?>  
