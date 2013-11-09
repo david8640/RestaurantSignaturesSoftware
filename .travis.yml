@@ -2,4 +2,4 @@ language: php
 php:
   - 5.5
 
-script: php 'Code/tests/codecept.phar' run
+script: php 'Code/tests/codecept.phar' run  -c 'Code/tests/codeception.yml'
