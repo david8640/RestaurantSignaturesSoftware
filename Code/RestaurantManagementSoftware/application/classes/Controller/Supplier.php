@@ -159,7 +159,7 @@ class Controller_Supplier extends Controller_Template_Generic {
         
         // Delete failed
         if (!$success) {
-            Session::instance()->set('feedbackMessage', array('An error occuring while deleting the supplier.'));
+            Session::instance()->set('feedbackMessage', array('An error occurred while deleting the supplier.'));
             $this->redirect ('supplier/findAll');
         }
         
