@@ -164,4 +164,6 @@ class ProductCategoryATCest {
         // check error message
         $I->canSee('Name must not exceed 100 characters long');
     }*/
+    
+    // TODO add a test to be sure to avoid deleting a category that has some product link to it.
 }
