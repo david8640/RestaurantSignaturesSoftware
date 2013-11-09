@@ -4,26 +4,15 @@ mysql_connect('db498909085.db.1and1.com', 'dbo498909085', 'davidfortin8640');
 mysql_select_db('db498909085');
 
 $query= "
-CREATE PROCEDURE sp_saveUser(
-	IN id_user INT(11),
-	IN username VARCHAR(30),
-	IN name VARCHAR(75),
-	IN email VARCHAR(50),
-	IN password VARCHAR(128),
-	IN salt VARCHAR(128)
+CREATE PROCEDURE sp_deleteSupplier(
+	IN s_supplier_id INT(11)
 )
 BEGIN
-	IF EXISTS (SELECT * FROM users WHERE id_user = u_id_user) THEN
-		UPDATE users SET
-			username = u_username,
-			first_name = u_name,
-			email = u_email,
-			password = u_password,
-			salt = u_salt
-		WHERE id_user = u_id_user;
+	IF EXISTS (SELECT * FROM supplier WHERE id_supplier = s_supplier_id) THEN
+		DELETE FROM supplier 
+		WHERE id_supplier = s_supplier_id;
 	ELSE
-		INSERT INTO `users` (`username`, `name`, `email`, `password`, `salt`) 
-		VALUES (u_username, u_name, u_email, u_password, u_salt);
+		CALL raise_error;
 	END IF;
 END
 ";

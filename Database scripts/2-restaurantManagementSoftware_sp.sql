@@ -64,8 +64,7 @@ BEGIN
 		DELETE FROM supplier 
 		WHERE id_supplier = s_supplier_id;
 	ELSE
-		SIGNAL SQLSTATE VALUE '0'
-		SET MESSAGE_TEXT = 'An error occurred';
+		CALL raise_error;
 	END IF;
 END
 GO

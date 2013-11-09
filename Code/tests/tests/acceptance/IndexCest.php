@@ -5,7 +5,7 @@ class IndexCest {
             $I->wantTo('Visit the index page and determine if Suppliers link exists');
             $I->amOnPage('/'); 
             $I->see('Suppliers');
-            $I->wantTo('Visit the index page and determine if Suppliers link exists');
-            $I->see('Product Categories');
+            /*$I->wantTo('Visit the index page and determine if Suppliers link exists');
+            $I->see('Product Categories');*/
     }
 }
