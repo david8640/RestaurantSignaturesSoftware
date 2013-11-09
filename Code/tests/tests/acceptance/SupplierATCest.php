@@ -97,9 +97,9 @@ class SupplierATCest {
             // try to add empty supplier
             $I->click('Save');
             // check for error messages
-            $I->canSee('name must not be empty');
-            $I->canSee('contactName must not be empty');
-            $I->canSee('phoneNumber must not be empty');
+            $I->canSee('Name must not be empty');
+            $I->canSee('Contact name must not be empty');
+            $I->canSee('Phone number must not be empty');
             
             // fill fields with invalid data
             // 101 chars
@@ -111,10 +111,10 @@ class SupplierATCest {
             // try to add a supplier with invalid fields
             $I->click('Save');
             // check error message
-            $I->canSee('name must not exceed 100 characters long');
-            $I->canSee('contactName must not exceed 100 characters long');
-            $I->canSee('phoneNumber does not match the required format');
-            $I->canSee('faxNumber does not match the required format');
+            $I->canSee('Name must not exceed 100 characters long');
+            $I->canSee('Contact name must not exceed 100 characters long');
+            $I->canSee('Phone number does not match the required format');
+            $I->canSee('Fax number does not match the required format');
             
             // fill valid values for name and contactName
             $I->fillField('name', 'Supplier');
@@ -125,24 +125,24 @@ class SupplierATCest {
             $I->fillField('faxNumber', '(450-450-4500');
             // try to add a supplier with invalid fields
             $I->click('Save');
-            $I->canSee('phoneNumber does not match the required format');
-            $I->canSee('faxNumber does not match the required format');
+            $I->canSee('Phone number does not match the required format');
+            $I->canSee('Fax number does not match the required format');
             
             // Invalid phone number format
             $I->fillField('phoneNumber', '450 450 450000');
             $I->fillField('faxNumber', '450 450 450000');
             // try to add a supplier with invalid fields
             $I->click('Save');
-            $I->canSee('phoneNumber does not match the required format');
-            $I->canSee('faxNumber does not match the required format');
+            $I->canSee('Phone number does not match the required format');
+            $I->canSee('Fax number does not match the required format');
             
             // Invalid phone number format
             $I->fillField('phoneNumber', '(450)-450-450000');
             $I->fillField('faxNumber', '(450)-450-450000');
             // try to add a supplier with invalid fields
             $I->click('Save');
-            $I->canSee('phoneNumber does not match the required format');
-            $I->canSee('faxNumber does not match the required format');
+            $I->canSee('Phone number does not match the required format');
+            $I->canSee('Fax number does not match the required format');
         }
         
         public function checkIfFieldReloadedAfterError(\WebGuy $I) {

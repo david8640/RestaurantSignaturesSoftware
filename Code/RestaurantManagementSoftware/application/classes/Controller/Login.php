@@ -32,14 +32,12 @@ class Controller_Login extends Controller_Template_Generic {
         // Transfer the information to the view.
         $view = View::factory('login/process_login')
                 ->set('user', $user);
-
         $this->template->title = __('Processing Login');
         $this->template->content = $view;
     }
 
     public function action_register() {
         $view = View::factory('login/register');
-
         $this->template->title = __('Register');
         $this->template->content = $view;
     }
@@ -49,18 +47,17 @@ class Controller_Login extends Controller_Template_Generic {
             $post = $this->getValidationFactory($_POST);
             $secure_password = hash('sha512', $post['password'] . $post['salt']);
             $user = new Model_User(-1, $post['username'], $post['name'], $post['email'], $secure_password, $post['salt']);
-            //$user = new Model_User(5, 'test', 'test', 'test@test.com', '6e6591627c7da94b0b3f31ff57589f82ec535352e0b66db038aa055495eb11edc7649560692b82267dda6eca1977a2f2336266550e9f9b55cfa5cf2e8f37972e', '1059368288c58a44f974d25c81cbf6cf607e15087f8aa0339ad13b635906259b5a31d5f4dd9896a91dd2545d62506a8f9494731dbdf29f803aba345a1b7496ba');
             if ($post->check()) {
-                // Add the supplier
-
+                // Add a user
                 $repo = new Repository_User();
                 $success = $repo->add($user);
 
                 // Redirect if the add was successful
                 if ($success) {
-                    echo 'test';
                     Session::instance()->set('feedbackMessage', array('New user created!'));
                     $this->redirect('login');
+                } else {
+                    $feedbackMessage = array('An error occured');
                 }
             } else {
                 // Invalid fields
@@ -69,9 +66,9 @@ class Controller_Login extends Controller_Template_Generic {
 
             $view = View::factory('login/register')
                     ->set('user', $user)
-                    ->set('submitAction', 'login/register');
+                    ->set('submitAction', 'login/process_registration');
             $this->template->title = __('Register a new user');
-            //$this->template->feedbackMessage = $feedbackMessage;
+            $this->template->feedbackMessage = $feedbackMessage;
             $this->template->content = $view;
         } else {
             // Empty POST
@@ -82,11 +79,11 @@ class Controller_Login extends Controller_Template_Generic {
 
     public function action_logout() {
         $_SESSION = array();
-// get session parameters 
+        // get session parameters 
         $params = session_get_cookie_params();
-// Delete the actual cookie.
+        // Delete the actual cookie.
         setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-// Destroy session
+        // Destroy session
         session_destroy();
         $this->redirect('login/login');
     }
@@ -95,15 +92,18 @@ class Controller_Login extends Controller_Template_Generic {
         return Validation::factory($post)
                         ->rule('username', 'not_empty')
                         ->rule('username', 'max_length', array(':value', 30))
+                        ->label('username', 'Username')
                         ->rule('name', 'not_empty')
                         ->rule('name', 'max_length', array(':value', 75))
+                        ->label('name', 'Name')
                         ->rule('email', 'not_empty')
-                        //email regex not working...
-                        //->rule('email', 'regex', array(':value', '/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])↪*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/'))
+                        ->rule('email', 'regex', array(':value', Constants::EmailRegex))
+                        ->label('email', 'Email adress')
                         ->rule('password', 'not_empty')
-                        ->rule('salt', 'not_empty');
+                        ->label('password', 'Password')
+                        ->rule('salt', 'not_empty')
+                        ->label('salt', 'Salt');
     }
-
 }
 
 ?>

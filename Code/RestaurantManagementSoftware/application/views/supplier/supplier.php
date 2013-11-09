@@ -8,10 +8,13 @@
  *  <date>2013-10-05</date>
  *  <summary>Add/Update a supplier.</summary>
  */
-if (!isset($supplier) || !isset($pageName)) {
-    $supplier = new Model_Supplier(-1, '', '', '', '');
+if (!isset($supplier)) {
+    $supplier = new Model_Supplier(-1, '', '', '', ''); 
+}  
+
+if (!isset($pageName)) {
     $pageName = 'Add Supplier';
-} 
+}
 
 if (!isset($submitAction)) {
     $submitAction = 'supplier/add';
