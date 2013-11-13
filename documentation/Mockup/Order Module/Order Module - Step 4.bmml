@@ -1,0 +1,99 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="1495" measuredH="750" mockupW="999" mockupH="724">
+  <controls>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::SubTitle" x="620" y="129" w="-1" h="-1" measuredW="186" measuredH="33" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Order%20Complete%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::TextArea" x="1244" y="352" w="126" h="28" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <text>Total%3A%20%2465.00</text>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="496" y="26" w="999" h="724" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//</text>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::SubTitle" x="620" y="192" w="-1" h="-1" measuredW="220" measuredH="33" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Supplier%201%3A%20PO%23%20123</text>
+      </controlProperties>
+    </control>
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::DataGrid" x="620" y="225" w="750" h="51" measuredW="405" measuredH="50" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <rowHeight>30</rowHeight>
+        <text>Ingredient%20%5E%2C%20Unit%20%5Ev%2CCost/Unit%20%5Ev%2C%20Quantity%20%5Ev%2C%20Cost%0ABeef%2C%20Loin%20%2825%20kg%29%2C%2C%2C%20%2450.00%0A%7B25%2C%2025C%2C%2025C%2C%2010C%2C%2025C%7D</text>
+        <verticalScrollbar>true</verticalScrollbar>
+        <vLines>true</vLines>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::Label" x="1244" y="282" w="55" h="22" measuredW="56" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Shipping%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::Label" x="1244" y="321" w="55" h="22" measuredW="32" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Tax%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::Label" x="1299" y="282" w="55" h="22" measuredW="41" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%245.00</text>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Label" x="1299" y="321" w="55" h="22" measuredW="47" measuredH="21" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%2410.00</text>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::TextArea" x="1244" y="568" w="126" h="28" measuredW="200" measuredH="140" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <text>Total%3A%20%24195.00</text>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::SubTitle" x="620" y="408" w="-1" h="-1" measuredW="226" measuredH="33" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Supplier%202%3A%20PO%23%20124</text>
+      </controlProperties>
+    </control>
+    <control controlID="34" controlTypeID="com.balsamiq.mockups::DataGrid" x="620" y="441" w="750" h="51" measuredW="420" measuredH="50" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <rowHeight>30</rowHeight>
+        <text>Ingredient%20%5E%2C%20Unit%20%5Ev%2CCost/Unit%20%5Ev%2C%20Quantity%20%5Ev%2C%20Cost%0ATurkey%2C%20Whole%20%2810%20kg%29%2C%2C%2C%20%24150.00%0A%7B25%2C%2025C%2C%2025C%2C%2010C%2C%2025C%7D</text>
+        <verticalScrollbar>true</verticalScrollbar>
+        <vLines>true</vLines>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::Label" x="1244" y="498" w="55" h="22" measuredW="56" measuredH="21" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Shipping%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Label" x="1244" y="537" w="55" h="22" measuredW="32" measuredH="21" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Tax%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="1299" y="498" w="55" h="22" measuredW="50" measuredH="21" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%2425.00</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Label" x="1299" y="537" w="55" h="22" measuredW="50" measuredH="21" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%2420.00</text>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Button" x="1280" y="632" w="-1" h="-1" measuredW="54" measuredH="24" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Finish</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
