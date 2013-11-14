@@ -172,7 +172,7 @@ BEGIN
 		UPDATE users SET
 			session_id = new_sessionId,
 			session_expiry_time = new_sessionExpiryTime
-		WHERE id_user = u_id_user;
+		WHERE id_user = current_userid;
 	END IF;
 END
 GO

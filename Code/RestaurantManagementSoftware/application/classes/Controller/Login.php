@@ -31,23 +31,21 @@ class Controller_Login extends Controller_Template_Generic {
                 $this->redirect('login/login');
             } else {
                 $salt = $user[0]->getSalt();
-                $hashedPassword = hash('sha512', $password . $salt); // The unhashed password.
-                if ($hashedPassword == $user[0]->getPassword()) {
-                    $session_name = $session_value = hash('sha512', $salt . $username . $ipaddress . $salt);
-                    $secure = false; // Set to true if using https.
-                    $httponly = true; // This stops javascript being able to access the session id. 
-                    //create a unique identifier for this current user at the current ip address.
-                    Cookie::set('login_string', hash('sha512', $salt . $password . $ipaddress . $salt));
-                    $user[0]->setSessionId($session_name);
+                $hashedPassword = hash('sha512', $password . $salt);
+                if ($hashedPassword == $user[0]->getPassword()) { //successfully authenticated
+                    $session_value = hash('sha512', $salt . $username . $ipaddress . $salt);
+                    //$user[0]->setSessionId($session_value);
+                    $user[0]->setSessionId($session_value);
                     $user[0]->setSessionExpiryTime(time() + 3600); //1hr
-                    $status = $repo->setSessionVars($user[0]);
-                    if ($status) {
-                        Session::instance()->set('feedbackMessage', array('Success: You have been logged in!'));
+                    Cookie::set('secure_login', $session_value, $user[0]->getSessionExpiryTime());
+                    if ($repo->setSessionVars($user[0])) {
+                        //Session::instance()->set('feedbackMessage', array('Success: You have been logged in!'));
+                        Session::instance()->set('global_username', $user[0]->getUsername());
                     } else {
-                        $feedbackMessage = array('An error occured starting the session.');
+                        Session::instance()->set('feedbackMessage', array('Error saving session to Database'));
                     }
 
-
+                    
                     unset($password);
                     unset($salt);
                     unset($user_id);
@@ -116,7 +114,8 @@ class Controller_Login extends Controller_Template_Generic {
         // Destroy session
         //session_destroy();
         //session_write_close(); //(i think this is the right function to call to end the session).
-        Cookie::delete('login_string');
+        Cookie::delete('secure_login');
+        Session::instance()->set('global_username', '');
         $this->redirect('login/login');
     }
 

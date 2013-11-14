@@ -68,12 +68,12 @@ class Repository_User extends Repository_AbstractRepository {
      */
     public function setSessionVars($user) {
         $params = array(
-            new Database_StatementParameter(':userid', $user->getId(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':sessionId', $user->getSessionId(), PDO::PARAM_STR, 128),
-            new Database_StatementParameter(':sessionExpiryTime', $user->getSessionExpiryTime(), PDO::PARAM_INT, 25)
+            new Database_StatementParameter(':id_user', $user->getId(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':session_id', $user->getSessionId(), PDO::PARAM_STR, 128),
+            new Database_StatementParameter(':session_expiry_time', $user->getSessionExpiryTime(), PDO::PARAM_INT, 25)
         );
 
-        return $this->execute('CALL sp_updateUserSession(:userid, :sessionId, :sessionExpiryTime)', $params);
+        return $this->execute('CALL sp_updateUserSession(:id_user, :session_id, :session_expiry_time)', $params);
     }
 
 

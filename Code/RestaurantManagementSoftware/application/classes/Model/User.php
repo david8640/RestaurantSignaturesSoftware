@@ -139,7 +139,7 @@ class Model_User extends Model {
     }
 
     /**
-     * Get the fax number of the user
+     * Get the getSessionId of the user
      * @return int
      */
     public function getSessionId() {
@@ -148,7 +148,7 @@ class Model_User extends Model {
 
     /**
      * Get the fax number of the user
-     * @param int $faxNumber
+     * @param char $getSessionId
      */
     public function setSessionId($session_id) {
         $this->session_id = $session_id;
