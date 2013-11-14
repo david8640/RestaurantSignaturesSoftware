@@ -14,6 +14,9 @@ if (isset($_POST['username'], $_POST['password'])) {
     //echo $hashedPassword; //(manual way to see the hash this login function generates prior to being inserted to mysql
     if ($hashedPassword == $user[0]->getPassword()) {
         // Login success
+        session_destroy();
+        //session_write_close; //remove all data from current session and close it
+        
         $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
         $user_id = $user[0]->getId();
         $user_id = preg_replace("/[^0-9]+/", "", $user_id); // XSS protection as we might print this value
@@ -25,20 +28,21 @@ if (isset($_POST['username'], $_POST['password'])) {
 
 
         //if we could use cookies, then use this method for a session... it's more secure.
-//        session_regenerate_id(); // regenerated the session, delete the old one. 
-//        $session_name = 'sec_session_id'; // Set a custom session name
-//        $secure = false; // Set to true if using https.
-//        $httponly = true; // This stops javascript being able to access the session id. 
-//        
-//        
-//        ini_set('session.use_only_cookies', 1); // Forces sessions to only use cookies. 
-//        $cookieParams = session_get_cookie_params(); // Gets current cookies params.
-//        
-//        session_set_cookie_params($cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], $secure, $httponly); 
+        session_regenerate_id(); // regenerated the session, delete the old one. 
+        $session_name = 'LoginSession';
+        $secure = false; // Set to true if using https.
+        $httponly = true; // This stops javascript being able to access the session id. 
+
+        ini_set('session.use_only_cookies', 1); // Forces sessions to only use cookies. 
+        $cookieParams = session_get_cookie_params(); // Gets current cookies params.
+        
+        session_set_cookie_params($cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], $secure, $httponly);
+        setcookie($session_name, hash('sha512', $password . $user_browser), $cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], $secure, $httponly);
 //        session_name($session_name); // Sets the session name to the one set above.
 //        session_start(); // Start the php session
-
-
+        
+        
+        session_start();
         echo 'Success: You have been logged in!';
         unset($password);
         unset($salt);

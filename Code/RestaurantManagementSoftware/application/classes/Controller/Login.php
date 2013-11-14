@@ -55,7 +55,7 @@ class Controller_Login extends Controller_Template_Generic {
                 // Redirect if the add was successful
                 if ($success) {
                     Session::instance()->set('feedbackMessage', array('New user created!'));
-                    $this->redirect('login');
+                    $this->redirect('login/login');
                 } else {
                     $feedbackMessage = array('An error occured');
                 }
@@ -78,13 +78,14 @@ class Controller_Login extends Controller_Template_Generic {
     }
 
     public function action_logout() {
-        $_SESSION = array();
+       // $_SESSION = array();
         // get session parameters 
-        $params = session_get_cookie_params();
+        //$params = session_get_cookie_params();
         // Delete the actual cookie.
-        setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+        //setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
         // Destroy session
         session_destroy();
+        //session_write_close(); //(i think this is the right function to call to end the session).
         $this->redirect('login/login');
     }
 
