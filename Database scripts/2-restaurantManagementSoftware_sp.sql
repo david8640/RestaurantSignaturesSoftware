@@ -156,3 +156,25 @@ BEGIN
 	END IF;
 END
 GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_updateUserSession`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_updateUserSession`
+GO
+CREATE PROCEDURE sp_updateUserSession(
+	IN current_userid INT(11),
+	IN new_sessionId char(128),
+	IN new_sessionExpiryTime int(25)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM users WHERE id_user = current_userid) THEN
+		UPDATE users SET
+			session_id = new_sessionId,
+			session_expiry_time = new_sessionExpiryTime
+		WHERE id_user = u_id_user;
+	END IF;
+END
+GO
+
+

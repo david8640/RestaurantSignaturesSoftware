@@ -13,6 +13,7 @@
  */
 
 class Repository_User extends Repository_AbstractRepository {
+
     /**
      * Get all the users.
      * @return array of users
@@ -21,8 +22,7 @@ class Repository_User extends Repository_AbstractRepository {
         return $this->fetchNConstruct('SELECT * FROM v_getusers', array());
         ;
     }
-    
-    
+
     /**
      * Get the user with the username in parameter.
      * @param string $username
@@ -30,11 +30,10 @@ class Repository_User extends Repository_AbstractRepository {
      */
     public function getViaUsername($username) {
         $params = array(
-                new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30),
+            new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30),
         );
         return $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
     }
-
 
     /**
      * Get the user's salt
@@ -61,19 +60,35 @@ class Repository_User extends Repository_AbstractRepository {
 
         return $this->fetchNConstruct('CALL sp_getuser(:password)', $params);
     }
+    
+        /**
+     * Get the user's salt
+     * @param int $username
+     * @return a user
+     */
+    public function setSessionVars($user) {
+        $params = array(
+            new Database_StatementParameter(':userid', $user->getId(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':sessionId', $user->getSessionId(), PDO::PARAM_STR, 128),
+            new Database_StatementParameter(':sessionExpiryTime', $user->getSessionExpiryTime(), PDO::PARAM_INT, 25)
+        );
+
+        return $this->execute('CALL sp_updateUserSession(:userid, :sessionId, :sessionExpiryTime)', $params);
+    }
+
 
     /**
-     * Add a supplier
+     * Add a user
      * @param Model_User $user
      * @return int
      */
     public function add($user) {
         $params = array(
-            new Database_StatementParameter(':uusername', $user->getUsername(), PDO::PARAM_STR, 30),
-            new Database_StatementParameter(':uname', $user->getUsername(), PDO::PARAM_STR, 75),
-            new Database_StatementParameter(':uemail', $user->getEmail(), PDO::PARAM_STR, 50),
-            new Database_StatementParameter(':upassword', $user->getPassword(), PDO::PARAM_STR, 128),
-            new Database_StatementParameter(':usalt', $user->getSalt(), PDO::PARAM_STR, 128)
+        new Database_StatementParameter(':uusername', $user->getUsername(), PDO::PARAM_STR, 30),
+        new Database_StatementParameter(':uname', $user->getUsername(), PDO::PARAM_STR, 75),
+        new Database_StatementParameter(':uemail', $user->getEmail(), PDO::PARAM_STR, 50),
+        new Database_StatementParameter(':upassword', $user->getPassword(), PDO::PARAM_STR, 128),
+        new Database_StatementParameter(':usalt', $user->getSalt(), PDO::PARAM_STR, 128),
         );
 
         return $this->execute('CALL sp_saveUser(-1, :uusername, :uname, :uemail, :upassword, :usalt)', $params);
@@ -86,11 +101,13 @@ class Repository_User extends Repository_AbstractRepository {
      */
     public function update($user) {
         $params = array(
-            new Database_StatementParameter(':username', $user->getUsername(), PDO::PARAM_STR, 30),
-            new Database_StatementParameter(':name', $user->getUsername(), PDO::PARAM_STR, 75),
-            new Database_StatementParameter(':email', $user->getEmail(), PDO::PARAM_STR, 50),
-            new Database_StatementParameter(':password', $user->getPassword(), PDO::PARAM_CHAR, 128),
-            new Database_StatementParameter(':salt', $user->getSalt(), PDO::PARAM_CHAR, 128)
+        new Database_StatementParameter(':username', $user->getUsername(), PDO::PARAM_STR, 30),
+        new Database_StatementParameter(':name', $user->getUsername(), PDO::PARAM_STR, 75),
+        new Database_StatementParameter(':email', $user->getEmail(), PDO::PARAM_STR, 50),
+        new Database_StatementParameter(':password', $user->getPassword(), PDO::PARAM_CHAR, 128),
+        new Database_StatementParameter(':salt', $user->getSalt(), PDO::PARAM_CHAR, 128),
+        new Database_StatementParameter(':usessionId', $user->getSessionId(), PDO::PARAM_STR, 128),
+        new Database_StatementParameter(':usessionExpire', $user->getSessionExpiryTime(), PDO::PARAM_INT, 25)
         );
 
         return $this->execute('CALL sp_saveUser(-1, :uusername, :uname, :uemail, :upassword, :usalt)', $params);

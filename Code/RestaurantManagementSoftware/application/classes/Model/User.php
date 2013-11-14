@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * <copyright file="User.php" company="RestaurantManagementSoftware">
  *     Copyright (c) 2013, 2014 All Right Reserved
  * </copyright>
@@ -8,7 +8,9 @@
  * <date>2013-10-05</date>
  * <summary>Model representing a user.</summary>
  */
+
 class Model_User extends Model {
+
     // Private members
     private $id;
     private $username;
@@ -16,6 +18,9 @@ class Model_User extends Model {
     private $email;
     private $password;
     private $salt;
+    private $session_id;
+    private $session_expiry_time;
+
     // Ctr
     /**
      * Constructor of a user model
@@ -32,8 +37,10 @@ class Model_User extends Model {
         $this->setEmail($email);
         $this->setPassword($password);
         $this->setSalt($salt);
+        $this->setSessionId('');
+        $this->setSessionExpiryTime(0);
     }
-   
+
     // Getters and setters
     /**
      * Get the id of the user
@@ -42,7 +49,7 @@ class Model_User extends Model {
     public function getId() {
         return $this->id;
     }
-    
+
     /**
      * Set the id of the user
      * @param int $id 
@@ -50,7 +57,7 @@ class Model_User extends Model {
     public function setId($id) {
         $this->id = $id;
     }
-    
+
     /**
      * Get the username of the user
      * @return string
@@ -58,7 +65,7 @@ class Model_User extends Model {
     public function getUsername() {
         return $this->username;
     }
-    
+
     /**
      * Set the username of the user
      * @param string $username
@@ -66,7 +73,7 @@ class Model_User extends Model {
     public function setUsername($username) {
         $this->username = $username;
     }
-    
+
     /**
      * Get the name of the user
      * @return string
@@ -74,7 +81,7 @@ class Model_User extends Model {
     public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Set the name of the user
      * @param string $name
@@ -90,7 +97,7 @@ class Model_User extends Model {
     public function getEmail() {
         return $this->email;
     }
-    
+
     /**
      * Get the number of the user
      * @param int $phoneNumber
@@ -98,7 +105,7 @@ class Model_User extends Model {
     public function setEmail($email) {
         $this->email = $email;
     }
-    
+
     /**
      * Get the fax number of the user
      * @return int
@@ -106,7 +113,7 @@ class Model_User extends Model {
     public function getPassword() {
         return $this->password;
     }
-    
+
     /**
      * Get the fax number of the user
      * @param int $faxNumber
@@ -114,15 +121,15 @@ class Model_User extends Model {
     public function setPassword($password) {
         $this->password = $password;
     }
-    
-     /**
+
+    /**
      * Get the fax number of the user
      * @return int
      */
     public function getSalt() {
         return $this->salt;
     }
-    
+
     /**
      * Get the fax number of the user
      * @param int $faxNumber
@@ -130,6 +137,39 @@ class Model_User extends Model {
     public function setSalt($salt) {
         $this->salt = $salt;
     }
+
+    /**
+     * Get the fax number of the user
+     * @return int
+     */
+    public function getSessionId() {
+        return $this->session_id;
+    }
+
+    /**
+     * Get the fax number of the user
+     * @param int $faxNumber
+     */
+    public function setSessionId($session_id) {
+        $this->session_id = $session_id;
+    }
+
+    /**
+     * Get the fax number of the user
+     * @return int
+     */
+    public function getSessionExpiryTime() {
+        return $this->session_expiry_time;
+    }
+
+    /**
+     * Get the fax number of the user
+     * @param int $faxNumber
+     */
+    public function setSessionExpiryTime($session_expiry_time) {
+        $this->session_expiry_time = $session_expiry_time;
+    }
+
 }
 
 ?>

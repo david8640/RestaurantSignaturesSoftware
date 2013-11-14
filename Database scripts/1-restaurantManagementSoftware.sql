@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` VARCHAR(50) NOT NULL,
   `password` CHAR(128) NOT NULL,
   `salt` CHAR(128) NOT NULL,
+  `session_id` CHAR(128),
+  `session_expiry_time` INT(25),
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 

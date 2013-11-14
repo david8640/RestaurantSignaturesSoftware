@@ -20,20 +20,50 @@ class Controller_Login extends Controller_Template_Generic {
     }
 
     public function action_process_login() {
-        $username = $_POST['username'];
-        $repo = new Repository_User();
-        $user = $repo->getViaUsername($username);
+        if (isset($_POST['username'], $_POST['password'])) {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $ipaddress = $_POST['ipaddress'];
+            $repo = new Repository_User();
+            $user = $repo->getViaUsername($username);
+            if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
+                Session::instance()->set('feedbackMessage', array('Incorrect username ☺'));
+                $this->redirect('login/login');
+            } else {
+                $salt = $user[0]->getSalt();
+                $hashedPassword = hash('sha512', $password . $salt); // The unhashed password.
+                if ($hashedPassword == $user[0]->getPassword()) {
+                    $session_name = $session_value = hash('sha512', $salt . $username . $ipaddress . $salt);
+                    $secure = false; // Set to true if using https.
+                    $httponly = true; // This stops javascript being able to access the session id. 
+                    //create a unique identifier for this current user at the current ip address.
+                    Cookie::set('login_string', hash('sha512', $salt . $password . $ipaddress . $salt));
+                    $user[0]->setSessionId($session_name);
+                    $user[0]->setSessionExpiryTime(time() + 3600); //1hr
+                    $status = $repo->setSessionVars($user[0]);
+                    if ($status) {
+                        Session::instance()->set('feedbackMessage', array('Success: You have been logged in!'));
+                    } else {
+                        $feedbackMessage = array('An error occured starting the session.');
+                    }
 
-        if (!(Valid::not_empty($user))) {
-            Session::instance()->set('feedbackMessage', array('Incorrect username or password (really it\'s an incorrect username ☺)'));
-            $this->redirect('login/login');
+
+                    unset($password);
+                    unset($salt);
+                    unset($user_id);
+                    unset($user_browser);
+                    $this->redirect('');
+                } else {
+                    // Login failed
+                    unset($password);
+                    unset($salt);
+                    $session->set('feedbackMessage', array('Incorrect password ☺)'));
+                    $this->redirect('login/login');
+                }
+            } //defualt
+            // The correct POST variables were not sent to this page.
+            echo 'Invalid POST';
         }
-
-        // Transfer the information to the view.
-        $view = View::factory('login/process_login')
-                ->set('user', $user);
-        $this->template->title = __('Processing Login');
-        $this->template->content = $view;
     }
 
     public function action_register() {
@@ -46,7 +76,7 @@ class Controller_Login extends Controller_Template_Generic {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             $post = $this->getValidationFactory($_POST);
             $secure_password = hash('sha512', $post['password'] . $post['salt']);
-            $user = new Model_User(-1, $post['username'], $post['name'], $post['email'], $secure_password, $post['salt']);
+            $user = new Model_User(-1, $post['username'], $post['name'], $post['email'], $secure_password, $post['salt'], '', 0);
             if ($post->check()) {
                 // Add a user
                 $repo = new Repository_User();
@@ -78,14 +108,15 @@ class Controller_Login extends Controller_Template_Generic {
     }
 
     public function action_logout() {
-       // $_SESSION = array();
+        // $_SESSION = array();
         // get session parameters 
         //$params = session_get_cookie_params();
         // Delete the actual cookie.
         //setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
         // Destroy session
-        session_destroy();
+        //session_destroy();
         //session_write_close(); //(i think this is the right function to call to end the session).
+        Cookie::delete('login_string');
         $this->redirect('login/login');
     }
 
@@ -105,6 +136,7 @@ class Controller_Login extends Controller_Template_Generic {
                         ->rule('salt', 'not_empty')
                         ->label('salt', 'Salt');
     }
+
 }
 
 ?>
