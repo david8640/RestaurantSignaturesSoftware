@@ -9,7 +9,7 @@
  */
 if (!isset($user)) {
     $random_Salt = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
-    $user = new Model_User(-1, '', '', '', '',$random_Salt);
+    $user = new Model_User(-1, '', '', '', '',$random_Salt, '', 0);
 }
 
 if (!isset($submitAction)) {
@@ -30,5 +30,7 @@ echo Form::input('email', $user->getEmail()) . "<br/>";
 echo Form::label('password', 'Password: ');
 echo Form::password('password') . "<br/>";
 echo Form::hidden('salt',$user->getSalt());
+echo Form::hidden('sessionID', Constants::BlankHash);
+echo Form::hidden('sessionExpiryTime',0);
 echo Form::submit(NULL, 'Register');
 echo Form::close();

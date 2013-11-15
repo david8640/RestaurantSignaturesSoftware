@@ -32,7 +32,8 @@ class Repository_User extends Repository_AbstractRepository {
         $params = array(
             new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30),
         );
-        return $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
+        $users = $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
+        return $users;
     }
 
     /**
@@ -75,7 +76,14 @@ class Repository_User extends Repository_AbstractRepository {
 
         return $this->execute('CALL sp_updateUserSession(:id_user, :session_id, :session_expiry_time)', $params);
     }
+    
+    public function getBySessionID($session_id) {
+        $params = array(
+            new Database_StatementParameter(':session_id', $session_id, PDO::PARAM_STR, 128)
+        );
 
+        return $this->fetchNConstruct('CALL sp_getUserBySessionID(:session_id)', $params);
+    }
 
     /**
      * Add a user
@@ -132,7 +140,7 @@ class Repository_User extends Repository_AbstractRepository {
      * @return \Model_User
      */
     protected function construct($obj) {
-        return new Model_User($obj->id_user, $obj->username, $obj->name, $obj->email, $obj->password, $obj->salt);
+        return new Model_User($obj->id_user, $obj->username, $obj->name, $obj->email, $obj->password, $obj->salt, $obj->session_id, $obj->session_expiry_time);
     }
 
 }

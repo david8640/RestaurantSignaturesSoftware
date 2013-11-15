@@ -9,8 +9,8 @@
  *  <summary>The default controller that will handle and dispatch all the request</summary>
  */
 
+//class Controller_Login extends Controller_Template_Generic {
 class Controller_Login extends Controller_Template_Generic {
-
     public function action_login() {
         // Transfert the information to the view.
         $view = View::factory('login/login');
@@ -20,14 +20,14 @@ class Controller_Login extends Controller_Template_Generic {
     }
 
     public function action_process_login() {
-        if (isset($_POST['username'], $_POST['password'])) {
+        if (isset($_POST['username'], $_POST['password'], $_POST['ipaddress'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
             $ipaddress = $_POST['ipaddress'];
             $repo = new Repository_User();
             $user = $repo->getViaUsername($username);
             if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
-                Session::instance()->set('feedbackMessage', array('Incorrect username ☺'));
+                Session::instance()->set('feedbackMessage', array('Incorrect username ☺ '));
                 $this->redirect('login/login');
             } else {
                 $salt = $user[0]->getSalt();
@@ -38,19 +38,17 @@ class Controller_Login extends Controller_Template_Generic {
                     $user[0]->setSessionId($session_value);
                     $user[0]->setSessionExpiryTime(time() + 3600); //1hr
                     Cookie::set('secure_login', $session_value, $user[0]->getSessionExpiryTime());
+                    session_start();
                     if ($repo->setSessionVars($user[0])) {
-                        //Session::instance()->set('feedbackMessage', array('Success: You have been logged in!'));
-                        Session::instance()->set('global_username', $user[0]->getUsername());
+                        //saving session cookie hash to database success!
+                        unset($password);
+                        unset($salt);
+                        unset($user_id);
+                        unset($user_browser);
+                        $this->redirect('index');
                     } else {
                         Session::instance()->set('feedbackMessage', array('Error saving session to Database'));
                     }
-
-                    
-                    unset($password);
-                    unset($salt);
-                    unset($user_id);
-                    unset($user_browser);
-                    $this->redirect('');
                 } else {
                     // Login failed
                     unset($password);
@@ -74,7 +72,7 @@ class Controller_Login extends Controller_Template_Generic {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             $post = $this->getValidationFactory($_POST);
             $secure_password = hash('sha512', $post['password'] . $post['salt']);
-            $user = new Model_User(-1, $post['username'], $post['name'], $post['email'], $secure_password, $post['salt'], '', 0);
+            $user = new Model_User(-1, $post['username'], $post['name'], $post['email'], $secure_password, $post['salt'], $post['sessionID'], $post['sessionExpiryTime']);
             if ($post->check()) {
                 // Add a user
                 $repo = new Repository_User();

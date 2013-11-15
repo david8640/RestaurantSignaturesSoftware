@@ -30,15 +30,19 @@ class Model_User extends Model {
      * @param string $password the Hashed password
      * @param string $salt the Hashed random salt used to calculate the hashed password
      */
-    public function __construct($id, $username, $name, $email, $password, $salt) {
+    public function __construct($id, $username, $name, $email, $password, $salt, $session_id, $session_expiry_time) {
         $this->setId($id);
         $this->setUsername($username);
         $this->setName($name);
         $this->setEmail($email);
         $this->setPassword($password);
         $this->setSalt($salt);
-        $this->setSessionId('');
-        $this->setSessionExpiryTime(0);
+        if ($session_id == '') {
+            $this->setSessionId(Constants::BlankHash);
+        } else {
+            $this->setSessionId($session_id);
+        }   
+        $this->setSessionId($session_expiry_time);
     }
 
     // Getters and setters

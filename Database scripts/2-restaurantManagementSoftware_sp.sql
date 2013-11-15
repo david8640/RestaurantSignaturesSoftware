@@ -106,7 +106,7 @@ CREATE PROCEDURE sp_getUser(
     IN u_username VARCHAR(30)
 )
 BEGIN
- 	SELECT id_user, username, name, email, password, salt
+ 	SELECT *
  	FROM users
  	WHERE username = u_username;
 END
@@ -177,4 +177,19 @@ BEGIN
 END
 GO
 
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getUserBySessionID`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getUserBySessionID`
+GO
+CREATE PROCEDURE sp_getUserBySessionID(
+	IN sessionId char(128)
+)
+BEGIN
+	SELECT * 
+	FROM users 
+	WHERE session_id = sessionId;
+END
+GO
 

@@ -40,8 +40,7 @@ abstract class Repository_AbstractRepository {
             return $objects;
         } catch (Exception $e) {
             $this->close($connection);
-            throw new Exception('Fetching the query result and constructing '
-            . 'object failed.', $e->getCode(), $e);
+            throw new Exception('Fetching the query result and constructing '. 'object failed.', $e->getCode(), $e);
         }
     }
 
@@ -102,7 +101,6 @@ abstract class Repository_AbstractRepository {
      */
     private function bindParameters($statement, $params) {
         foreach ($params as $param) {
-            //var_dump($statement);
             $value = $param->getValue();    // We have to do this because bindParam 
             $columnName = $param->getColumnName(); // keep a reference to the object and
             $type = $param->getType();
@@ -111,10 +109,9 @@ abstract class Repository_AbstractRepository {
             // getValue();
             $statement->bindParam($columnName, $value, $type, $length);
             unset($value);  // unset the variable to remove the reference to avoid
-            unset($columnName);
+            unset($columnName);// problem in the next loop iteration
             unset($type);
             unset($length);
-            // problem in the next loop iteration
         }
     }
 
@@ -150,6 +147,7 @@ abstract class Repository_AbstractRepository {
         while ($obj = $statement->fetch(PDO::FETCH_OBJ)) {
             array_push($objects, $this->construct($obj));
         }
+        
 
         return $objects;
     }
