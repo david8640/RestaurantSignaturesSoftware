@@ -21,6 +21,7 @@ USE `restaurantManagementSoftware`;
 DROP TABLE IF EXISTS `supplier`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `login_attempts`;
+DROP TABLE IF EXISTS `product_category`;
 
 -- ---------------------------------------------------------------------------
 -- Table supplier
@@ -60,7 +61,18 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
+-- ---------------------------------------------------------------------------
+-- Table product_category
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `product_category` (
+  `id_category` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `parent` INT(11),
+  `orderof` INT(11) NOT NULL,
+  UNIQUE (`orderof`),
+  PRIMARY KEY (`id_category`),
+  CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `product_category` (`id_category`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

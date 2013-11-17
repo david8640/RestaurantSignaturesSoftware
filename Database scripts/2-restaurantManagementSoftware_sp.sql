@@ -2,6 +2,10 @@ USE `restaurantManagementSoftware`;
 
 DELIMITER GO
 
+
+-- ---------------------------------------------------------------------------------------
+-- Views
+-- ---------------------------------------------------------------------------------------
 -- -----------------------------------------------------
 -- View `v_getSuppliers`
 -- -----------------------------------------------------
@@ -35,7 +39,20 @@ AS
 	FROM login_attempts;
 GO
 
-
+-- -----------------------------------------------------
+-- View `v_getProductCategories`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getProductCategories`
+GO
+CREATE VIEW v_getProductCategories
+AS
+	SELECT P.id_category, P.name, P.parent, PA.name AS parent_name, P.orderof
+	FROM product_category P LEFT JOIN product_category PA
+	ON P.parent = PA.id_category;
+GO
+-- ---------------------------------------------------------------------------------------
+-- Stored Procedures
+-- ---------------------------------------------------------------------------------------
 -- -----------------------------------------------------
 -- Stored Procedure `sp_getSupplier`
 -- -----------------------------------------------------
@@ -95,7 +112,6 @@ BEGIN
 	END IF;
 END
 GO
-
 
 -- -----------------------------------------------------
 -- Stored Procedure `sp_getUser`
@@ -193,3 +209,69 @@ BEGIN
 END
 GO
 
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getProductCategory`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getProductCategory`
+GO
+CREATE PROCEDURE sp_getProductCategory(
+    IN c_id_category INT
+)
+BEGIN
+ 	SELECT P.id_category, P.name, P.parent, PA.name AS parent_name, P.orderof
+	FROM product_category P LEFT JOIN product_category PA
+	ON P.parent = PA.id_category
+ 	WHERE P.id_category = c_id_category;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_deleteProductCategory`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_deleteProductCategory`
+GO
+CREATE PROCEDURE sp_deleteProductCategory(
+	IN c_id_category INT(11)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM product_category WHERE id_category = c_id_category) THEN
+		DELETE FROM product_category 
+		WHERE id_category = c_id_category;
+	ELSE
+		CALL raise_error;
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_saveSupplier`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_saveProductCategory`
+GO
+CREATE PROCEDURE sp_saveProductCategory(
+	IN c_id_category INT(11),
+	IN c_name VARCHAR(100),
+	IN c_parent INT(22),
+	IN c_orderof INT(11)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM product_category WHERE id_category = c_id_category) THEN
+	BEGIN
+		UPDATE product_category SET	
+			name = c_name,
+			parent = c_parent,
+			orderof = c_orderof
+		WHERE id_category = c_id_category;
+	END;
+	ELSE
+	BEGIN
+		DECLARE nextOrder INT;
+		SELECT @nextOrder := MAX(`orderof`) + 1 FROM `product_category`;
+		INSERT INTO `product_category` (`name`, `parent`, `orderof`) 
+		VALUES (c_name, c_parent, nextOrder);
+	END;
+	END IF;
+END
+GO
+
+DELIMITER ;
