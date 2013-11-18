@@ -183,9 +183,9 @@ class Controller_Supplier extends Controller_Template_Generic {
                 ->label('contactName', 'Contact name')
                 ->rule('contactName', 'not_empty')
                 ->rule('phoneNumber', 'not_empty')
-                ->rule('phoneNumber', 'regex', array(':value', '/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-‌​9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$/'))
+                ->rule('phoneNumber', 'regex', array(':value', Constants::PhoneRegex))
                 ->label('phoneNumber', 'Phone number')
-                ->rule('faxNumber', 'regex', array(':value', '/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-‌​9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$/'))
+                ->rule('faxNumber', 'regex', array(':value', Constants::PhoneRegex))
                 ->label('faxNumber', 'Fax number');
     }
 }

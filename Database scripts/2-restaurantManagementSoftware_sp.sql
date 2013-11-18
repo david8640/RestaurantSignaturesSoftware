@@ -226,6 +226,22 @@ END
 GO
 
 -- -----------------------------------------------------
+-- Stored Procedure `sp_getProductCategoryParents`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getProductCategoryParents`
+GO
+CREATE PROCEDURE sp_getProductCategoryParents(
+    IN c_id_category INT
+)
+BEGIN
+ 	SELECT P.id_category, P.name, P.parent, PA.name AS parent_name, P.orderof
+	FROM product_category P LEFT JOIN product_category PA
+	ON P.parent = PA.id_category
+ 	WHERE P.id_category <> c_id_category;
+END
+GO
+
+-- -----------------------------------------------------
 -- Stored Procedure `sp_deleteProductCategory`
 -- -----------------------------------------------------
 DROP PROCEDURE IF EXISTS `sp_deleteProductCategory`
@@ -244,7 +260,7 @@ END
 GO
 
 -- -----------------------------------------------------
--- Stored Procedure `sp_saveSupplier`
+-- Stored Procedure `sp_saveProductCategory`
 -- -----------------------------------------------------
 DROP PROCEDURE IF EXISTS `sp_saveProductCategory`
 GO
@@ -266,9 +282,12 @@ BEGIN
 	ELSE
 	BEGIN
 		DECLARE nextOrder INT;
-		SELECT @nextOrder := MAX(`orderof`) + 1 FROM `product_category`;
+		SET @nextOrder = 1;
+		IF ((SELECT COUNT(*) FROM product_category) > 0) THEN		
+			SELECT @nextOrder := MAX(`orderof`) + 1 FROM `product_category`;
+		END IF;
 		INSERT INTO `product_category` (`name`, `parent`, `orderof`) 
-		VALUES (c_name, c_parent, nextOrder);
+		VALUES (c_name, c_parent, @nextOrder);
 	END;
 	END IF;
 END

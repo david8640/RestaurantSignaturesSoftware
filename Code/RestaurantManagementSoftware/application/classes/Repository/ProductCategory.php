@@ -11,13 +11,26 @@
  *      for the product category.
  *  </summary>
  */
-class Repository_CategoryProduct extends Repository_AbstractRepository {
+class Repository_ProductCategory extends Repository_AbstractRepository {
    /**
     * Get all the product categories.
     * @return array of product categories
     */ 
     public function getAll() {
         return $this->fetchNConstruct('SELECT * FROM v_getProductCategories', array()); 
+    }
+    
+   /**
+    * Get all the possible parents of a product category.
+    * @param int $id
+    * @return array of product categories possible parents
+    */ 
+    public function getParents($id) {
+        $params = array (
+            new Database_StatementParameter(':cid', $id, PDO::PARAM_INT, 11)
+        );
+        
+        return $this->fetchNConstruct('CALL sp_getProductCategoryParents(:cid)', $params); 
     }
     
     /**
@@ -42,7 +55,9 @@ class Repository_CategoryProduct extends Repository_AbstractRepository {
     public function add($productCategory) {
         $params = array (
             new Database_StatementParameter(':cname', $productCategory->getName(), PDO::PARAM_STR, 100),
-            new Database_StatementParameter(':cparent', $productCategory->getParent(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':cparent', 
+                    (($productCategory->getParent() == -1) ? null : $productCategory->getParent()), 
+                    (($productCategory->getParent() == -1) ? PDO::PARAM_NULL : PDO::PARAM_INT), 11),
             new Database_StatementParameter(':corder', $productCategory->getOrder(), PDO::PARAM_INT, 11)
         );
         
@@ -58,10 +73,12 @@ class Repository_CategoryProduct extends Repository_AbstractRepository {
         $params = array (
             new Database_StatementParameter(':cid', $productCategory->getId(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':cname', $productCategory->getName(), PDO::PARAM_STR, 100),
-            new Database_StatementParameter(':cparent', $productCategory->getParent(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':cparent', 
+                    (($productCategory->getParent() == -1) ? null : $productCategory->getParent()), 
+                    (($productCategory->getParent() == -1) ? PDO::PARAM_NULL : PDO::PARAM_INT), 11),
             new Database_StatementParameter(':corder', $productCategory->getOrder(), PDO::PARAM_INT, 11)
         );
-
+       
         return $this->execute('CALL sp_saveProductCategory(:cid, :cname, :cparent, :corder)', $params);
     }
     

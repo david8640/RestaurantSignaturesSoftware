@@ -11,5 +11,6 @@ if (isset($global_username)) {
 <?php echo HTML::anchor('login/login', 'Login'); ?> <br/>
 <?php echo HTML::anchor('login/logout', 'Logout'); ?> <br/>
 <?php echo HTML::anchor('supplier/findAll', 'Suppliers'); ?> <br/>
+<?php echo HTML::anchor('productCategory/findAll', 'Product Categories'); ?> <br/>
 
 
