@@ -7,9 +7,10 @@
  *  <date>2013-11-17</date>
  *  <summary>The view that print all the product categories.</summary>
  */
+$count = 0;
 ?>
 <h2>Product Categories</h2>
-<table border="1" id="productCategories">
+<table id="productCategories">
     <tr>
         <th>Id</th>
         <th>Name</th>
@@ -18,15 +19,19 @@
         <th>Edit</th>
         <th>Remove</th>
     </tr>
-    <?php foreach ($categories as $c) { ?>
-        <tr>
+    <?php foreach ($categories as $c) {
+        $count++;
+        ?>    
+        <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
             <td><?php echo $c->getId(); ?></td>
             <td><?php echo $c->getName(); ?></td>
             <td><?php echo ($c->getParentName() == NULL) ? 'none' :  $c->getParentName(); ?></td>
             <td><?php echo $c->getOrder(); ?></td>
-            <td><?php echo HTML::anchor('productCategory/edit/'.$c->getId(), 'Edit'); ?></td>
-            <td><?php echo HTML::anchor('productCategory/delete/'.$c->getId(), 'Delete'); ?></td>
+            <td><?php echo HTML::anchor('productCategory/edit/'.$c->getId(), '', array('class' => 'button_edit')); ?></td>
+            <td><?php echo HTML::anchor('productCategory/delete/'.$c->getId(), '', array('class' => 'button_delete')); ?></td>
         </tr>
     <?php } ?>
 </table>
-<?php echo HTML::anchor('productCategory/create', 'Add'); ?>
+<div class="button">
+    <?php echo HTML::anchor('productCategory/create', '', array('class' => 'button_add')); ?>
+</div>

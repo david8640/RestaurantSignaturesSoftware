@@ -21,18 +21,20 @@ if (!isset($submitAction)) {
 }
 
 ?>
-<h1><?php echo $pageName; ?></h1>
-<?php
-echo Form::open($submitAction);
-echo Form::hidden('id', $supplier->getId()) . "<br/>";
-echo Form::label('name', 'Name :');
-echo Form::input('name', $supplier->getName()) . "<br/>";
-echo Form::label('contactName', 'Contact name :');
-echo Form::input('contactName', $supplier->getContactName()). "<br/>";
-echo Form::label('phoneNumber', 'Phone number :');
-echo Form::input('phoneNumber', $supplier->getPhoneNumber()). "<br/>";
-echo Form::label('faxNumber', 'Fax number :');
-echo Form::input('faxNumber', $supplier->getFaxNumber()). "<br/>";
-echo Form::submit(NULL, 'Save');
-echo Form::close();
-?>  
+<div class="form_content">
+    <h1><?php echo $pageName; ?></h1>
+    <?php
+    echo Form::open($submitAction);
+    echo Form::hidden('id', $supplier->getId()) . "<br/>";
+    echo Form::label('name', 'Name :');
+    echo Form::input('name', $supplier->getName()) . "<br/>";
+    echo Form::label('contactName', 'Contact name :');
+    echo Form::input('contactName', $supplier->getContactName()). "<br/>";
+    echo Form::label('phoneNumber', 'Phone number :');
+    echo Form::input('phoneNumber', $supplier->getPhoneNumber()). "<br/>";
+    echo Form::label('faxNumber', 'Fax number :');
+    echo Form::input('faxNumber', $supplier->getFaxNumber()). "<br/>";
+    echo Form::submit(NULL, 'Save');
+    echo Form::close();
+    ?>
+</div>

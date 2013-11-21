@@ -17,20 +17,23 @@ if (!isset($submitAction)) {
 }
 ?>
 <h1>Register a new user</h1>
-<?php
-//Login Form
-echo Form::open($submitAction);
-echo Form::hidden('id', $user->getId()) . "<br/>";
-echo Form::label('username', 'Username: ');
-echo Form::input('username', $user->getUsername()) . "<br/>";
-echo Form::label('name', 'Name: ');
-echo Form::input('name', $user->getName()) . "<br/>";
-echo Form::label('email', 'Email Address: ');
-echo Form::input('email', $user->getEmail()) . "<br/>";
-echo Form::label('password', 'Password: ');
-echo Form::password('password') . "<br/>";
-echo Form::hidden('salt',$user->getSalt());
-echo Form::hidden('sessionID', Constants::BlankHash);
-echo Form::hidden('sessionExpiryTime',0);
-echo Form::submit(NULL, 'Register');
-echo Form::close();
+<div class="form_content">
+    <?php
+    //Login Form
+    echo Form::open($submitAction);
+    echo Form::hidden('id', $user->getId()) . "<br/>";
+    echo Form::label('username', 'Username: ');
+    echo Form::input('username', $user->getUsername()) . "<br/>";
+    echo Form::label('name', 'Name: ');
+    echo Form::input('name', $user->getName()) . "<br/>";
+    echo Form::label('email', 'Email Address: ');
+    echo Form::input('email', $user->getEmail()) . "<br/>";
+    echo Form::label('password', 'Password: ');
+    echo Form::password('password') . "<br/>";
+    echo Form::hidden('salt',$user->getSalt());
+    echo Form::hidden('sessionID', Constants::BlankHash);
+    echo Form::hidden('sessionExpiryTime',0);
+    echo Form::submit(NULL, 'Register');
+    echo Form::close();
+?>
+</div>

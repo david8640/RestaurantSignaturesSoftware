@@ -6,25 +6,147 @@
  <date>2013-10-30</date>
  <summary>Stylesheet of this application.</summary>
 */
-table 
-{
-    width:50%;
-    border-collapse:collapse;
-}
-
-th
-{
-    height:100px;
+body {
+    margin: 0px;
 }
 
 div.menu ul
 {
     list-style-type:none;
     margin:0;
-    padding:0;
+    padding:10px;
+    border: 1px black solid;
+}
+
+div.menu .right {
+    float: right;
+    margin-top: -28px;
+}
+
+div.menu .right .item {
+    padding-right: 10px;
+}
+
+div.menu a {
+    text-decoration: none;
 }
 
 div.menu li
 {
     display:inline;
+    padding-right: 10px;
 }
+
+.login {
+    width:250px;
+    margin:auto;
+    margin-top: 10px;
+    border:1px #CCC solid;
+    padding:10px;
+    background-color:#E9E9E9;
+    overflow: auto;
+}
+
+.login input[type=text], .login input[type=password] {
+    padding:5px;
+    margin: 3px;
+    width: 150px;
+    float: left;
+ }
+
+ .login input[type=submit], .login a {
+    float: right;
+    margin: 5px;
+ }
+ 
+ .login label {
+     width: 75px;
+     float: left;
+     margin-top: 7px;
+ }
+ 
+ .login h1 {
+     text-align: center;
+ }
+ 
+ .clear {
+     clear:both;
+ }
+ 
+ .form_content {
+    width: 370px;
+    overflow: auto;
+ }
+ 
+ .form_content label {
+    float:left;
+    width: 110px;
+    margin-bottom: 3px;
+ }
+ 
+ .form_content input, .form_content select {
+    float:left;
+    width: 250px;
+    margin-bottom: 3px;
+ }
+ 
+ .form_content input[type=submit] {
+    margin-top: 3px;
+    width: 100px;
+    float:right;
+ }
+ 
+ .content {
+    margin: 0px 20px;
+ }
+ 
+ .error_message {
+    color: red;
+    margin-left: 10px;
+    margin-top: 10px;
+ }
+ 
+ .content table {
+     margin: 0px;
+     padding: 0px;
+     border-collapse:collapse;
+     width: 100%;
+ }
+ 
+ .content table td {
+    padding: 8px;
+ }
+ 
+ .content table tr {
+     text-align: left
+ }
+
+ .content table tr.odd {
+     background: none repeat scroll 0 0 #E8EDFF;
+ }
+ 
+ .content .button {
+     padding-top: 10px;
+     padding-right: 10px;
+ }
+ 
+ .content .button_delete, .content .button_edit, .content .button_add {
+     display:block; 
+     height:20px;
+     background-size: auto 100%;
+     background-repeat: no-repeat;
+     background-position: left;
+ }
+ 
+ .content .button_delete {     
+     background-image: url('images/delete-icon.png');
+ } 
+ 
+ .content .button_edit {     
+     background-image: url('images/edit-icon.png');
+ }
+ 
+ .content .button_add {
+     background-image: url('images/add-icon.png');
+     background-position: right;
+ }

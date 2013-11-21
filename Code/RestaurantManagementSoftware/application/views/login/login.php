@@ -10,9 +10,15 @@
 if (!isset($submitAction)) {
     $submitAction = 'login/process_login';
 }
-?>
-<h1>Login</h1>
-<?php
+
+if (isset($loginFeedbackMessage)) {
+    $messages = $loginFeedbackMessage;
+} elseif (Session::instance()->get('loginFeedbackMessage') != '') {
+    $messages = Session::instance()->get_once('loginFeedbackMessage');
+} else {
+    $messages = array();
+}
+
 $ipaddress = '127.0.0.1';
      if (getenv('HTTP_CLIENT_IP'))
          $ipaddress = getenv('HTTP_CLIENT_IP');
@@ -28,15 +34,28 @@ $ipaddress = '127.0.0.1';
          $ipaddress = getenv('REMOTE_ADDR');
      else
          $ipaddress = 'UNKNOWN';
-
-//Login Form
-echo Form::open($submitAction);
-echo Form::label('username', 'Username :');
-echo Form::input('username') . "<br/>";
-echo Form::label('password', 'Password :');
-echo Form::password('password') . "<br/>";
-echo Form::hidden('ipaddress', $ipaddress);
-echo Form::submit(NULL, 'Login');
-echo Form::close();
-echo HTML::anchor('login/register', 'Register') . "<br/>";
-
+?>
+<div class="login">
+    <h1>Login</h1>
+    <?php
+    // Login feedback message
+    ?><div class="error_message"><?php
+    foreach ($messages as $message):
+        echo $message."<br/>";
+    endforeach;
+    ?></div><?php
+    //Login Form
+    echo Form::open($submitAction);
+    echo Form::label('username', 'Username :');
+    echo Form::input('username', '', array ('placeholder'=> 'username')) . "<br/>";
+    echo Form::label('password', 'Password :');
+    echo Form::password('password', '', array ('placeholder'=> 'password')) . "<br/>";
+    echo Form::hidden('ipaddress', $ipaddress);
+    ?>
+    <div class="clear"></div>    
+    <?php
+    echo Form::submit(NULL, 'Login');
+    echo HTML::anchor('login/register', 'Register') . "<br/>";
+    echo Form::close();
+    ?>
+</div>

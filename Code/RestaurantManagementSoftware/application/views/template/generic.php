@@ -28,13 +28,19 @@
                     <li><?php echo HTML::anchor('index/index', 'Home'); ?></li>
                     <li><?php echo HTML::anchor('supplier/findAll', 'Suppliers'); ?></li>
                     <li><?php echo HTML::anchor('productCategory/findAll', 'Product Categories'); ?></li>
-                    <li><?php echo HTML::anchor('login/logout', 'Logout'); ?></li>
                 </ul>
+                <div class="right">
+                    <span class="item">
+                        <?php
+                         if (isset($global_username)) {
+                            echo 'Welcome back ' . $global_username;
+                        } ?>
+                    </span>
+                    <span class="item">
+                        <?php echo HTML::anchor('login/logout', 'Logout'); ?>
+                    </span>
+                </div>
             </div><?php
-            
-            if (isset($global_username)) {
-                echo 'Welcome back ' . $global_username;
-            }
         }
 
         if (isset($feedbackMessage)) {
@@ -45,11 +51,13 @@
             $messages = array();
         }
 
+        ?><div class="error_message"><?php
         foreach ($messages as $message):
             echo $message."<br/>";
         endforeach;
-
-        echo $content
-    ?>
+        ?></div>
+        <div class="content"><?php
+            echo $content;
+        ?></div>
     </body>
 </html>

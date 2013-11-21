@@ -21,18 +21,16 @@ class Controller_Template_Generic extends Controller_Template {
      */
     public function before() {
         parent::before();
-        $current = $this->request->uri();
         $this->template->hide_menu = true;
         
         $controller = strtolower($this->request->controller());
         if ($controller != 'login') {
             $this->template->hide_menu = false;
-        }
-        
-        if ($current != 'login/login' && $current != 'login/process_login') {
+
             if ((Valid::not_empty($cookie = Cookie::get('secure_login')))) {
                 $repo = new Repository_User();
-                if ($user = $repo->getBySessionID($cookie)) {
+                $user = $repo->getBySessionID($cookie);
+                if ($user != null) {
                     $this->template->global_username = $user[0]->getName();
                 } else {
                     $this->redirect('login/login');
@@ -64,6 +62,19 @@ class Controller_Template_Generic extends Controller_Template {
 
             $scripts = array();
 
+            $controller = strtolower($this->request->controller());
+            $action = strtolower($this->request->action());
+            if ($controller == 'login' && $action == 'login') {
+                $sessionFeedbackmessage = Session::instance()->get_once('feedbackMessage');                
+                if (isset($this->template->feedbackMessage)) {
+                    $this->template->loginFeedbackMessage = $this->template->feedbackMessage;
+                    $this->template->feedbackMessage = array();
+                    
+                } else if (isset($sessionFeedbackmessage)) {
+                    Session::instance()->set('loginFeedbackMessage', $sessionFeedbackmessage);
+                }
+            }
+            
             $this->template->styles = array_merge($this->template->styles, $styles);
             $this->template->scripts = array_merge($this->template->scripts, $scripts);
         }

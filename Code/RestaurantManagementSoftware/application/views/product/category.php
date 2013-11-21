@@ -21,25 +21,27 @@ if (!isset($submitAction)) {
 }
 
 ?>
-<h1><?php echo $pageName; ?></h1>
-<?php
-echo Form::open($submitAction);
-echo Form::hidden('id', $category->getId()) . "<br/>";
-echo Form::hidden('order', $category->getOrder()) . "<br/>";
-echo Form::label('name', 'Name :');
-echo Form::input('name', $category->getName()) . "<br/>";
-echo Form::label('parent', 'Parent :');
-?>
-<select name='parent'>
-    <option value='-1'>None</option>
-    <?php foreach ($parents as $p) { 
-        $selectionText = ($p->getId() == $category->getParent()) ? 'selected="selected"' : ''; ?>
-    <option value='<?php echo $p->getId(); ?>' <?php echo $selectionText; ?> >
-        <?php echo $p->getName(); ?>
-    </option>
-    <?php } ?>
-</select> </br>
-<?php
-echo Form::submit(NULL, 'Save');
-echo Form::close();
-?>  
+<div class="form_content">
+    <h1><?php echo $pageName; ?></h1>
+    <?php
+    echo Form::open($submitAction);
+    echo Form::hidden('id', $category->getId()) . "<br/>";
+    echo Form::hidden('order', $category->getOrder()) . "<br/>";
+    echo Form::label('name', 'Name :');
+    echo Form::input('name', $category->getName()) . "<br/>";
+    echo Form::label('parent', 'Parent :');
+    ?>
+    <select name='parent'>
+        <option value='-1'>None</option>
+        <?php foreach ($parents as $p) { 
+            $selectionText = ($p->getId() == $category->getParent()) ? 'selected="selected"' : ''; ?>
+        <option value='<?php echo $p->getId(); ?>' <?php echo $selectionText; ?> >
+            <?php echo $p->getName(); ?>
+        </option>
+        <?php } ?>
+    </select> </br>
+    <?php
+    echo Form::submit(NULL, 'Save');
+    echo Form::close();
+    ?>
+</div>
