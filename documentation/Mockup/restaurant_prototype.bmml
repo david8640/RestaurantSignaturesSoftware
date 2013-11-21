@@ -1,0 +1,61 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="1472" measuredH="680" mockupW="1225" mockupH="656">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="247" y="24" w="1225" h="656" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Image" x="251" y="97" w="1217" h="577" measuredW="2880" measuredH="1364" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Screen%2520Shot%25202013-11-21%2520at%25204.31.08%2520PM.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::ComboBox" x="1085" y="101" w="-1" h="-1" measuredW="157" measuredH="24" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Restaurant%20Signature</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::DataGrid" x="272" y="192" w="631" h="192" measuredW="423" measuredH="94" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%5Cr%2C%20Address%2C%20Edit%2C%20Delete%0ARestaurant%201%2C%201500%20papineau%5C%2C%20Montr%E9al%5C%2C%20QC%5C%2C%20J9J%205R6%2C%20%0ARestaurant%202%2C%201501%20papineau%5C%2C%20Montr%E9al%5C%2C%20QC%5C%2C%20J9J%205R6%2C%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::TextArea" x="261" y="133" w="-1" h="-1" measuredW="200" measuredH="140" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>16777215</borderColor>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="272" y="153" w="-1" h="-1" measuredW="135" measuredH="32" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Restaurants</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Image" x="850" y="259" w="24" h="22" measuredW="256" measuredH="256" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/delete-icon.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Image" x="791" y="258" w="26" h="26" measuredW="256" measuredH="256" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/edit-icon.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Image" x="872" y="389" w="26" h="24" measuredW="128" measuredH="128" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/add-icon.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::Image" x="850" y="228" w="24" h="22" measuredW="256" measuredH="256" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/delete-icon.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Image" x="791" y="227" w="26" h="26" measuredW="256" measuredH="256" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/edit-icon.png</src>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

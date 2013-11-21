@@ -53,7 +53,7 @@ class Controller_Login extends Controller_Template_Generic {
                     // Login failed
                     unset($password);
                     unset($salt);
-                    $session->set('feedbackMessage', array('Incorrect password ☺)'));
+                    Session::instance()->set('feedbackMessage', array('Incorrect password ☺)'));
                     $this->redirect('login/login');
                 }
             } //defualt
