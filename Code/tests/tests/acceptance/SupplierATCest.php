@@ -4,14 +4,14 @@ class SupplierATCest {
 
     // tests
     public function goToAddPage(\WebGuy $I) {
-        $I->wantTo('Go to the add supplier page');
+        $I->wantTo('SUP-1 Go to the add supplier page');
         $I->amOnPage('/index.php/supplier/findAll');
         $I->click('Add');
         $I->see('Add Supplier');
     }
 
     public function add(\WebGuy $I) {
-        $I->wantTo('Add a supplier (Supplier 2)');
+        $I->wantTo('SUP-1 Add a supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/create/');
         // fill the fields
         $I->fillField('name', 'Supplier 2');
@@ -25,7 +25,7 @@ class SupplierATCest {
     }
 
     public function checkPageContent(\WebGuy $I) {
-        $I->wantTo('Visit the suppliers page and check content');
+        $I->wantTo('SUP-8 Visit the suppliers page and check content');
         $I->amOnPage('/index.php/supplier/findAll');
         // check if we are on the good page
         $I->see('Suppliers');
@@ -41,7 +41,7 @@ class SupplierATCest {
     } 
 
     public function edit(\WebGuy $I) {
-        $I->wantTo('Edit the first default supplier (Supplier 2)');
+        $I->wantTo('SUP-2 Edit the first default supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/findAll');
         // Delete first default supplier
         $I->click('Edit', $this->locationInTable.'td[6]');
@@ -63,7 +63,7 @@ class SupplierATCest {
     }
 
     public function delete(\WebGuy $I) {
-        $I->wantTo('Delete the first default supplier (Supplier 2)');
+        $I->wantTo('SUP-4 Delete the first default supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/findAll');
         // Delete first default supplier
         $I->click('Delete', $this->locationInTable.'td[7]');
@@ -75,7 +75,7 @@ class SupplierATCest {
     }
 
     public function editInvalidSupplier(\WebGuy $I) {
-        $I->wantTo('Edit an invalid supplier (a)');
+        $I->wantTo('SUP-2 Edit an invalid supplier (a)');
         $I->amOnPage('/index.php/supplier/edit/a');
         $I->canSee('Invalid supplier id.');
         $I->wantTo('Edit an invalid supplier (9999999)');
@@ -84,10 +84,10 @@ class SupplierATCest {
     }
 
     public function deleteInvalidSupplier(\WebGuy $I) {
-        $I->wantTo('Delete an invalid supplier (a)');
+        $I->wantTo('SUP-5 Delete an invalid supplier (a)');
         $I->amOnPage('/index.php/supplier/delete/a');
         $I->canSee('Invalid supplier id.');
-        $I->wantTo('Delete an invalid supplier (9999999)');
+        $I->wantTo('SUP-5 Delete an invalid supplier (9999999)');
         $I->amOnPage('/index.php/supplier/delete/9999999');
         $I->canSee('An error occurred while deleting the supplier.');
     }
