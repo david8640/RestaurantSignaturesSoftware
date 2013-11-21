@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 CREATE TABLE IF NOT EXISTS `product_category` (
   `id_category` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `parent` INT(11),` 
+  `parent` INT(11), 
   `orderof` INT(11) NOT NULL,
   UNIQUE (`orderof`),
   PRIMARY KEY (`id_category`),

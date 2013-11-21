@@ -55,30 +55,7 @@ class LoginCept {
     }
     
         
-	public function cor27(\WebGuy $I) {
-        $I->wantTo('COR-27: Create an account');
-        $I->amOnPage('/');
-        $I->see('Login');
-        //fill in login fields
-        $I->fillField('username', 'aassaly');
-        $I->fillField('password', 'andrew');
-        //attempt to login.
-        $I->click('Login');
-        $I->see('Welcome Back Andrew Assaly!');
-        $I->click('Register!');
-        $I->see('Register a new user');
-        $I->fillField('username', 'admin');
-        $I->fillField('name', 'John Doe');
-        $I->fillField('email', 'john@doe.com');
-        $I->fillField('password', 'password');
-        $I->click('Register');
-        $I->see('New user created!');
-        $I->see('Login');
-        $I->fillField('username', 'admin');
-        $I->fillField('password', 'password');
-        $I->click('Login');
-        $I->see('Welcome Back anonymous!');
-    }
+
     
       public function cor8(\WebGuy $I) {
         $I->wantTo('COR-8: Allow a user to log out from the menu');
@@ -96,7 +73,24 @@ class LoginCept {
     }   
     
     
-    
+    	public function cor27(\WebGuy $I) {
+        $I->wantTo('COR-27: Create an account');
+        $I->amOnPage('/');
+        //attempt to login.
+        $I->click('Register');
+        $I->see('Register a new user');
+        $I->fillField('username', 'admin');
+        $I->fillField('name', 'John Doe');
+        $I->fillField('email', 'john@doe.com');
+        $I->fillField('password', 'password');
+        $I->click('Register');
+        $I->see('New user created!');
+        $I->see('Login');
+        $I->fillField('username', 'admin');
+        $I->fillField('password', 'password');
+        $I->click('Login');
+        $I->see('Welcome Back John Doe');
+    }
     
     
     

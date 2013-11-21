@@ -161,7 +161,7 @@ BEGIN
 	IF EXISTS (SELECT * FROM users WHERE id_user = u_id_user) THEN
 		UPDATE users SET
 			username = u_username,
-			first_name = u_name,
+			name = u_name,
 			email = u_email,
 			password = u_password,
 			salt = u_salt

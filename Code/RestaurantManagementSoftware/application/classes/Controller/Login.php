@@ -98,7 +98,7 @@ class Controller_Login extends Controller_Template_Generic {
             $this->template->content = $view;
         } else {
             // Empty POST
-            Session::instance()->set('feedbackMessage', array('An error occured.'));
+            Session::instance()->set('feedbackMessage', array('An error occurred.'));
             $this->redirect('login/register');
         }
     }
