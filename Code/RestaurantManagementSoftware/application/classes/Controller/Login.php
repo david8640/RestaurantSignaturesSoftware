@@ -45,7 +45,7 @@ class Controller_Login extends Controller_Template_Generic {
                         unset($salt);
                         unset($user_id);
                         unset($user_browser);
-                        $this->redirect('index');
+                        $this->redirect('index/index');
                     } else {
                         Session::instance()->set('feedbackMessage', array('Error saving session to Database'));
                     }

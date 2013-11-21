@@ -136,8 +136,8 @@ Kohana::modules(array(
  */
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
-		'controller' => 'index',
-		'action'     => 'index',
+		'controller' => 'login',
+		'action'     => 'login',
 	));
 	
 Cookie::$salt = 'RestaurantManagementSoftware';

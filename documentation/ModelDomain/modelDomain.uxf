@@ -4,54 +4,6 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>876</x>
-      <y>210</y>
-      <w>60</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>MenuPrixFixe
---
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>144</x>
-      <y>258</y>
-      <w>126</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>Recipe
---
--id: int
--name: string
--nbPeople: int
--description: string
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Text</type>
-    <coordinates>
-      <x>732</x>
-      <y>660</y>
-      <w>84</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>+Menu
-  -Wine pairing
-+Labor
-+Special Events</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
       <x>936</x>
       <y>474</y>
       <w>126</w>
@@ -64,94 +16,6 @@
 -phoneNumber: char(14)
 -faxNumber: char(14)
 
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>366</x>
-      <y>576</y>
-      <w>102</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>lt=:</panel_attributes>
-    <additional_attributes>90;42;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>1062</x>
-      <y>108</y>
-      <w>102</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>90;18;90;30;18;30;18;42</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>498</x>
-      <y>384</y>
-      <w>126</w>
-      <h>84</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>18;18;18;18;54;18;114;18;114;72</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>1170</x>
-      <y>150</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Customer
---
-username
--password
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>204</x>
-      <y>0</y>
-      <w>66</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Unit
---
-
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>258</x>
-      <y>516</y>
-      <w>126</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>OrderLine
---
--ordered: Date
--delivered: Date
--qty: int
--unitOfQty: Unit
--productId: int
--supplierId: int
--poNumber: string
 
 
 </panel_attributes>
@@ -175,59 +39,135 @@ bg=blue</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>54</x>
-      <y>0</y>
-      <w>126</w>
-      <h>54</h>
+      <x>720</x>
+      <y>210</y>
+      <w>66</w>
+      <h>48</h>
     </coordinates>
-    <panel_attributes>Scalability
+    <panel_attributes>MenuSpecial
 --
--unit1: Unit
--unit2: Unit
--factor: double
 
 
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Note</type>
-    <coordinates>
-      <x>522</x>
-      <y>372</y>
-      <w>96</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes>supplierId = null 
--&gt; InHouseProduct
-bg=black
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>756</x>
-      <y>318</y>
-      <w>108</w>
-      <h>66</h>
+      <x>876</x>
+      <y>474</y>
+      <w>72</w>
+      <h>30</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>18;18;18;42;96;42;96;48;96;54</additional_attributes>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>60;18;18;18</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Note</type>
+    <type>com.umlet.element.custom.Text</type>
     <coordinates>
-      <x>240</x>
-      <y>630</y>
-      <w>156</w>
-      <h>24</h>
+      <x>732</x>
+      <y>660</y>
+      <w>84</w>
+      <h>48</h>
     </coordinates>
-    <panel_attributes>*LeftOver = (qty*unitOfQty) 
-=&gt; round according to product unit
-bg=black
+    <panel_attributes>+Menu
+  -Wine pairing
++Labor
++Special Events</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>726</x>
+      <y>636</y>
+      <w>240</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Exclude
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>366</x>
+      <y>576</y>
+      <w>102</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=:</panel_attributes>
+    <additional_attributes>90;42;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>78</x>
+      <y>180</y>
+      <w>324</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>312;252;18;252;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>780</x>
+      <y>108</y>
+      <w>30</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>18;18;18;84;18;90;18;102;18;102</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>138</x>
+      <y>444</y>
+      <w>126</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Order
+--
+
+
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>738</x>
+      <y>78</y>
+      <w>126</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Menu
+--
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>390</x>
+      <y>108</y>
+      <w>102</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+subcategory</panel_attributes>
+    <additional_attributes>90;18;90;48;18;48;18;18</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
@@ -247,65 +187,54 @@ bg=black
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>300</x>
-      <y>588</y>
-      <w>30</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>lt=:</panel_attributes>
-    <additional_attributes>18;42;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>792</x>
-      <y>210</y>
-      <w>78</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>MenuSpecificEvent
---
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>822</x>
-      <y>294</y>
-      <w>72</w>
+      <x>654</x>
+      <y>84</y>
+      <w>96</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=*
 m2=1</panel_attributes>
-    <additional_attributes>18;18;60;18</additional_attributes>
+    <additional_attributes>18;18;84;18</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>780</x>
-      <y>108</y>
-      <w>30</w>
-      <h>114</h>
+      <x>246</x>
+      <y>294</y>
+      <w>162</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=linked to</panel_attributes>
+    <additional_attributes>18;84;150;84;150;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>384</x>
+      <y>228</y>
+      <w>96</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>18;18;18;84;18;90;18;102;18;102</additional_attributes>
+    <additional_attributes>18;36;18;24;18;18;84;18</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>384</x>
-      <y>78</y>
+      <x>144</x>
+      <y>258</y>
       <w>126</w>
-      <h>48</h>
+      <h>60</h>
     </coordinates>
-    <panel_attributes>MenuItemCategory
+    <panel_attributes>Recipe
 --
-
-
+-id: int
+-name: string
+-nbPeople: int
+-description: string
 
 
 </panel_attributes>
@@ -314,69 +243,53 @@ m2=1</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>906</x>
-      <y>318</y>
-      <w>102</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1
-subcategory</panel_attributes>
-    <additional_attributes>90;18;90;48;18;48;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>444</x>
-      <y>270</y>
-      <w>282</w>
-      <h>42</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-m2=1
-is a</panel_attributes>
-    <additional_attributes>18;30;270;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>156</x>
-      <y>42</y>
-      <w>654</w>
-      <h>138</h>
+      <x>252</x>
+      <y>264</y>
+      <w>96</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=*
 m2=1</panel_attributes>
-    <additional_attributes>642;36;642;18;174;18;174;126;18;126</additional_attributes>
+    <additional_attributes>84;18;18;18</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>1134</x>
-      <y>108</y>
-      <w>114</w>
-      <h>54</h>
+      <x>186</x>
+      <y>474</y>
+      <w>84</w>
+      <h>108</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>18;18;18;30;102;30;102;42</additional_attributes>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>72;96;18;96;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>486</x>
+      <y>438</y>
+      <w>294</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>18;18;18;102;78;102;228;102;228;42;282;42</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>714</x>
-      <y>288</y>
+      <x>546</x>
+      <y>78</y>
       <w>126</w>
       <h>48</h>
     </coordinates>
-    <panel_attributes>Product
+    <panel_attributes>MenuItem
 --
-productId: int
-
-
-
+-price: double
+-description: string
+-name: string
 
 </panel_attributes>
     <additional_attributes/>
@@ -398,31 +311,17 @@ productId: int
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>780</x>
-      <y>108</y>
-      <w>144</w>
-      <h>114</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>18;18;18;84;132;84;132;96;132;102</additional_attributes>
-  </element>
-  <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>768</x>
-      <y>462</y>
+      <x>1020</x>
+      <y>150</y>
       <w>126</w>
-      <h>60</h>
+      <h>48</h>
     </coordinates>
-    <panel_attributes>SupplierProduct
+    <panel_attributes>Admin
 --
--productId: int
--supplierId: int
--price: double
--unit: Unit
-
+username
+-password
 
 
 </panel_attributes>
@@ -431,59 +330,38 @@ productId: int
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>390</x>
-      <y>108</y>
-      <w>102</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1
-subcategory</panel_attributes>
-    <additional_attributes>90;18;90;48;18;48;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>432</x>
-      <y>438</y>
-      <w>30</w>
+      <x>444</x>
+      <y>270</y>
+      <w>282</w>
       <h>42</h>
     </coordinates>
-    <panel_attributes>lt=:</panel_attributes>
-    <additional_attributes>18;18;18;30</additional_attributes>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+is a</panel_attributes>
+    <additional_attributes>18;30;270;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>486</x>
-      <y>438</y>
-      <w>294</w>
-      <h>114</h>
+      <x>756</x>
+      <y>318</y>
+      <w>108</w>
+      <h>66</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>18;18;18;102;78;102;228;102;228;42;282;42</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>18;18;18;42;96;42;96;48;96;54</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Class</type>
+    <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>390</x>
-      <y>396</y>
-      <w>126</w>
-      <h>60</h>
+      <x>1062</x>
+      <y>108</y>
+      <w>102</w>
+      <h>54</h>
     </coordinates>
-    <panel_attributes>Inventory
---
--productId: int
--supplierId: int
--price
--unit: Unit
-
-
-
-
-</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>90;18;90;30;18;30;18;42</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
@@ -503,24 +381,67 @@ subcategory</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Class</type>
+    <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>576</x>
-      <y>456</y>
-      <w>126</w>
+      <x>156</x>
+      <y>42</y>
+      <w>654</w>
+      <h>138</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>642;36;642;18;174;18;174;126;18;126</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>180</x>
+      <y>300</y>
+      <w>30</w>
       <h>60</h>
     </coordinates>
-    <panel_attributes>InHouseProduct
---
--productId: int
--price: double
--unit: Unit
--creationDate: Date
-
-
-
-</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>18;48;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>42</x>
+      <y>180</y>
+      <w>108</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>96;288;18;288;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>126</x>
+      <y>24</y>
+      <w>1044</w>
+      <h>138</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=*</panel_attributes>
+    <additional_attributes>1032;54;1032;24;138;18;138;114;18;114;18;126</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>780</x>
+      <y>108</y>
+      <w>144</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>18;18;18;84;132;84;132;96;132;102</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
@@ -534,6 +455,24 @@ subcategory</panel_attributes>
 --
 -alertIfLeftOverGreaterOrEquals
 -targetFoodCost
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>54</x>
+      <y>0</y>
+      <w>126</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>Scalability
+--
+-unit1: Unit
+-unit2: Unit
+-factor: double
 
 
 </panel_attributes>
@@ -560,16 +499,346 @@ subcategory</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>546</x>
+      <x>822</x>
+      <y>666</y>
+      <w>126</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Event
+--
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>390</x>
+      <y>468</y>
+      <w>108</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>need a local copy
+-price
+-unit
+(avoid problem if price 
+of product change)
+bg=black
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>420</x>
+      <y>294</y>
+      <w>30</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>18;18;18;102</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>906</x>
+      <y>318</y>
+      <w>102</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+subcategory</panel_attributes>
+    <additional_attributes>90;18;90;48;18;48;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>882</x>
+      <y>288</y>
+      <w>126</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>ProductCategory
+--
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1134</x>
+      <y>108</y>
+      <w>114</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>18;18;18;30;102;30;102;42</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>576</x>
+      <y>456</y>
+      <w>126</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>InHouseProduct
+--
+-productId: int
+-price: double
+-unit: Unit
+-creationDate: Date
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>912</x>
       <y>78</y>
       <w>126</w>
       <h>48</h>
     </coordinates>
-    <panel_attributes>MenuItem
+    <panel_attributes>Design
 --
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>522</x>
+      <y>372</y>
+      <w>96</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>supplierId = null 
+-&gt; InHouseProduct
+bg=black
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>498</x>
+      <y>384</y>
+      <w>126</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>18;18;18;18;54;18;114;18;114;72</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>768</x>
+      <y>462</y>
+      <w>126</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>SupplierProduct
+--
+-productId: int
+-supplierId: int
 -price: double
--description: string
--name: string
+-unit: Unit
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1092</x>
+      <y>78</y>
+      <w>126</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>User
+--
+username
+-password
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>384</x>
+      <y>78</y>
+      <w>126</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>MenuItemCategory
+--
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>300</x>
+      <y>588</y>
+      <w>30</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=:</panel_attributes>
+    <additional_attributes>18;42;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>258</x>
+      <y>516</y>
+      <w>126</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>OrderLine
+--
+-ordered: Date
+-delivered: Date
+-qty: int
+-unitOfQty: Unit
+-productId: int
+-supplierId: int
+-poNumber: string
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>648</x>
+      <y>402</y>
+      <w>30</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>18;18;18;54</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>876</x>
+      <y>210</y>
+      <w>60</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>MenuPrixFixe
+--
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>414</x>
+      <y>618</y>
+      <w>108</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>need a local copy
+-price
+-unit
+(avoid problem if price 
+of product change)
+bg=black
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>492</x>
+      <y>90</y>
+      <w>66</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>54;18;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>792</x>
+      <y>210</y>
+      <w>78</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>MenuSpecificEvent
+--
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>240</x>
+      <y>630</y>
+      <w>156</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>*LeftOver = (qty*unitOfQty) 
+=&gt; round according to product unit
+bg=black
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>432</x>
+      <y>438</y>
+      <w>30</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=:</panel_attributes>
+    <additional_attributes>18;18;18;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>468</x>
+      <y>222</y>
+      <w>126</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Alternative
+--
+-ingredientAlternativeId: int
+
 
 </panel_attributes>
     <additional_attributes/>
@@ -591,28 +860,69 @@ subcategory</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
+    <type>com.umlet.element.custom.Text</type>
+    <coordinates>
+      <x>444</x>
+      <y>336</y>
+      <w>66</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Determine if
+there is some
+left or update
+inventory</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>186</x>
-      <y>474</y>
-      <w>84</w>
-      <h>108</h>
+      <x>822</x>
+      <y>402</y>
+      <w>30</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=*
 m2=1</panel_attributes>
-    <additional_attributes>72;96;18;96;18;18</additional_attributes>
+    <additional_attributes>18;18;18;60</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>738</x>
+      <y>108</y>
+      <w>72</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>60;18;60;84;18;84;18;102</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>846</x>
+      <y>84</y>
+      <w>78</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>18;18;66;18</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>720</x>
-      <y>210</y>
-      <w>66</w>
+      <x>714</x>
+      <y>288</y>
+      <w>126</w>
       <h>48</h>
     </coordinates>
-    <panel_attributes>MenuSpecial
+    <panel_attributes>Product
 --
+productId: int
+
+
 
 
 </panel_attributes>
@@ -621,14 +931,86 @@ m2=1</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>468</x>
-      <y>222</y>
+      <x>1170</x>
+      <y>150</y>
       <w>126</w>
       <h>48</h>
     </coordinates>
-    <panel_attributes>Alternative
+    <panel_attributes>Customer
 --
--ingredientAlternativeId: int
+username
+-password
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>822</x>
+      <y>294</y>
+      <w>72</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>18;18;60;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>108</x>
+      <y>180</y>
+      <w>48</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>36;102;18;102;18;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>192</x>
+      <y>108</y>
+      <w>426</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>18;150;18;84;414;84;414;18</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>660</x>
+      <y>108</y>
+      <w>150</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>138;18;138;84;18;84;18;102</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>390</x>
+      <y>396</y>
+      <w>126</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Inventory
+--
+-productId: int
+-supplierId: int
+-price
+-unit: Unit
+
+
 
 
 </panel_attributes>
@@ -654,128 +1036,6 @@ m2=1</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>108</x>
-      <y>180</y>
-      <w>48</w>
-      <h>114</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>36;102;18;102;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>822</x>
-      <y>666</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Event
---
-
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>912</x>
-      <y>78</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Design
---
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>654</x>
-      <y>84</y>
-      <w>96</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>18;18;84;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>492</x>
-      <y>90</y>
-      <w>66</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>54;18;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>252</x>
-      <y>264</y>
-      <w>96</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>84;18;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>738</x>
-      <y>108</y>
-      <w>72</w>
-      <h>114</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>60;18;60;84;18;84;18;102</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>660</x>
-      <y>108</y>
-      <w>150</w>
-      <h>114</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>138;18;138;84;18;84;18;102</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>882</x>
-      <y>288</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>ProductCategory
---
-
-
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
       <x>366</x>
       <y>474</y>
       <w>414</w>
@@ -783,99 +1043,6 @@ m2=1</panel_attributes>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>18;114;264;114;372;114;372;18;402;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>738</x>
-      <y>78</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Menu
---
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>192</x>
-      <y>108</y>
-      <w>426</w>
-      <h>162</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-m2=*</panel_attributes>
-    <additional_attributes>18;150;18;84;414;84;414;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Note</type>
-    <coordinates>
-      <x>414</x>
-      <y>618</y>
-      <w>108</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>need a local copy
--price
--unit
-(avoid problem if price 
-of product change)
-bg=black
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>78</x>
-      <y>180</y>
-      <w>324</w>
-      <h>264</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>312;252;18;252;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>876</x>
-      <y>474</y>
-      <w>72</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>60;18;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>384</x>
-      <y>228</y>
-      <w>96</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>18;36;18;24;18;18;84;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>420</x>
-      <y>294</y>
-      <w>30</w>
-      <h>114</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>18;18;18;102</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -891,184 +1058,17 @@ m2=1</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>138</x>
-      <y>444</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Order
---
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>822</x>
-      <y>402</y>
-      <w>30</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>18;18;18;60</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>42</x>
-      <y>180</y>
-      <w>108</w>
-      <h>300</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>96;288;18;288;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>246</x>
-      <y>294</y>
-      <w>162</w>
-      <h>96</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m1=1
-r1=linked to</panel_attributes>
-    <additional_attributes>18;84;150;84;150;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Note</type>
-    <coordinates>
-      <x>390</x>
-      <y>468</y>
-      <w>108</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>need a local copy
--price
--unit
-(avoid problem if price 
-of product change)
-bg=black
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>846</x>
-      <y>84</y>
-      <w>78</w>
+      <x>204</x>
+      <y>0</y>
+      <w>66</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>18;18;66;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>648</x>
-      <y>402</y>
-      <w>30</w>
-      <h>66</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>18;18;18;54</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>1092</x>
-      <y>78</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>User
+    <panel_attributes>Unit
 --
-username
--password
+
 
 
 </panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>1020</x>
-      <y>150</y>
-      <w>126</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Admin
---
-username
--password
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Package</type>
-    <coordinates>
-      <x>726</x>
-      <y>636</y>
-      <w>240</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>Exclude
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>180</x>
-      <y>300</y>
-      <w>30</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>18;48;18;18</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>126</x>
-      <y>24</y>
-      <w>1044</w>
-      <h>138</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>1032;54;1032;24;138;18;138;114;18;114;18;126</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Text</type>
-    <coordinates>
-      <x>444</x>
-      <y>336</y>
-      <w>66</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Determine if
-there is some
-left or update
-inventory</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

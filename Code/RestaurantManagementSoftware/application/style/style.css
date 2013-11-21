@@ -16,3 +16,15 @@ th
 {
     height:100px;
 }
+
+div.menu ul
+{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+div.menu li
+{
+    display:inline;
+}

@@ -1,6 +1,6 @@
 <?php
 /*
- *  <copyright file="Generic.php" company="RestaurantManagementSoftware">
+ *  <copyright file="process_registration.php" company="RestaurantManagementSoftware">
  *     Copyright (c) 2013, 2014 All Right Reserved
  *  </copyright>
  *  <author>David Fortin</author>
@@ -41,12 +41,7 @@
         foreach ($messages as $message):
             echo $message . "<br/>";
         endforeach;
-        ?>
-
-
-
-
-        <?php
+        
         //Login Form
         echo "Registration:";
         echo form::open($submitAction);

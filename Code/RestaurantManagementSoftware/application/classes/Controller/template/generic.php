@@ -22,11 +22,18 @@ class Controller_Template_Generic extends Controller_Template {
     public function before() {
         parent::before();
         $current = $this->request->uri();
+        $this->template->hide_menu = true;
+        
+        $controller = strtolower($this->request->controller());
+        if ($controller != 'login') {
+            $this->template->hide_menu = false;
+        }
+        
         if ($current != 'login/login' && $current != 'login/process_login') {
             if ((Valid::not_empty($cookie = Cookie::get('secure_login')))) {
                 $repo = new Repository_User();
                 if ($user = $repo->getBySessionID($cookie)) {
-                    echo "Welcome Back " . $user[0]->getName() . '!<br/>';
+                    $this->template->global_username = $user[0]->getName();
                 } else {
                     $this->redirect('login/login');
                 }
