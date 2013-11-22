@@ -1,16 +1,19 @@
 <?php
 class SupplierATCest {
-    private $locationInTable = "//table[@id='suppliers']//td[text()='Supplier 2']/ancestor::tr/";
-
+    private $locationInTable = "//table[@id='suppliers']//tr[last()]//";
+    
     // tests
     public function goToAddPage(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('SUP-1 Go to the add supplier page');
         $I->amOnPage('/index.php/supplier/findAll');
-        $I->click('Add');
+        $I->click('.button_add');
         $I->see('Add Supplier');
+        Codeception\Module\logout($I);
     }
 
     public function add(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('SUP-1 Add a supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/create/');
         // fill the fields
@@ -22,9 +25,11 @@ class SupplierATCest {
         $I->click('Save');
         // Check if we are on the good page
         $I->canSee('The supplier was added.');
+        Codeception\Module\logout($I);
     }
 
     public function checkPageContent(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('SUP-8 Visit the suppliers page and check content');
         $I->amOnPage('/index.php/supplier/findAll');
         // check if we are on the good page
@@ -34,20 +39,18 @@ class SupplierATCest {
         $I->see('David Fortin', $this->locationInTable."td[3]");
         $I->see('450-450-4500', $this->locationInTable."td[4]");
         $I->see('450-450-4000', $this->locationInTable."td[5]");
-        // check if the add, edit and delete links exists
-        $I->seeLink('Add');
-        $I->seeLink('Edit');
-        $I->seeLink('Delete');
+        Codeception\Module\logout($I);
     } 
 
     public function edit(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('SUP-2 Edit the first default supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/findAll');
         // Delete first default supplier
-        $I->click('Edit', $this->locationInTable.'td[6]');
+        $I->click($this->locationInTable.'*[contains(@class, "button_edit")]');
         // check if we are on the edit page
         $I->see('Edit Supplier');
-        $I->fillField('name', 'Supplier 2');
+        $I->fillField('name', 'Supplier 3');
         $I->fillField('contactName', 'David Fortin1');
         $I->fillField('phoneNumber', '450-450-4501');
         $I->fillField('faxNumber', '450-450-4001');
@@ -56,43 +59,51 @@ class SupplierATCest {
         // Check if we are on the good page
         $I->canSee('The supplier was updated.');
         // Check if this supplier has been edited
-        $I->canSee('Supplier 2', $this->locationInTable."td[2]");
+        $I->canSee('Supplier 3', $this->locationInTable."td[2]");
         $I->canSee('David Fortin1', $this->locationInTable."td[3]");
         $I->canSee('450-450-4501', $this->locationInTable."td[4]");
         $I->canSee('450-450-4001', $this->locationInTable."td[5]");
+        Codeception\Module\logout($I);
     }
 
     public function delete(\WebGuy $I) {
-        $I->wantTo('SUP-4 Delete the first default supplier (Supplier 2)');
+        Codeception\Module\login($I);
+        $I->wantTo('SUP-4 Delete the first default supplier (Supplier 3)');
         $I->amOnPage('/index.php/supplier/findAll');
         // Delete first default supplier
-        $I->click('Delete', $this->locationInTable.'td[7]');
+        $I->click($this->locationInTable.'*[contains(@class, "button_delete")]');
         // Check if this supplier has been deleted
-        $I->cantSee('Supplier 2', $this->locationInTable."td[2]");
+        $I->cantSee('Supplier 3', $this->locationInTable."td[2]");
         $I->cantSee('David Fortin1', $this->locationInTable."td[3]");
         $I->cantSee('450-450-4501', $this->locationInTable."td[4]");
         $I->cantSee('450-450-4001', $this->locationInTable."td[5]");
+        Codeception\Module\logout($I);
     }
 
     public function editInvalidSupplier(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('SUP-2 Edit an invalid supplier (a)');
         $I->amOnPage('/index.php/supplier/edit/a');
         $I->canSee('Invalid supplier id.');
         $I->wantTo('Edit an invalid supplier (9999999)');
         $I->amOnPage('/index.php/supplier/edit/9999999');
         $I->canSee('Invalid supplier id.');
+        Codeception\Module\logout($I);
     }
 
     public function deleteInvalidSupplier(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('SUP-5 Delete an invalid supplier (a)');
         $I->amOnPage('/index.php/supplier/delete/a');
         $I->canSee('Invalid supplier id.');
         $I->wantTo('SUP-5 Delete an invalid supplier (9999999)');
         $I->amOnPage('/index.php/supplier/delete/9999999');
         $I->canSee('An error occurred while deleting the supplier.');
+        Codeception\Module\logout($I);
     }
 
     public function invalidFieldSupplier(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('Verify the fields validations');
         $I->amOnPage('/index.php/supplier/create/');
         // try to add empty supplier
@@ -144,9 +155,11 @@ class SupplierATCest {
         $I->click('Save');
         $I->canSee('Phone number does not match the required format');
         $I->canSee('Fax number does not match the required format');
+        Codeception\Module\logout($I);
     }
 
     public function checkIfFieldReloadedAfterError(\WebGuy $I) {
+        Codeception\Module\login($I);
         $I->wantTo('Verify the fields are reload after error');
         $I->amOnPage('/index.php/supplier/create/');
         $I->fillField('name', 'davidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidforti1');
@@ -160,5 +173,6 @@ class SupplierATCest {
         $I->canSeeInField('contactName', 'davidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidforti1');
         $I->canSeeInField('phoneNumber', '450-450-45000');
         $I->canSeeInField('faxNumber', '450-450-45000');
+        Codeception\Module\logout($I);
     }
 }
