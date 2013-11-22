@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
   `id_user` INT(11) NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(30) NOT NULL,
+  `username` VARCHAR(30) NOT NULL UNIQUE,
   `name` VARCHAR(75) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   `password` CHAR(128) NOT NULL,
