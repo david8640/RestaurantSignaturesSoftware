@@ -15,6 +15,6 @@ modules:
         - WebHelper
     config:
         PhpBrowser:
-            url: 'http://www.restaurantsignaturessoftware.davidfortin.info/current/Code/RestaurantManagementSoftware/'
-
-#http://localhost:8888/seg4910-project/current/Code/RestaurantManagementSoftware/
+            url: 'http://localhost:8888/seg4910-project/Code/RestaurantManagementSoftware/'
+            
+            # url: 'http://www.restaurantsignaturessoftware.davidfortin.info/current/Code/RestaurantManagementSoftware/'

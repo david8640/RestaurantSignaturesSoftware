@@ -18,28 +18,6 @@ AS
 GO
 
 -- -----------------------------------------------------
--- View `v_getUsers`
--- -----------------------------------------------------
-DROP VIEW IF EXISTS `v_getUsers`
-GO
-CREATE VIEW v_getUsers
-AS
-	SELECT id_user, username, name, email, password, salt
-	FROM users;
-GO
-
--- -----------------------------------------------------
--- View `v_getLoginAttempts`
--- -----------------------------------------------------
-DROP VIEW IF EXISTS `v_getLoginAttempts`
-GO
-CREATE VIEW v_getLoginAttempts
-AS
-	SELECT id_user, time_of_attempt, ip_address
-	FROM login_attempts;
-GO
-
--- -----------------------------------------------------
 -- View `v_getProductCategories`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getProductCategories`
@@ -129,6 +107,36 @@ END
 GO
 
 -- -----------------------------------------------------
+-- Stored Procedure `sp_getSalt`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getSalt`
+GO
+CREATE PROCEDURE sp_getSalt(
+    IN u_username VARCHAR(30)
+)
+BEGIN
+ 	SELECT salt
+ 	FROM users
+ 	WHERE username = u_username;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getPassword`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getPassword`
+GO
+CREATE PROCEDURE sp_getPassword(
+    IN u_username VARCHAR(30)
+)
+BEGIN
+ 	SELECT password
+ 	FROM users
+ 	WHERE username = u_username;
+END
+GO
+
+-- -----------------------------------------------------
 -- Stored Procedure `sp_delete_User`
 -- -----------------------------------------------------
 DROP PROCEDURE IF EXISTS `sp_delete_User`
@@ -137,9 +145,9 @@ CREATE PROCEDURE sp_delete_User(
 	IN u_user_id INT
 )
 BEGIN
-	DELETE FROM users 
-	WHERE id_user = u_user_id;
 	DELETE FROM login_attempts 
+	WHERE id_user = u_user_id;
+	DELETE FROM users 
 	WHERE id_user = u_user_id;
 END
 GO

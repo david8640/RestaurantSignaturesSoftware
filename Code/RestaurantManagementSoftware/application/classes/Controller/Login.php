@@ -83,7 +83,7 @@ class Controller_Login extends Controller_Template_Generic {
                     Session::instance()->set('feedbackMessage', array('New user created!'));
                     $this->redirect('login/login');
                 } else {
-                    $feedbackMessage = array('An error occured');
+                    $feedbackMessage = array('');
                 }
             } else {
                 // Invalid fields

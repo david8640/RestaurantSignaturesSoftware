@@ -10,7 +10,7 @@
 -->
 <config>
     <!-- LOCAL -->
-    <!--
+    
     <db>
         <Host>localhost</Host>
         <User>root</User>
@@ -18,8 +18,9 @@
         <Database>restaurantManagementSoftware</Database>
         <Port>8889</Port>
     </db>
-     -->
+     
     <!-- Website -->
+    <!--
      <db>
      <Host>db498909085.db.1and1.com</Host>
      <User>dbo498909085</User>
@@ -27,4 +28,6 @@
      <Database>db498909085</Database>
      <Port>3306</Port>
      </db>
+     
+     -->
 </config>

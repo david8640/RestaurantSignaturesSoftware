@@ -32,8 +32,15 @@ class Repository_User extends Repository_AbstractRepository {
         $params = array(
             new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30),
         );
-        $users = $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
-        return $users;
+        //$users = $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
+        //return $users;
+        try {
+        return $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
+        } catch (Exception $e) {
+        	echo $e;
+	         
+	         exit();
+        }
     }
 
     /**
@@ -43,10 +50,10 @@ class Repository_User extends Repository_AbstractRepository {
      */
     public function getSalt($username) {
         $params = array(
-            new Database_StatementParameter(':salt', $username, PDO::PARAM_STR, 128)
+            new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30)
         );
 
-        return $this->fetchNConstruct('CALL sp_getuser(:salt)', $params);
+        return $this->fetchNConstruct('CALL sp_getSalt(:username)', $params);
     }
 
     /**
@@ -56,10 +63,10 @@ class Repository_User extends Repository_AbstractRepository {
      */
     public function getPassword($username) {
         $params = array(
-            new Database_StatementParameter(':password', $username, PDO::PARAM_STR, 128)
+            new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30)
         );
 
-        return $this->fetchNConstruct('CALL sp_getuser(:password)', $params);
+        return $this->fetchNConstruct('CALL sp_getPassword(:username)', $params);
     }
     
         /**
