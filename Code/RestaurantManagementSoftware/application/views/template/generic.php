@@ -51,7 +51,7 @@
             $messages = array();
         }
 
-        ?><div class="error_message"><?php
+        ?><div class="error_message" id="error_message"><?php
         foreach ($messages as $message):
             echo $message."<br/>";
         endforeach;

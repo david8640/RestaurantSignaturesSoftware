@@ -29,11 +29,11 @@ $count = 0;
             <td><?php echo $s->getContactName(); ?></td>
             <td><?php echo $s->getPhoneNumber(); ?></td>
             <td><?php echo $s->getFaxNumber(); ?></td>
-            <td><?php echo HTML::anchor('supplier/edit/'.$s->getId(), '', array('class' => 'button_edit')); ?></td>
-            <td><?php echo HTML::anchor('supplier/delete/'.$s->getId(), '', array('class' => 'button_delete')); ?></td>
+            <td><?php echo HTML::anchor('supplier/edit/'.$s->getId(), '', array('class' => 'button_edit', 'name' => 'Edit')); ?></td>
+            <td><?php echo HTML::anchor('supplier/delete/'.$s->getId(), '', array('class' => 'button_delete', 'name' => 'Delete')); ?></td>
         </tr>
     <?php } ?>
 </table>
 <div class="button">
-    <?php echo HTML::anchor('supplier/create', '', array('class' => 'button_add')); ?>
+    <?php echo HTML::anchor('supplier/create', '', array('class' => 'button_add', 'name' => 'Add')); ?>
 </div>

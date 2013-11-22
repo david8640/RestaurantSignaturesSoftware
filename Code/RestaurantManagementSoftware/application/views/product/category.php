@@ -31,7 +31,7 @@ if (!isset($submitAction)) {
     echo Form::input('name', $category->getName()) . "<br/>";
     echo Form::label('parent', 'Parent :');
     ?>
-    <select name='parent'>
+    <select name='parent' id="parent">
         <option value='-1'>None</option>
         <?php foreach ($parents as $p) { 
             $selectionText = ($p->getId() == $category->getParent()) ? 'selected="selected"' : ''; ?>
