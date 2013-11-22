@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `phone_number` VARCHAR(14) NOT NULL,
   `fax_number` VARCHAR(14),
   PRIMARY KEY (`id_supplier`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin2 AUTO_INCREMENT=5;
 
 -- ---------------------------------------------------------------------------
 -- Table users
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `session_id` CHAR(128),
   `session_expiry_time` INT(25),
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 
 -- ---------------------------------------------------------------------------
 -- Table login_attempts
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `ip_address` VARCHAR(30) DEFAULT 'n/a',
   KEY `id_user` (`id_user`),
   CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin2;
 
 -- ---------------------------------------------------------------------------
 -- Table product_category
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   UNIQUE (`orderof`),
   PRIMARY KEY (`id_category`),
   CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `product_category` (`id_category`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
