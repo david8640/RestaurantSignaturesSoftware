@@ -14,6 +14,7 @@ SET TIME_ZONE = "+00:00";
 DROP DATABASE IF EXISTS `restaurantManagementSoftware`;
 CREATE DATABASE IF NOT EXISTS `restaurantManagementSoftware`;
 USE `restaurantManagementSoftware`;
+ALTER DATABASE  `restaurantManagementSoftware` DEFAULT CHARACTER SET latin2 COLLATE latin2_general_ci;
 
 -- ---------------------------------------------------------------------------
 -- Drop tables
