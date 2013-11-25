@@ -99,11 +99,13 @@ class Controller_Login extends Controller_Template_Generic {
                 $success = $repo->add($user);
 
                 // Redirect if the add was successful
-                if ($success) {
+                if ($user->getUsername() == ($repo->getViaUsername($user->getUsername()))) {
                     Session::instance()->set('feedbackMessage', array('New user created!'));
                     $this->redirect('login/login');
                 } else {
-                    $feedbackMessage = array('');
+                    Session::instance()->set('feedbackMessage', array('Username already taken'));
+                    Session::instance()->set('registration_info', $user);
+                    $this->redirect('login/register');
                 }
             } else {
                 // Invalid fields
