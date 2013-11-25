@@ -97,9 +97,8 @@ class Controller_Login extends Controller_Template_Generic {
                 // Add a user
                 $repo = new Repository_User();
                 $success = $repo->add($user);
-
                 // Redirect if the add was successful
-                if ($user->getUsername() == ($repo->getViaUsername($user->getUsername()))) {
+                if ($success){
                     Session::instance()->set('feedbackMessage', array('New user created!'));
                     $this->redirect('login/login');
                 } else {
