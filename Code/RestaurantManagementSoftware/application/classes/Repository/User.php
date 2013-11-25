@@ -29,13 +29,16 @@ class Repository_User extends Repository_AbstractRepository {
      * @return a user
      */
     public function getViaUsername($username) {
-        $params = array(new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30));
+        $params = array(
+            new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30),
+        );
         //$users = $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
         //return $users;
         try {
         return $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
         } catch (Exception $e) {
         	echo $e;
+	         
 	         exit();
         }
     }
@@ -130,7 +133,7 @@ class Repository_User extends Repository_AbstractRepository {
      * @param Model_User $user
      * @return int
      */
-    public function deleteUser($id) {
+    public function delete($id) {
         $params = array(
             new Database_StatementParameter(':id_user', $id, PDO::PARAM_INT, 11)
         );

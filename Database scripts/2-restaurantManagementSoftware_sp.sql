@@ -100,9 +100,9 @@ CREATE PROCEDURE sp_getUser(
     IN u_username VARCHAR(30)
 )
 BEGIN
- 	SELECT DISTINCT *
+ 	SELECT *
  	FROM users
- 	WHERE u_username = username;
+ 	WHERE username = u_username;
 END
 GO
 
@@ -137,17 +137,17 @@ END
 GO
 
 -- -----------------------------------------------------
--- Stored Procedure `sp_deleteUser`
+-- Stored Procedure `sp_delete_User`
 -- -----------------------------------------------------
-DROP PROCEDURE IF EXISTS `sp_deleteUser`
+DROP PROCEDURE IF EXISTS `sp_delete_User`
 GO
-CREATE PROCEDURE sp_deleteUser(
+CREATE PROCEDURE sp_delete_User(
 	IN u_user_id INT
 )
 BEGIN
-	DELETE FROM users 
-	WHERE id_user = u_user_id;
 	DELETE FROM login_attempts 
+	WHERE id_user = u_user_id;
+	DELETE FROM users 
 	WHERE id_user = u_user_id;
 END
 GO
