@@ -133,7 +133,7 @@ class Repository_User extends Repository_AbstractRepository {
      * @param Model_User $user
      * @return int
      */
-    public function delete($id) {
+    public function deleteUser($id) {
         $params = array(
             new Database_StatementParameter(':id_user', $id, PDO::PARAM_INT, 11)
         );
