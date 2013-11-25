@@ -75,7 +75,7 @@ class Controller_Login extends Controller_Template_Generic {
         if (isset($username)) {
             $repo = new Repository_User();
             if ($userExists = $repo->getViaUsername($username)) {
-                $success = $repo->deleteUser($users[0]->getId());
+                $success = $repo->deleteUser($userExists[0]->getId());
                 if ($success) {
                     echo $username . ' deleted';
                 } else {
