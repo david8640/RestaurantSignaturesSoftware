@@ -11,6 +11,7 @@
 
 //class Controller_Login extends Controller_Template_Generic {
 class Controller_Login extends Controller_Template_Generic {
+
     public function action_login() {
         // Transfert the information to the view.
         $view = View::factory('login/login');
@@ -27,7 +28,7 @@ class Controller_Login extends Controller_Template_Generic {
             $repo = new Repository_User();
             $user = $repo->getViaUsername($username);
             if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
-                Session::instance()->set('feedbackMessage', array('Incorrect username ☺ '));
+                Session::instance()->set('feedbackMessage', array('Incorrect username ☺ ' . $username));
                 $this->redirect('login/login');
             } else {
                 $salt = $user[0]->getSalt();
@@ -66,6 +67,22 @@ class Controller_Login extends Controller_Template_Generic {
         $view = View::factory('login/register');
         $this->template->title = __('Register');
         $this->template->content = $view;
+    }
+
+    public function action_deleteUser() {
+        $input = $this->request->param('id');
+        $username = $input;
+        if (isset($username)) {
+            $repo = new Repository_User();
+            if ($userExists = $repo->getViaUsername($username)) {
+                $success = $repo->deleteUser($users[0]->getId());
+                if ($success) {
+                    echo $username . ' deleted';
+                } else {
+                    echo $username . '  NOT deleted';
+                }
+            }
+        }
     }
 
     public function action_process_registration() {

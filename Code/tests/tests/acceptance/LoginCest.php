@@ -74,7 +74,7 @@ class LoginCept {
     
     
     	public function cor27(\WebGuy $I) {
-        $I->wantTo('COR-27: Create an account');
+    	$I->wantTo('COR-27: Create an account');
         $I->amOnPage('/');
         //attempt to login.
         $I->click('Register');
@@ -90,20 +90,9 @@ class LoginCept {
         $I->fillField('password', 'password');
         $I->click('Login');
         $I->see('Welcome Back John Doe');
+    	$I->amOnPage('/seg4910-project/Code/RestaurantManagementSoftware/index.php/login/deleteUser/admin');
+    	$I->see('admin deleted');
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     
 }
