@@ -70,18 +70,20 @@ class Controller_Login extends Controller_Template_Generic {
     }
 
     public function action_deleteUser() {
-        $input = $this->request->param('id');
-        $username = $input;
-        if (isset($username)) {
+        if (Valid::not_empty($this->request->param('id'))) {
+            $input = $this->request->param('id');
+            $username = $input;
             $repo = new Repository_User();
             if ($userExists = $repo->getViaUsername($username)) {
                 $success = $repo->deleteUser($userExists[0]->getId());
                 if ($success) {
                     echo $username . ' deleted';
-                } else {
-                    echo $username . '  NOT deleted';
                 }
-            }
+            } else {
+                    echo $username . ' does not exist';
+                }
+        } else {
+            echo 'No username to delete';
         }
     }
 

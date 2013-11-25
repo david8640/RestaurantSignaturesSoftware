@@ -90,7 +90,7 @@ class LoginCept {
         $I->fillField('password', 'password');
         $I->click('Login');
         $I->see('Welcome Back John Doe');
-    	$I->amOnPage('/seg4910-project/Code/RestaurantManagementSoftware/index.php/login/deleteUser/admin');
+    	$I->amOnPage('/index.php/login/deleteUser/admin');
     	$I->see('admin deleted');
     }
     
