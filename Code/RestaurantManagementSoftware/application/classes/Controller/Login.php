@@ -54,7 +54,8 @@ class Controller_Login extends Controller_Template_Generic {
                     // Login failed
                     unset($password);
                     unset($salt);
-                    Session::instance()->set('feedbackMessage', array('Incorrect password ☺)'));
+                    Session::instance()->set('feedbackMessage', array('Incorrect password ☺'));
+                    Session::instance()->set('username', $username);
                     $this->redirect('login/login');
                 }
             } //defualt
@@ -96,13 +97,14 @@ class Controller_Login extends Controller_Template_Generic {
                 // Add a user
                 $repo = new Repository_User();
                 $success = $repo->add($user);
-
                 // Redirect if the add was successful
-                if ($success) {
+                if ($success){
                     Session::instance()->set('feedbackMessage', array('New user created!'));
                     $this->redirect('login/login');
                 } else {
-                    $feedbackMessage = array('');
+                    Session::instance()->set('feedbackMessage', array('Username already taken'));
+                    Session::instance()->set('registration_info', $user);
+                    $this->redirect('login/register');
                 }
             } else {
                 // Invalid fields

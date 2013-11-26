@@ -11,6 +11,11 @@ if (!isset($submitAction)) {
     $submitAction = 'login/process_login';
 }
 
+$username = Session::instance()->get_once('username');
+if (!isset($username)) {
+    $username = '';
+}
+
 if (isset($loginFeedbackMessage)) {
     $messages = $loginFeedbackMessage;
 } elseif (Session::instance()->get('loginFeedbackMessage') != '') {
@@ -47,7 +52,7 @@ $ipaddress = '127.0.0.1';
     //Login Form
     echo Form::open($submitAction);
     echo Form::label('username', 'Username :');
-    echo Form::input('username', '', array ('placeholder'=> 'username')) . "<br/>";
+    echo Form::input('username', $username, array ('placeholder'=> 'username')) . "<br/>";
     echo Form::label('password', 'Password :');
     echo Form::password('password', '', array ('placeholder'=> 'password')) . "<br/>";
     echo Form::hidden('ipaddress', $ipaddress);
