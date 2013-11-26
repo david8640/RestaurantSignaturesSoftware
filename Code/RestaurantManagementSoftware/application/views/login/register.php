@@ -7,6 +7,8 @@
  *  <date>2013-10-05</date>
  *  <summary>Register Page.</summary>
  */
+
+$user = Session::instance()->get_once('registration_info');
 if (!isset($user)) {
     $random_Salt = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
     $user = new Model_User(-1, '', '', '', '',$random_Salt, '', 0);
@@ -23,14 +25,14 @@ if (!isset($submitAction)) {
     echo Form::open($submitAction);
     echo Form::hidden('id', $user->getId()) . "<br/>";
     echo Form::label('username', 'Username: ');
-    echo Form::input('username', $user->getUsername()) . "<br/>";
+    echo Form::input('username', $user->getUsername()) . "<br/>", '';
     echo Form::label('name', 'Name: ');
     echo Form::input('name', $user->getName()) . "<br/>";
     echo Form::label('email', 'Email Address: ');
     echo Form::input('email', $user->getEmail()) . "<br/>";
     echo Form::label('password', 'Password: ');
     echo Form::password('password') . "<br/>";
-    echo Form::hidden('salt',$user->getSalt());
+    echo Form::hidden('salt', $user->getSalt());
     echo Form::hidden('sessionID', Constants::BlankHash);
     echo Form::hidden('sessionExpiryTime',0);
     echo Form::submit(NULL, 'Register');
