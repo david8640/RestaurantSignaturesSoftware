@@ -38,8 +38,7 @@ class Controller_Product extends Controller {
     public function action_add() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             $post = $this->getValidationFactory($_POST);
-            $product = new Model_Product(-1, $post['name'] 
-                                        ;
+            $product = new Model_Product(-1, $post['name']);
             
             if ($post->check()) {
                 // Add the product
@@ -102,7 +101,7 @@ class Controller_Product extends Controller {
     public function action_update() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             $post = $this->getValidationFactory($_POST);
-            $product = new Model_Product($post['id'];
+            $product = new Model_Product($post['id']);
             
             if ($post->check()) {
                 // Update the product

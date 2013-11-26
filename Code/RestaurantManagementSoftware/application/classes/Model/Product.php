@@ -12,17 +12,19 @@ class Model_Product extends Model {
     // Private members
     private $id;
     private $name;
-    
-    
+    private $categoryId;
+    private $categoryName;
     
     /**
      * Constructor of a product model
      * @param int $id the id of the product
      * @param string $name the name of the product
      */
-    public function __construct($id, $name) {
+    public function __construct($id, $name, $categoryId, $categoryName) {
         $this->setId($id);
         $this->setName($name);
+        $this->setCategoryId($categoryId);
+        $this->setCategoryName($categoryName);
     }
    
     // Getters and setters
@@ -57,26 +59,38 @@ class Model_Product extends Model {
     public function setName($name) {
         $this->name = $name;
     }
-   
+    
     /**
-     * Get the supplier id of the product
+     * Get the categoryId of the product
+     * @return int
+     */
+    public function getCategoryId() {
+        return $this->categoryId;
+    }
+    
+    /**
+     * Set the categoryId of the product
+     * @param int $categoryId
+     */
+    public function setCategoryId($categoryId) {
+        $this->categoryId = $categoryId;
+    }
+    
+    /**
+     * Get the categoryName of the product
      * @return string
      */
-    
-    public function getSupplierID() {
-        return $this->supplierID;
+    public function getCategoryName() {
+        return $this->categoryName;
     }
     
     /**
-     * Set the name of the product
-     * @param string $name
+     * Set the categoryName of the product
+     * @param string $categoryName
      */
-    public function setSupplierID($supplierID) {
-        $this->name = $supplierID;
+    public function setCategoryName($categoryName) {
+        $this->categoryName = $categoryName;
     }
-    
-    
-   
 }
 
 ?>
