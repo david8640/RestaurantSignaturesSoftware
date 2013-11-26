@@ -75,6 +75,7 @@ class LoginCept {
     
     	public function cor27(\WebGuy $I) {
     	$I->wantTo('COR-27: Create an account');
+    	$I->amOnPage('/index.php/login/deleteUser/admin');
         $I->amOnPage('/');
         //attempt to login.
         $I->click('Register');
