@@ -32,3 +32,23 @@ INSERT INTO `product_category` (`id_category`, `name`, `parent`, `orderof`) VALU
 (2, 'Herbs and Spices', 1, 2),
 (3, 'Green Herbs', 2, 3),
 (4, 'Meats', NULL, 4);
+
+-- ---------------------------------------------------------------------------
+-- Insert table restaurant
+-- ---------------------------------------------------------------------------
+INSERT INTO `restaurant` (`id_restaurant`, `name`, `address`)
+VALUES
+	(5, 'Restaurant 1', '114 rue st-antoine ouest, montreal, qc, J6T 4G7'),
+	(6, 'Restaurant 2', '110 rue st-caty, montreal, qc, J9T 3T7');
+
+-- ---------------------------------------------------------------------------
+-- Insert table users_restaurants
+-- ---------------------------------------------------------------------------
+INSERT INTO `users_restaurants` (`id_restaurant`, `id_user`)
+VALUES
+	(5, 1),
+	(5, 2),
+	(5, 4),
+	(6, 2),
+	(6, 1);
+

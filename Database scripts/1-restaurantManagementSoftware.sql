@@ -23,6 +23,8 @@ DROP TABLE IF EXISTS `supplier`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `login_attempts`;
 DROP TABLE IF EXISTS `product_category`;
+DROP TABLE IF EXISTS `restaurant`;
+DROP TABLE IF EXISTS `users_restaurants`;
 
 -- ---------------------------------------------------------------------------
 -- Table supplier
@@ -74,6 +76,28 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   PRIMARY KEY (`id_category`),
   CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `product_category` (`id_category`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+
+-- ---------------------------------------------------------------------------
+-- Table restaurant
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `restaurant` (
+  `id_restaurant` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `address` VARCHAR(250),
+  PRIMARY KEY (`id_restaurant`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+
+-- ---------------------------------------------------------------------------
+-- Table users_restaurants
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users_restaurants` (
+  `id_restaurant` INT(11) NOT NULL,
+  `id_user` INT(11) NOT NULL,
+  PRIMARY KEY (`id_restaurant`, `id_user`),
+  CONSTRAINT `users_restaurants_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`),
+  CONSTRAINT `users_restaurants_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

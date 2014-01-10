@@ -28,6 +28,32 @@ AS
 	FROM product_category P LEFT JOIN product_category PA
 	ON P.parent = PA.id_category;
 GO
+
+-- -----------------------------------------------------
+-- View `v_getRestaurants`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getRestaurants`
+GO
+CREATE VIEW v_getRestaurants
+AS
+	SELECT R.id_restaurant, R.name, R.address
+	FROM restaurant R;
+GO
+
+-- -----------------------------------------------------
+-- View `v_getRestaurantsUsers`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getRestaurantsUsers`
+GO
+CREATE VIEW v_getRestaurantsUsers
+AS
+	SELECT R.id_restaurant, R.name, U.id_user, U.name AS user_name
+	FROM restaurant R, users_restaurants UR, users U
+	WHERE R.id_restaurant = UR.id_restaurant AND
+		U.id_user = UR.id_user
+	ORDER BY R.id_restaurant;
+GO
+
 -- ---------------------------------------------------------------------------------------
 -- Stored Procedures
 -- ---------------------------------------------------------------------------------------
@@ -317,6 +343,142 @@ BEGIN
 END
 GO
 
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getRestaurant`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getRestaurant`
+GO
+CREATE PROCEDURE sp_getRestaurant(
+    IN r_id_restaurant INT
+)
+BEGIN
+ 	SELECT id_restaurant, name, address
+ 	FROM restaurant
+ 	WHERE id_restaurant = r_id_restaurant;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_deleteRestaurant`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_deleteRestaurant`
+GO
+CREATE PROCEDURE sp_deleteRestaurant(
+	IN r_id_restaurant INT(11)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM restaurant WHERE id_restaurant = r_id_restaurant) THEN
+		DELETE FROM restaurant 
+		WHERE id_restaurant = r_id_restaurant;
+	ELSE
+		CALL raise_error;
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_saveRestaurant`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_saveRestaurant`
+GO
+CREATE PROCEDURE sp_saveRestaurant(
+	IN r_id_restaurant INT(11),
+	IN r_name VARCHAR(100),
+	IN r_address VARCHAR(250)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM restaurant WHERE id_restaurant = r_id_restaurant) THEN
+		UPDATE restaurant SET	
+			name = r_name,
+			address = r_address
+		WHERE id_restaurant = r_id_restaurant;
+	ELSE
+		INSERT INTO `restaurant` (`name`, `address`) 
+		VALUES (r_name, r_address);
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getRestaurantUsers`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getPotentialRestaurantUsers`
+GO
+CREATE PROCEDURE sp_getPotentialRestaurantUsers(
+    IN ru_id_restaurant INT
+)
+BEGIN
+ 	SELECT U.id_user, (IF (id_user_check = U.id_user, 1, 0)) AS is_check
+	FROM users U LEFT JOIN (SELECT U1.id_user as id_user_check
+ 							FROM users U1 
+ 							WHERE EXISTS (SELECT UR.id_user
+ 					  						FROM users_restaurants UR
+ 					  						WHERE UR.id_user = U1.id_user AND UR.id_restaurant = ru_id_restaurant)) AS U
+ 	ON U.id_user = id_user_check;				 
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_saveRestaurantUsers`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_saveRestaurantUsers`
+GO
+CREATE PROCEDURE sp_saveRestaurantUsers(
+	IN r_id_restaurant INT(11),
+	IN r_users VARCHAR(1000)
+)
+BEGIN
+	DECLARE pos INT DEFAULT 0;
+	DECLARE cur_user VARCHAR(1000);
+	DECLARE cur_op INT;
+
+	-- LOOP
+	manip_loop: LOOP
+		-- Get the current user
+		SET pos = pos + 1;
+    	SET cur_user = split(r_users, ",", pos);
+    	-- Get the operation related (1-add, 0-delete)
+    	SET pos = pos + 1;
+    	SET cur_op = split(r_users, ",", pos);
+	
+		-- Loop exit
+		/****************************/
+		IF cur_user = '' THEN
+			LEAVE manip_loop;
+		END IF;
+		/****************************/
+		
+		-- Loop manipulation
+		
+		-- Check if add or delete operation
+		-- Add
+		IF (cur_op = 1) THEN
+		BEGIN
+			IF NOT EXISTS (SELECT * FROM users_restaurants WHERE id_restaurant = r_id_restaurant AND id_user = cur_user) THEN
+			BEGIN
+				INSERT INTO users_restaurants (`id_restaurant`, `id_user`)  
+				VALUES (r_id_restaurant, cur_user);
+			END;
+			END IF;
+		END;
+		-- Delete
+		ELSEIF (cur_op = 0) THEN
+		BEGIN
+			IF EXISTS (SELECT * FROM users_restaurants WHERE id_restaurant = r_id_restaurant AND id_user = cur_user) THEN
+			BEGIN
+				DELETE FROM users_restaurants 
+				WHERE id_restaurant = r_id_restaurant AND id_user = cur_user;			
+			END;
+			END IF;
+		END;
+		-- Invalid operation
+		ELSE
+			CALL raise_error;
+		END IF;
+	END LOOP manip_loop;
+END
+GO
+
 -- ---------------------------------------------------------------------------------------
 -- Functions
 -- ---------------------------------------------------------------------------------------
@@ -354,6 +516,23 @@ BEGIN
 
 	RETURN cpt = 0;
 END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `split`
+-- source : http://stackoverflow.com/questions/11835155/mysql-split-comma-seperated-string-into-temp-table
+-- -----------------------------------------------------
+DROP FUNCTION IF EXISTS `split`;
+GO
+CREATE FUNCTION split(
+  x VARCHAR(1000),
+  delim VARCHAR(12),
+  pos INT
+)
+RETURNS VARCHAR(25)
+RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(x, delim, pos),
+       LENGTH(SUBSTRING_INDEX(x, delim, pos -1)) + 1),
+       delim, '');
 GO
 
 DELIMITER ;
