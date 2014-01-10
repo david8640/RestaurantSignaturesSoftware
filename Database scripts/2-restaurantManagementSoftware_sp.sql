@@ -47,7 +47,7 @@ DROP VIEW IF EXISTS `v_getRestaurantsUsers`
 GO
 CREATE VIEW v_getRestaurantsUsers
 AS
-	SELECT R.id_restaurant, R.name, U.id_user, U.name AS user_name
+	SELECT R.id_restaurant, R.name AS name_restaurant, U.id_user, U.name AS name_user
 	FROM restaurant R, users_restaurants UR, users U
 	WHERE R.id_restaurant = UR.id_restaurant AND
 		U.id_user = UR.id_user
@@ -402,13 +402,13 @@ GO
 -- -----------------------------------------------------
 -- Stored Procedure `sp_getRestaurantUsers`
 -- -----------------------------------------------------
-DROP PROCEDURE IF EXISTS `sp_getPotentialRestaurantUsers`
+DROP PROCEDURE IF EXISTS `sp_getRestaurantUsers`
 GO
-CREATE PROCEDURE sp_getPotentialRestaurantUsers(
+CREATE PROCEDURE sp_getRestaurantUsers(
     IN ru_id_restaurant INT
 )
 BEGIN
- 	SELECT U.id_user, (IF (id_user_check = U.id_user, 1, 0)) AS is_check
+ 	SELECT U.id_user, U.name AS name_user, (IF (id_user_check = U.id_user, 1, 0)) AS is_check
 	FROM users U LEFT JOIN (SELECT U1.id_user as id_user_check
  							FROM users U1 
  							WHERE EXISTS (SELECT UR.id_user
@@ -419,11 +419,11 @@ END
 GO
 
 -- -----------------------------------------------------
--- Stored Procedure `sp_saveRestaurantUsers`
+-- Stored Procedure `sp_subscribOrUnSubscribUsersToRestaurant`
 -- -----------------------------------------------------
-DROP PROCEDURE IF EXISTS `sp_saveRestaurantUsers`
+DROP PROCEDURE IF EXISTS `sp_subscribOrUnSubscribUsersToRestaurant`
 GO
-CREATE PROCEDURE sp_saveRestaurantUsers(
+CREATE PROCEDURE sp_subscribOrUnSubscribUsersToRestaurant(
 	IN r_id_restaurant INT(11),
 	IN r_users VARCHAR(1000)
 )
@@ -450,8 +450,8 @@ BEGIN
 		
 		-- Loop manipulation
 		
-		-- Check if add or delete operation
-		-- Add
+		-- Check if subscribe or unsubscribe operation
+		-- Subscribe
 		IF (cur_op = 1) THEN
 		BEGIN
 			IF NOT EXISTS (SELECT * FROM users_restaurants WHERE id_restaurant = r_id_restaurant AND id_user = cur_user) THEN
@@ -461,7 +461,7 @@ BEGIN
 			END;
 			END IF;
 		END;
-		-- Delete
+		-- Unsubscribe
 		ELSEIF (cur_op = 0) THEN
 		BEGIN
 			IF EXISTS (SELECT * FROM users_restaurants WHERE id_restaurant = r_id_restaurant AND id_user = cur_user) THEN
