@@ -68,11 +68,9 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 CREATE TABLE IF NOT EXISTS `product_category` (
   `id_category` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `parent` INT(11), 
-  `orderof` INT(11) NOT NULL,
-  UNIQUE (`orderof`),
-  PRIMARY KEY (`id_category`),
-  CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `product_category` (`id_category`) ON DELETE SET NULL
+  `lft` INT(11) NOT NULL,
+  `rgt` INT(11) NOT NULL, 
+  PRIMARY KEY (`id_category`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -259,8 +259,18 @@ CREATE PROCEDURE sp_deleteProductCategory(
 )
 BEGIN
 	IF EXISTS (SELECT * FROM product_category WHERE id_category = c_id_category) THEN
+	BEGIN
+		DECLARE orderOfItemToDelete INT;
+		
+		SELECT orderof INTO orderOfItemToDelete
+		FROM product_category
+		WHERE id_category = c_id_category;
+	
 		DELETE FROM product_category 
 		WHERE id_category = c_id_category;
+	
+		UPDATE product_category SET orderof = orderof - 1 WHERE orderof > orderOfItemToDelete;
+	END;
 	ELSE
 		CALL raise_error;
 	END IF;
@@ -281,11 +291,17 @@ CREATE PROCEDURE sp_saveProductCategory(
 BEGIN
 	IF EXISTS (SELECT * FROM product_category WHERE id_category = c_id_category) THEN
 	BEGIN
-		UPDATE product_category SET	
-			name = c_name,
-			parent = c_parent,
-			orderof = c_orderof
-		WHERE id_category = c_id_category;
+		IF (fct_isNotChildOf(c_id_category, c_parent)) THEN
+		BEGIN
+			UPDATE product_category SET	
+				name = c_name,
+				parent = c_parent,
+				orderof = c_orderof
+			WHERE id_category = c_id_category;
+		END;
+		ELSE
+			CALL raise_error;
+		END IF;
 	END;
 	ELSE
 	BEGIN
@@ -298,6 +314,45 @@ BEGIN
 		VALUES (c_name, c_parent, @nextOrder);
 	END;
 	END IF;
+END
+GO
+
+-- ---------------------------------------------------------------------------------------
+-- Functions
+-- ---------------------------------------------------------------------------------------
+-- -----------------------------------------------------
+-- Stored Procedure `fct_isNotChildOf`
+-- Validate that there is no child->parent->child loop
+-- for 1 or 2 or 3 level of indentations
+-- *** This solution is temporary until we find a better solution ***
+-- -----------------------------------------------------
+DROP FUNCTION IF EXISTS `fct_isNotChildOf`;
+GO
+CREATE FUNCTION fct_isNotChildOf(
+	c_id_category INT(11),
+	c_parent INT(11)
+)
+RETURNS INT
+BEGIN
+	DECLARE cpt INT;
+	SET cpt = 0;
+	
+	SELECT cpt + COUNT(P1.id_category) INTO cpt
+	FROM product_category P1		
+	WHERE P1.id_category = c_parent AND P1.parent = c_id_category;
+	
+	SELECT cpt + COUNT(P1.id_category) INTO cpt
+	FROM product_category P1, 
+		product_category P2
+	WHERE P1.id_category = c_parent AND P1.parent = P2.id_category AND P2.parent = c_id_category;
+
+	SELECT cpt + COUNT(P1.id_category) INTO cpt
+	FROM product_category P1, 
+		product_category P2,
+		product_category P3
+	WHERE P1.id_category = c_parent AND P1.parent = P2.id_category AND P2.parent = P3.id_category AND P3.parent = c_id_category;
+
+	RETURN cpt = 0;
 END
 GO
 
