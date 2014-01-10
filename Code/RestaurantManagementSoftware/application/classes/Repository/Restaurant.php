@@ -27,10 +27,10 @@ class Repository_Restaurant extends Repository_AbstractRepository {
      */
     public function get($id) {
         $params = array (
-            new Database_StatementParameter(':cid', $id, PDO::PARAM_INT, 11)
+            new Database_StatementParameter(':rid', $id, PDO::PARAM_INT, 11)
         );
         
-        $restaurant = $this->fetchNConstruct('CALL sp_getRestaurant(:cid)', $params);
+        $restaurant = $this->fetchNConstruct('CALL sp_getRestaurant(:rid)', $params);
         return (sizeof($restaurant) > 0) ? $restaurant[0] : null;
     }
     
@@ -41,11 +41,11 @@ class Repository_Restaurant extends Repository_AbstractRepository {
      */
     public function add($restaurant) {
         $params = array (
-            new Database_StatementParameter(':cname', $restaurant->getName(), PDO::PARAM_STR, 100),
-            new Database_StatementParameter(':caddress', $restaurant->getAddress(), PDO::PARAM_STR, 250)
+            new Database_StatementParameter(':rname', $restaurant->getName(), PDO::PARAM_STR, 100),
+            new Database_StatementParameter(':raddress', $restaurant->getAddress(), PDO::PARAM_STR, 250)
         );
         
-        return $this->execute('CALL sp_saveRestaurant(-1, :cname, :caddress)', $params);
+        return $this->execute('CALL sp_saveRestaurant(-1, :rname, :raddress)', $params);
     }
     
     /**
@@ -55,12 +55,12 @@ class Repository_Restaurant extends Repository_AbstractRepository {
      */
     public function update($restaurant) {
         $params = array (
-            new Database_StatementParameter(':cid', $restaurant->getId(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':cname', $restaurant->getName(), PDO::PARAM_STR, 100),
-            new Database_StatementParameter(':caddress', $restaurant->getAddress(), PDO::PARAM_STR, 250)
+            new Database_StatementParameter(':rid', $restaurant->getId(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':rname', $restaurant->getName(), PDO::PARAM_STR, 100),
+            new Database_StatementParameter(':raddress', $restaurant->getAddress(), PDO::PARAM_STR, 250)
         );
        
-        return $this->execute('CALL sp_saveRestaurant(:cid, :cname, :caddress)', $params);
+        return $this->execute('CALL sp_saveRestaurant(:rid, :rname, :raddress)', $params);
     }
     
     /**
@@ -70,10 +70,10 @@ class Repository_Restaurant extends Repository_AbstractRepository {
      */
     public function delete($id) {
        $params = array (
-            new Database_StatementParameter(':cid', $id, PDO::PARAM_INT, 11)
+            new Database_StatementParameter(':rid', $id, PDO::PARAM_INT, 11)
         );
 
-        return $this->execute('CALL sp_deleteRestaurant(:cid)', $params);
+        return $this->execute('CALL sp_deleteRestaurant(:rid)', $params);
     }
     
     /**

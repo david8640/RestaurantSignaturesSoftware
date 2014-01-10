@@ -16,9 +16,9 @@ class Model_Restaurant extends Model {
      
     /**
      * Constructor of a restaurant model
-     * @param int $id the id of the product
-     * @param string $name the name of the product
-     * @param string $address the address of the product
+     * @param int $id the id of the restaurant
+     * @param string $name the name of the restaurant
+     * @param string $address the address of the restaurant
      */
     public function __construct($id, $name, $address) {
         $this->setId($id);
