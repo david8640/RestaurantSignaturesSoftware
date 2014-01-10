@@ -32,9 +32,9 @@
         <text>Restaurant%201</text>
       </controlProperties>
     </control>
-    <control controlID="31" controlTypeID="com.balsamiq.mockups::DataGrid" x="209" y="267" w="377" h="203" measuredW="181" measuredH="198" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::DataGrid" x="209" y="267" w="377" h="203" measuredW="148" measuredH="198" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Name%2C%20Have%20access%0AHenry%20Ford%2C%20%5B%5D%0AGeorge%20Sand%2C%20%5Bx%5D%0AUser%201%2C%20%5B%5D%0AUser%202%2C%20%5Bx%5D%0AUser%203%2C%20%5Bx%5D%0AUser%204%2C%20%5B%5D%0A%7B70%2C%2030C%7D</text>
+        <text>Name%2C%20Access%0AHenry%20Ford%2C%20%5B%5D%0AGeorge%20Sand%2C%20%5Bx%5D%0AUser%201%2C%20%5B%5D%0AUser%202%2C%20%5Bx%5D%0AUser%203%2C%20%5Bx%5D%0AUser%204%2C%20%5B%5D%0A%7B70%2C%2020C%7D</text>
       </controlProperties>
     </control>
     <control controlID="32" controlTypeID="com.balsamiq.mockups::Image" x="482" y="476" w="104" h="32" measuredW="226" measuredH="66" zOrder="6" locked="false" isInGroup="-1">
