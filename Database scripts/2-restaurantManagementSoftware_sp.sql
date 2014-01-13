@@ -47,10 +47,10 @@ DROP VIEW IF EXISTS `v_getRestaurantsUsers`
 GO
 CREATE VIEW v_getRestaurantsUsers
 AS
-	SELECT R.id_restaurant, R.name AS name_restaurant, U.id_user, U.name AS name_user
-	FROM restaurant R, users_restaurants UR, users U
-	WHERE R.id_restaurant = UR.id_restaurant AND
-		U.id_user = UR.id_user
+	SELECT R.id_restaurant, R.name AS name_restaurant, U.id_user, U.name AS name_user, NULL AS is_check
+	FROM restaurant R 
+		LEFT JOIN users_restaurants UR ON R.id_restaurant = UR.id_restaurant
+		LEFT JOIN users U ON U.id_user = UR.id_user
 	ORDER BY R.id_restaurant;
 GO
 
@@ -408,7 +408,7 @@ CREATE PROCEDURE sp_getRestaurantUsers(
     IN ru_id_restaurant INT
 )
 BEGIN
- 	SELECT U.id_user, U.name AS name_user, (IF (id_user_check = U.id_user, 1, 0)) AS is_check
+ 	SELECT U.id_user, U.name AS name_user, (IF (id_user_check = U.id_user, 1, 0)) AS is_check, NULL AS id_restaurant, NULL AS name_restaurant
 	FROM users U LEFT JOIN (SELECT U1.id_user as id_user_check
  							FROM users U1 
  							WHERE EXISTS (SELECT UR.id_user

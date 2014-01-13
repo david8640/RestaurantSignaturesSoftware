@@ -12,12 +12,12 @@ $count = 0;
 <h2>Product Categories</h2>
 <table id="productCategories">
     <tr>
-        <th>Id</th>
+        <th class="id">Id</th>
         <th>Name</th>
         <th>Parent</th>
         <th>Order</th>
-        <th>Edit</th>
-        <th>Remove</th>
+        <th class="edit">Edit</th>
+        <th class="remove">Remove</th>
     </tr>
     <?php foreach ($categories as $c) {
         $count++;

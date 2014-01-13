@@ -111,10 +111,12 @@ div.menu li
      padding: 0px;
      border-collapse:collapse;
      width: 100%;
+     table-layout: fixed;
  }
  
  .content table td {
     padding: 8px;
+    word-wrap: break-word;
  }
  
  .content table tr {
@@ -149,4 +151,16 @@ div.menu li
  .content .button_add {
      background-image: url('images/add-icon.png');
      background-position: right;
+ }
+ 
+ .content table tr .id {
+    width: 20px; 
+ }
+ 
+ .content table tr .edit {
+    width: 40px; 
+ }
+ 
+ .content table tr .remove {
+    width: 60px; 
  }

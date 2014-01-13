@@ -12,13 +12,13 @@ $count = 0;
 <h2>Suppliers</h2>
 <table id="suppliers">
     <tr>
-        <th>Id</th>
+        <th class="id">Id</th>
         <th>Name</th>
         <th>Contact Name</th>
         <th>Phone Number</th>
         <th>Fax Number</th>
-        <th>Edit</th>
-        <th>Remove</th>
+        <th class="edit">Edit</th>
+        <th class="remove">Remove</th>
     </tr>
     <?php foreach ($suppliers as $s) { 
         $count++;

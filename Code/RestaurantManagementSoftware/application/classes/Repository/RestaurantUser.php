@@ -23,15 +23,14 @@ class Repository_RestaurantUser extends Repository_AbstractRepository {
     /**
      * Get the restaurant with the id pass in parameter.
      * @param int $id
-     * @return a restaurant
+     * @return a list of users of the restaurant
      */
-    public function get($id) {
+    public function getRestaurantUsers($id) {
         $params = array (
             new Database_StatementParameter(':ruid', $id, PDO::PARAM_INT, 11)
         );
         
-        $restaurantUsers = $this->fetchNConstruct('CALL sp_getRestaurantUsers(:ruid)', $params);
-        return (sizeof($restaurantUsers) > 0) ? $restaurantUsers[0] : null;
+        return $this->fetchNConstruct('CALL sp_getRestaurantUsers(:ruid)', $params);
     }
     
     /**
@@ -40,14 +39,14 @@ class Repository_RestaurantUser extends Repository_AbstractRepository {
      * @param Model_RestaurantUser $restaurantUsers
      * @return int
      */
-    public function subscribeOrUnsubscribeUsersToRestaurant($idRestaurant, $restaurantUsers) {
+    public function subscribeOrUnsubcribeUsersToRestaurant($idRestaurant, $restaurantUsers) {
         $users = $this->getRestaurantUsersFormatted($restaurantUsers);
         $params = array (
             new Database_StatementParameter(':ruid', $idRestaurant, PDO::PARAM_INT, 11),
             new Database_StatementParameter(':ruusers', $users, PDO::PARAM_STR, 1000)
         );
         
-        return $this->execute('CALL sp_saveRestaurant(:ruid, :ruusers)', $params);
+        return $this->execute('CALL sp_subscribOrUnSubscribUsersToRestaurant(:ruid, :ruusers)', $params);
     }
     
    /**
@@ -70,10 +69,12 @@ class Repository_RestaurantUser extends Repository_AbstractRepository {
      */
     private function getRestaurantUsersFormatted($restaurantUsers) {
         $users = '';
+        $isFirst = true;
         foreach ($restaurantUsers as $ru) {
-            $users .= $ru->id_user.','.($ru->is_check) ? '1' /*subscribe*/ : '0' /*unsubscribe*/.',';
+            $users .= (($isFirst)?'':',').$ru->getIdUser().','.(($ru->getIsCheck()) ? '1' /*subscribe*/ : '0' /*unsubscribe*/);
+            if($isFirst) { $isFirst = false; }
         }
-        return users;
+        return $users;
     }
 }
 
