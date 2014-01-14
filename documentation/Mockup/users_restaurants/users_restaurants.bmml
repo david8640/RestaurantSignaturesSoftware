@@ -25,9 +25,9 @@
         <text>User%20Access%20Management</text>
       </controlProperties>
     </control>
-    <control controlID="9" controlTypeID="com.balsamiq.mockups::DataGrid" x="251" y="403" w="829" h="112" measuredW="168" measuredH="108" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::DataGrid" x="251" y="403" w="829" h="112" measuredW="120" measuredH="108" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Name%2C%20Delete%0ADavid%20Fortin%20%2C%20%0ABob%20Graton%20%2C%0AArmand%20Brossard%2C%0A%7B70%2C%2010%7D</text>
+        <text>Name%0ADavid%20Fortin%20%0ABob%20Graton%0AArmand%20Brossard%0A%7B70%7D</text>
       </controlProperties>
     </control>
     <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="208" y="373" w="122" h="-1" measuredW="112" measuredH="24" zOrder="5" locked="false" isInGroup="-1">
@@ -36,41 +36,25 @@
         <text>%20-%20Restaurant%202</text>
       </controlProperties>
     </control>
-    <control controlID="13" controlTypeID="com.balsamiq.mockups::Image" x="330" y="370" w="31" h="31" measuredW="64" measuredH="64" zOrder="6" locked="false" isInGroup="-1">
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::DataGrid" x="251" y="283" w="829" h="83" measuredW="124" measuredH="108" zOrder="6" locked="false" isInGroup="-1">
       <controlProperties>
-        <src>./assets/Screen%2520Shot%25202014-01-10%2520at%25209.17.36%2520AM.png</src>
+        <text>Name%0ADavid%20Fortin%20%0ABob%20Graton%20%0AArmand%20Brossard%20%0A%7B70%7D</text>
       </controlProperties>
     </control>
-    <control controlID="14" controlTypeID="com.balsamiq.mockups::Image" x="1010" y="424" w="42" h="53" measuredW="94" measuredH="118" zOrder="7" locked="false" isInGroup="-1">
-      <controlProperties>
-        <src>./assets/Screen%2520Shot%25202014-01-10%2520at%25209.17.42%2520AM.png</src>
-      </controlProperties>
-    </control>
-    <control controlID="15" controlTypeID="com.balsamiq.mockups::Image" x="1010" y="479" w="34" h="27" measuredW="75" measuredH="60" zOrder="8" locked="false" isInGroup="-1">
-      <controlProperties>
-        <crop>0%2C0%2C800%2C509</crop>
-        <src>./assets/Screen%2520Shot%25202014-01-10%2520at%25209.17.42%2520AM.png</src>
-      </controlProperties>
-    </control>
-    <control controlID="25" controlTypeID="com.balsamiq.mockups::DataGrid" x="251" y="283" w="829" h="83" measuredW="172" measuredH="108" zOrder="9" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Name%2C%20Delete%0ADavid%20Fortin%20%2C%20%0ABob%20Graton%20%2C%0AArmand%20Brossard%20%2C%0A%7B70%2C%2010%7D</text>
-      </controlProperties>
-    </control>
-    <control controlID="26" controlTypeID="com.balsamiq.mockups::Label" x="208" y="253" w="122" h="-1" measuredW="108" measuredH="24" zOrder="10" locked="false" isInGroup="-1">
+    <control controlID="26" controlTypeID="com.balsamiq.mockups::Label" x="208" y="253" w="122" h="-1" measuredW="108" measuredH="24" zOrder="7" locked="false" isInGroup="-1">
       <controlProperties>
         <size>16</size>
         <text>%20-%20Restaurant%201</text>
       </controlProperties>
     </control>
-    <control controlID="28" controlTypeID="com.balsamiq.mockups::Image" x="330" y="250" w="31" h="32" measuredW="64" measuredH="64" zOrder="11" locked="false" isInGroup="-1">
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::Image" x="330" y="251" w="-1" h="-1" measuredW="31" measuredH="28" zOrder="8" locked="false" isInGroup="-1">
       <controlProperties>
-        <src>./assets/Screen%2520Shot%25202014-01-10%2520at%25209.17.36%2520AM.png</src>
+        <src>./assets/Screen%2520Shot%25202014-01-14%2520at%25205.20.32%2520PM.png</src>
       </controlProperties>
     </control>
-    <control controlID="29" controlTypeID="com.balsamiq.mockups::Image" x="1010" y="305" w="42" h="53" measuredW="94" measuredH="118" zOrder="12" locked="false" isInGroup="-1">
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::Image" x="330" y="371" w="-1" h="-1" measuredW="31" measuredH="28" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
-        <src>./assets/Screen%2520Shot%25202014-01-10%2520at%25209.17.42%2520AM.png</src>
+        <src>./assets/Screen%2520Shot%25202014-01-14%2520at%25205.20.32%2520PM.png</src>
       </controlProperties>
     </control>
   </controls>
