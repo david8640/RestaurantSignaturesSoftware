@@ -39,7 +39,7 @@
                 <div class="right">
                     <?php 
                     if (count($locations) > 0) { 
-                        echo FORM::hidden('id_user', $global_user_id, array('id' => 'id_user')); ?>
+                        echo Form::hidden('id_user', $global_user_id, array('id' => 'id_user')); ?>
                         <span class="item">
                             <select id="locations">
                                 <?php foreach ($locations as $l) { ?>
