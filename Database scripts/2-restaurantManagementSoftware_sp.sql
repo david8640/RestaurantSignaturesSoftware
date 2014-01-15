@@ -2,7 +2,6 @@ USE `restaurantManagementSoftware`;
 
 DELIMITER GO
 
-
 -- ---------------------------------------------------------------------------------------
 -- Views
 -- ---------------------------------------------------------------------------------------
@@ -436,10 +435,10 @@ BEGIN
 	manip_loop: LOOP
 		-- Get the current user
 		SET pos = pos + 1;
-    	SET cur_user = split(r_users, ",", pos);
+    	SET cur_user = fct_split(r_users, ",", pos);
     	-- Get the operation related (1-add, 0-delete)
     	SET pos = pos + 1;
-    	SET cur_op = split(r_users, ",", pos);
+    	SET cur_op = fct_split(r_users, ",", pos);
 	
 		-- Loop exit
 		/****************************/
@@ -546,12 +545,12 @@ GO
 -- Functions
 -- ---------------------------------------------------------------------------------------
 -- -----------------------------------------------------
--- Stored Procedure `fct_isNotChildOf`
+-- Function `fct_isNotChildOf`
 -- Validate that there is no child->parent->child loop
 -- for 1 or 2 or 3 level of indentations
 -- *** This solution is temporary until we find a better solution ***
 -- -----------------------------------------------------
-DROP FUNCTION IF EXISTS `fct_isNotChildOf`;
+DROP FUNCTION IF EXISTS `fct_isNotChildOf`
 GO
 CREATE FUNCTION fct_isNotChildOf(
 	c_id_category INT(11),
@@ -582,12 +581,12 @@ END
 GO
 
 -- -----------------------------------------------------
--- Stored Procedure `split`
+-- Function `fct_split`
 -- source : http://stackoverflow.com/questions/11835155/mysql-split-comma-seperated-string-into-temp-table
 -- -----------------------------------------------------
-DROP FUNCTION IF EXISTS `split`;
+DROP FUNCTION IF EXISTS `fct_split`
 GO
-CREATE FUNCTION split(
+CREATE FUNCTION fct_split(
   x VARCHAR(1000),
   delim VARCHAR(12),
   pos INT

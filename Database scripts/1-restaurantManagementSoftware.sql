@@ -20,11 +20,11 @@ ALTER DATABASE  `restaurantManagementSoftware` DEFAULT CHARACTER SET latin2 COLL
 -- Drop tables
 -- ---------------------------------------------------------------------------
 DROP TABLE IF EXISTS `supplier`;
-DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `login_attempts`;
 DROP TABLE IF EXISTS `product_category`;
-DROP TABLE IF EXISTS `restaurant`;
 DROP TABLE IF EXISTS `users_restaurants`;
+DROP TABLE IF EXISTS `login_attempts`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `restaurant`;
 
 -- ---------------------------------------------------------------------------
 -- Table supplier

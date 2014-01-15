@@ -90,3 +90,4 @@ class Controller_Template_Generic extends Controller_Template {
     }
 
 }
+

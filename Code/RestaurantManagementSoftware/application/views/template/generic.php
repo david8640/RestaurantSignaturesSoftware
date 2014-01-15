@@ -12,7 +12,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title><?php echo $title ?></title>
+    <title><?php echo $title ?></title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <?php echo HTML::style('application/style/style.css'); ?>
     <?php echo HTML::script('application/scripts/jquery-1.10.2.min.js'); ?>
