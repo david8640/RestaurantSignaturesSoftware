@@ -27,10 +27,10 @@ class Controller_Login extends Controller_Template_Generic {
             $ipaddress = $_POST['ipaddress'];
             $repo = new Repository_User();
             $user = $repo->getViaUsername($username);
-            /*if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
+            if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
                 Session::instance()->set('feedbackMessage', array('Incorrect username ☺ ' . $username));
                 $this->redirect('login/login');
-            } else {*/
+            } else {
                 $salt = $user[0]->getSalt();
                 $hashedPassword = hash('sha512', $password . $salt);
                 if ($hashedPassword == $user[0]->getPassword()) { //successfully authenticated
@@ -57,7 +57,7 @@ class Controller_Login extends Controller_Template_Generic {
                     Session::instance()->set('feedbackMessage', array('Incorrect password ☺)'));
                     $this->redirect('login/login');
                 }
-            //} //defualt
+            } //defualt
             // The correct POST variables were not sent to this page.
             echo 'Invalid POST';
         }

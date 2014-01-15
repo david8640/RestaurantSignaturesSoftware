@@ -11,7 +11,7 @@
 
 class Controller_Template_Generic extends Controller_Template {
 
-    public $template = 'template/generic';
+    public $template = 'template/generic'; 
 
     /**
      * The before() method is called before your controller action.
