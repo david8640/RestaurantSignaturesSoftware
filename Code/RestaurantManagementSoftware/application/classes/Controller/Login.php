@@ -27,10 +27,10 @@ class Controller_Login extends Controller_Template_Generic {
             $ipaddress = $_POST['ipaddress'];
             $repo = new Repository_User();
             $user = $repo->getViaUsername($username);
-            if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
+            /*if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
                 Session::instance()->set('feedbackMessage', array('Incorrect username ☺ ' . $username));
                 $this->redirect('login/login');
-            } else {
+            } else {*/
                 $salt = $user[0]->getSalt();
                 $hashedPassword = hash('sha512', $password . $salt);
                 if ($hashedPassword == $user[0]->getPassword()) { //successfully authenticated
@@ -57,7 +57,7 @@ class Controller_Login extends Controller_Template_Generic {
                     Session::instance()->set('feedbackMessage', array('Incorrect password ☺)'));
                     $this->redirect('login/login');
                 }
-            } //defualt
+            //} //defualt
             // The correct POST variables were not sent to this page.
             echo 'Invalid POST';
         }
@@ -150,7 +150,7 @@ class Controller_Login extends Controller_Template_Generic {
         return Validation::factory($post)
                         ->rule('username', 'not_empty')
                         ->rule('username', 'max_length', array(':value', 30))
-                        /*->label('username', 'Username')
+                        ->label('username', 'Username')
                         ->rule('name', 'not_empty')
                         ->rule('name', 'max_length', array(':value', 75))
                         ->label('name', 'Name')
@@ -160,7 +160,7 @@ class Controller_Login extends Controller_Template_Generic {
                         ->rule('password', 'not_empty')
                         ->label('password', 'Password')
                         ->rule('salt', 'not_empty')
-                        ->label('salt', 'Salt')*/;
+                        ->label('salt', 'Salt');
     }
 
 }
