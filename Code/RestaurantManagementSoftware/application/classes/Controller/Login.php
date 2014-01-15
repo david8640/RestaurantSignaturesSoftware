@@ -29,7 +29,7 @@ class Controller_Login extends Controller_Template_Generic {
             $user = $repo->getViaUsername($username);
             if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
                 Session::instance()->set('feedbackMessage', array('Incorrect username ☺ ' . $username));
-                $this->redirect('login1/login');
+                $this->redirect('login/login');
             } else {
                 $salt = $user[0]->getSalt();
                 $hashedPassword = hash('sha512', $password . $salt);
@@ -46,7 +46,7 @@ class Controller_Login extends Controller_Template_Generic {
                         unset($salt);
                         unset($user_id);
                         unset($user_browser);
-                        $this->redirect('index2/index');
+                        $this->redirect('index/index');
                     } else {
                         Session::instance()->set('feedbackMessage', array('Error saving session to Database'));
                     }
@@ -55,7 +55,7 @@ class Controller_Login extends Controller_Template_Generic {
                     unset($password);
                     unset($salt);
                     Session::instance()->set('feedbackMessage', array('Incorrect password ☺)'));
-                    $this->redirect('login3/login');
+                    $this->redirect('login/login');
                 }
             } //defualt
             // The correct POST variables were not sent to this page.
@@ -150,7 +150,7 @@ class Controller_Login extends Controller_Template_Generic {
         return Validation::factory($post)
                         ->rule('username', 'not_empty')
                         ->rule('username', 'max_length', array(':value', 30))
-                        ->label('username', 'Username')
+                        /*->label('username', 'Username')
                         ->rule('name', 'not_empty')
                         ->rule('name', 'max_length', array(':value', 75))
                         ->label('name', 'Name')
@@ -160,7 +160,7 @@ class Controller_Login extends Controller_Template_Generic {
                         ->rule('password', 'not_empty')
                         ->label('password', 'Password')
                         ->rule('salt', 'not_empty')
-                        ->label('salt', 'Salt');
+                        ->label('salt', 'Salt')*/;
     }
 
 }
