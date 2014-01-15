@@ -34,13 +34,7 @@ class Repository_User extends Repository_AbstractRepository {
         );
         //$users = $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
         //return $users;
-        try {
         return $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
-        } catch (Exception $e) {
-        	echo $e;
-	         
-	         exit();
-        }
     }
 
     /**
