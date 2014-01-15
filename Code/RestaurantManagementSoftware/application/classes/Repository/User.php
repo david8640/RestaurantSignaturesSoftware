@@ -30,7 +30,7 @@ class Repository_User extends Repository_AbstractRepository {
      */
     public function getViaUsername($username) {
         $params = array(
-            new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30),
+            new Database_StatementParameter(':username', $username, PDO::PARAM_STR, 30)
         );
         //$users = $this->fetchNConstruct('CALL sp_getUser(:username)', $params);
         //return $users;
