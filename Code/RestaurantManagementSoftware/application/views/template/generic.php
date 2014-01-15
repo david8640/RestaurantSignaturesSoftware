@@ -15,6 +15,7 @@
     <title><?php echo $title ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <?php echo HTML::style('application/style/style.css'); ?>
+    <?php echo HTML::script('application/scripts/jquery-1.10.2.min.js'); ?>
 </head>
     <body>
         <?php
@@ -36,16 +37,18 @@
                     <li><?php echo HTML::anchor('restaurantUser/findAll', 'User Access'); ?></li>
                 </ul>
                 <div class="right">
-                    <?php if (count($locations) > 0) { ?>
-                    <span class="item">
-                        <select>
-                            <?php foreach ($locations as $l) { ?>
-                                <option value="<?php echo $l->getId(); ?>" <?php echo (($l->getId() == $global_selected_location) ? 'selected': ''); ?>>
-                                    <?php echo $l->getName(); ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                    </span>
+                    <?php 
+                    if (count($locations) > 0) { 
+                        echo FORM::hidden('id_user', $global_user_id, array('id' => 'id_user')); ?>
+                        <span class="item">
+                            <select id="locations">
+                                <?php foreach ($locations as $l) { ?>
+                                    <option value="<?php echo $l->getId(); ?>" <?php echo (($l->getId() == $global_selected_location) ? 'selected': ''); ?>>
+                                        <?php echo $l->getName(); ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </span>
                     <?php } ?>
                     <span class="item">
                         <?php
@@ -76,5 +79,13 @@
         <div class="content"><?php
             echo $content;
         ?></div>
+        
+        <script>
+            $('#locations').change(function() {
+                var userId = $('#id_user').val();
+                var locationId = $('#locations :selected').val();
+               $.post('<?php echo URL::site('Login/selectLocation'); ?>', { id_user: userId , id_location: locationId }); 
+            });
+        </script>
     </body>
 </html>

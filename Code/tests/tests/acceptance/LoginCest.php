@@ -1,12 +1,12 @@
 <?php
 class LoginCept {
-	public function cor1(\WebGuy $I) {
+    public function cor1(\WebGuy $I) {
         $I->wantTo('COR-1: The system shall display a log in section upon launching.');
         $I->amOnPage('/');
         $I->see('Login');
     }
-    
-     public function cor2(\WebGuy $I) {
+
+    public function cor2(\WebGuy $I) {
         $I->wantTo('COR-2: Display the main menu on log in.');
         $I->amOnPage('/');
         $I->see('Login');
@@ -17,7 +17,7 @@ class LoginCept {
         $I->click('Login');
         $I->see('Welcome back Andrew Assaly');
     }
-    
+
     public function cor3_1(\WebGuy $I) {
         $I->wantTo('COR-3: Display an error with incorrect password.');
         $I->amOnPage('/');
@@ -29,7 +29,7 @@ class LoginCept {
         $I->click('Login');
         $I->see('Incorrect password ☺');
     }
-    
+
     public function cor3_2(\WebGuy $I) {
         $I->wantTo('COR-3: Display an error with incorrect username.');
         $I->amOnPage('/');
@@ -41,8 +41,8 @@ class LoginCept {
         $I->click('Login');
         $I->see('Incorrect username ☺');
     }
-    
-     public function cor4(\WebGuy $I) {
+
+    public function cor4(\WebGuy $I) {
         $I->wantTo('COR-4: Consider a login valid when valid credentials submitted');
         $I->amOnPage('/');
         $I->see('Login');
@@ -54,10 +54,7 @@ class LoginCept {
         $I->see('Welcome Back Andrew Assaly');
     }
     
-        
-
-    
-      public function cor8(\WebGuy $I) {
+    public function cor8(\WebGuy $I) {
         $I->wantTo('COR-8: Allow a user to log out from the menu');
         $I->amOnPage('/');
         $I->see('Login');
@@ -71,11 +68,10 @@ class LoginCept {
         $I->click('Logout');
         $I->see("Login");
     }   
-    
-    
-    	public function cor27(\WebGuy $I) {
-    	$I->wantTo('COR-27: Create an account');
-    	$I->amOnPage('/index.php/login/deleteUser/admin');
+
+    public function cor27(\WebGuy $I) {
+        $I->wantTo('COR-27: Create an account');
+        $I->amOnPage('/index.php/login/deleteUser/admin');
         $I->amOnPage('/');
         //attempt to login.
         $I->click('Register');
@@ -91,9 +87,7 @@ class LoginCept {
         $I->fillField('password', 'password');
         $I->click('Login');
         $I->see('Welcome Back John Doe');
-    	$I->amOnPage('/index.php/login/deleteUser/admin');
-    	$I->see('admin deleted');
-    }
-    
-    
+        $I->amOnPage('/index.php/login/deleteUser/admin');
+        $I->see('admin deleted');
+    }   
 }

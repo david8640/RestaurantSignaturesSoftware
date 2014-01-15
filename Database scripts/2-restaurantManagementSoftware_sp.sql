@@ -490,14 +490,24 @@ CREATE PROCEDURE sp_getUserLocations(
 BEGIN
 	DECLARE selectedLocation INT;
 	DECLARE defaultSelectedLocation INT;
+	DECLARE locationExists INT;
 	
 	SET selectedLocation = -1;
 	
+	-- Get the selected location for the current user
 	SELECT location_selected INTO selectedLocation
 	FROM users
 	WHERE id_user = ur_id_user;
 	
-	IF (selectedLocation IS NULL) THEN
+	-- Determine if the user has access to the selected location
+	SELECT COUNT(*) INTO locationExists
+ 	FROM users_restaurants RU
+ 	WHERE RU.id_restaurant = selectedLocation AND RU.id_user = ur_id_user;
+	
+	-- If the user selected location is null or if he does not 
+	-- have access to the selected location we update his selected location
+	-- for the first location in his locations list.
+	IF (selectedLocation IS NULL OR locationExists = 0) THEN
 	BEGIN
 		SELECT R.id_restaurant INTO defaultSelectedLocation
  		FROM restaurant R, users_restaurants RU
@@ -509,6 +519,7 @@ BEGIN
 	END;
 	END IF;
 	
+	-- Get all the locations of a user
 	SELECT R.id_restaurant, R.name, NULL AS address
  	FROM restaurant R, users_restaurants RU
  	WHERE R.id_restaurant = RU.id_restaurant AND RU.id_user = ur_id_user;

@@ -135,6 +135,16 @@ class Controller_Login extends Controller_Template_Generic {
         Session::instance()->set('global_username', '');
         $this->redirect('login/login');
     }
+    
+    public function action_selectLocation() {
+        $userId = $_POST['id_user'];
+        $locationId = $_POST['id_location'];
+        
+        if (isset($userId) && isset($locationId)) {
+            $repo = new Repository_User();
+            $repo->selectLocation($userId, $locationId);
+        }
+    }
 
     private function getValidationFactory($post) {
         return Validation::factory($post)
