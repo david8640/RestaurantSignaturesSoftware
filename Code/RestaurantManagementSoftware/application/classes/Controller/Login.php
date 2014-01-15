@@ -26,6 +26,7 @@ class Controller_Login extends Controller_Template_Generic {
             $password = $_POST['password'];
             $ipaddress = $_POST['ipaddress'];
             $repo = new Repository_User();
+            throw new Exception($username);
             $user = $repo->getViaUsername($username);
             /*if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
                 Session::instance()->set('feedbackMessage', array('Incorrect username ☺ ' . $username));
