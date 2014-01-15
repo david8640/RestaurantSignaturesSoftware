@@ -35,10 +35,10 @@ class Controller_Template_Generic extends Controller_Template {
                     $this->template->global_user_id = $user[0]->getId();
                     $this->template->global_selected_location = $user[0]->getLocation();
                 } else {
-                    $this->redirect('login/login');
+                    //$this->redirect('login/login');
                 }
             } else {
-                echo $this->redirect('login/login');
+                //echo $this->redirect('login/login');
             }
         }
 
