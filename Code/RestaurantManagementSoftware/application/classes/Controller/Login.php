@@ -29,7 +29,7 @@ class Controller_Login extends Controller_Template_Generic {
             $user = $repo->getViaUsername($username);
             if (!(Valid::not_empty($user))) {  //check if a user with the same username was found.
                 Session::instance()->set('feedbackMessage', array('Incorrect username ☺ ' . $username));
-                $this->redirect('login/login');
+                $this->redirect('login1/login');
             } else {
                 $salt = $user[0]->getSalt();
                 $hashedPassword = hash('sha512', $password . $salt);
@@ -46,7 +46,7 @@ class Controller_Login extends Controller_Template_Generic {
                         unset($salt);
                         unset($user_id);
                         unset($user_browser);
-                        $this->redirect('index/index');
+                        $this->redirect('index2/index');
                     } else {
                         Session::instance()->set('feedbackMessage', array('Error saving session to Database'));
                     }
@@ -55,7 +55,7 @@ class Controller_Login extends Controller_Template_Generic {
                     unset($password);
                     unset($salt);
                     Session::instance()->set('feedbackMessage', array('Incorrect password ☺)'));
-                    $this->redirect('login/login');
+                    $this->redirect('login3/login');
                 }
             } //defualt
             // The correct POST variables were not sent to this page.
