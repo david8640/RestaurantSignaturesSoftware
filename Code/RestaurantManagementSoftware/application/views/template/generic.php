@@ -20,7 +20,11 @@
         <?php
         if (Session::instance()->get('global_username') != '') {
             $global_username = Session::instance()->get_once('global_username');
-        };
+        }
+        
+        if (!isset($locations)) {
+            $locations = array();
+        }
         
         if (!$hide_menu) { ?>
             <div class="menu">
@@ -32,6 +36,17 @@
                     <li><?php echo HTML::anchor('restaurantUser/findAll', 'User Access'); ?></li>
                 </ul>
                 <div class="right">
+                    <?php if (count($locations) > 0) { ?>
+                    <span class="item">
+                        <select>
+                            <?php foreach ($locations as $l) { ?>
+                                <option value="<?php echo $l->getId(); ?>" <?php echo (($l->getId() == $global_selected_location) ? 'selected': ''); ?>>
+                                    <?php echo $l->getName(); ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </span>
+                    <?php } ?>
                     <span class="item">
                         <?php
                          if (isset($global_username)) {

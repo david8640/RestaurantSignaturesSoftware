@@ -32,6 +32,8 @@ class Controller_Template_Generic extends Controller_Template {
                 $user = $repo->getBySessionID($cookie);
                 if ($user != null) {
                     $this->template->global_username = $user[0]->getName();
+                    $this->template->global_user_id = $user[0]->getId();
+                    $this->template->global_selected_location = $user[0]->getLocation();
                 } else {
                     $this->redirect('login/login');
                 }
@@ -73,6 +75,12 @@ class Controller_Template_Generic extends Controller_Template {
                 } else if (isset($sessionFeedbackmessage)) {
                     Session::instance()->set('loginFeedbackMessage', $sessionFeedbackmessage);
                 }
+            }
+            
+            if (isset($this->template->global_user_id)) {
+                // Set the locations variable
+                $repo = new Repository_Restaurant();
+                $this->template->locations = $repo->getUserLocations($this->template->global_user_id);
             }
             
             $this->template->styles = array_merge($this->template->styles, $styles);

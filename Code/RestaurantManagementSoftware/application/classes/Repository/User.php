@@ -69,10 +69,10 @@ class Repository_User extends Repository_AbstractRepository {
         return $this->fetchNConstruct('CALL sp_getPassword(:username)', $params);
     }
     
-        /**
-     * Get the user's salt
-     * @param int $username
-     * @return a user
+    /**
+     * Set the session vars
+     * @param Model_User $user
+     * @return success
      */
     public function setSessionVars($user) {
         $params = array(
@@ -84,6 +84,11 @@ class Repository_User extends Repository_AbstractRepository {
         return $this->execute('CALL sp_updateUserSession(:id_user, :session_id, :session_expiry_time)', $params);
     }
     
+    /**
+     * Get the session vars
+     * @param int session_id
+     * @return a user
+     */
     public function getBySessionID($session_id) {
         $params = array(
             new Database_StatementParameter(':session_id', $session_id, PDO::PARAM_STR, 128)
@@ -92,6 +97,21 @@ class Repository_User extends Repository_AbstractRepository {
         return $this->fetchNConstruct('CALL sp_getUserBySessionID(:session_id)', $params);
     }
 
+    /**
+     * Select location
+     * @param int userId
+     * @param int locationId
+     * @return int
+     */
+    public function selectLocation($userId, $locationId) {
+        $params = array(
+        new Database_StatementParameter(':uuserid', $userId, PDO::PARAM_INT, 11),
+        new Database_StatementParameter(':ulocationid', $locationId, PDO::PARAM_INT, 11)
+        );
+
+        return $this->execute('CALL sp_selectLocation(:uuserid, :ulocationid)', $params);
+    }
+    
     /**
      * Add a user
      * @param Model_User $user
@@ -147,7 +167,10 @@ class Repository_User extends Repository_AbstractRepository {
      * @return \Model_User
      */
     protected function construct($obj) {
-        return new Model_User($obj->id_user, $obj->username, $obj->name, $obj->email, $obj->password, $obj->salt, $obj->session_id, $obj->session_expiry_time);
+        return new Model_User($obj->id_user, $obj->username, $obj->name, 
+                $obj->email, $obj->password, $obj->salt, $obj->session_id, 
+                $obj->session_expiry_time, 
+                (($obj->location_selected == NULL) ? -1 : $obj->location_selected));
     }
 
 }

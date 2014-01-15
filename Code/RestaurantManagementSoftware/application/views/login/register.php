@@ -9,7 +9,7 @@
  */
 if (!isset($user)) {
     $random_Salt = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
-    $user = new Model_User(-1, '', '', '', '',$random_Salt, '', 0);
+    $user = new Model_User(-1, '', '', '', '',$random_Salt, '', 0, -1);
 }
 
 if (!isset($submitAction)) {

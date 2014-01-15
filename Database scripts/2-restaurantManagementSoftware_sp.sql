@@ -479,6 +479,58 @@ BEGIN
 END
 GO
 
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getUserLocations`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getUserLocations`
+GO
+CREATE PROCEDURE sp_getUserLocations(
+    IN ur_id_user INT
+)
+BEGIN
+	DECLARE selectedLocation INT;
+	DECLARE defaultSelectedLocation INT;
+	
+	SET selectedLocation = -1;
+	
+	SELECT location_selected INTO selectedLocation
+	FROM users
+	WHERE id_user = ur_id_user;
+	
+	IF (selectedLocation IS NULL) THEN
+	BEGIN
+		SELECT R.id_restaurant INTO defaultSelectedLocation
+ 		FROM restaurant R, users_restaurants RU
+ 	 	WHERE R.id_restaurant = RU.id_restaurant AND RU.id_user = ur_id_user
+ 	 	LIMIT 0,1;
+	
+	 	UPDATE users SET location_selected = defaultSelectedLocation
+	 	WHERE id_user = ur_id_user;
+	END;
+	END IF;
+	
+	SELECT R.id_restaurant, R.name, NULL AS address
+ 	FROM restaurant R, users_restaurants RU
+ 	WHERE R.id_restaurant = RU.id_restaurant AND RU.id_user = ur_id_user;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_selectLocation`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_selectLocation`
+GO
+CREATE PROCEDURE sp_selectLocation(
+	IN u_id_user INT,
+    IN u_id_location INT
+)
+BEGIN
+	UPDATE users SET	
+		location_selected = u_id_location
+	WHERE id_user = u_id_user;
+END
+GO
+
 -- ---------------------------------------------------------------------------------------
 -- Functions
 -- ---------------------------------------------------------------------------------------

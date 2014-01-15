@@ -91,7 +91,7 @@ class Controller_Login extends Controller_Template_Generic {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             $post = $this->getValidationFactory($_POST);
             $secure_password = hash('sha512', $post['password'] . $post['salt']);
-            $user = new Model_User(-1, $post['username'], $post['name'], $post['email'], $secure_password, $post['salt'], $post['sessionID'], $post['sessionExpiryTime']);
+            $user = new Model_User(-1, $post['username'], $post['name'], $post['email'], $secure_password, $post['salt'], $post['sessionID'], $post['sessionExpiryTime'], -1);
             if ($post->check()) {
                 // Add a user
                 $repo = new Repository_User();

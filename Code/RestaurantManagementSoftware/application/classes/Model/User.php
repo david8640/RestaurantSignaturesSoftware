@@ -20,6 +20,7 @@ class Model_User extends Model {
     private $salt;
     private $session_id;
     private $session_expiry_time;
+    private $location;
 
     // Ctr
     /**
@@ -29,8 +30,9 @@ class Model_User extends Model {
      * @param string $email the email of the user
      * @param string $password the Hashed password
      * @param string $salt the Hashed random salt used to calculate the hashed password
+     * @param int $location the selected location
      */
-    public function __construct($id, $username, $name, $email, $password, $salt, $session_id, $session_expiry_time) {
+    public function __construct($id, $username, $name, $email, $password, $salt, $session_id, $session_expiry_time, $location) {
         $this->setId($id);
         $this->setUsername($username);
         $this->setName($name);
@@ -43,6 +45,7 @@ class Model_User extends Model {
             $this->setSessionId($session_id);
         }   
         $this->setSessionId($session_expiry_time);
+        $this->setLocation($location);
     }
 
     // Getters and setters
@@ -173,7 +176,22 @@ class Model_User extends Model {
     public function setSessionExpiryTime($session_expiry_time) {
         $this->session_expiry_time = $session_expiry_time;
     }
-
+    
+    /**
+     * Get the location of the user
+     * @return int
+     */
+    public function getLocation() {
+        return $this->location;
+    }
+    
+     /**
+     * Get the location of the user
+     * @param int $location
+     */
+    public function setLocation($location) {
+        $this->location = $location;
+    }
 }
 
 ?>

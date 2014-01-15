@@ -34,6 +34,19 @@ class Repository_Restaurant extends Repository_AbstractRepository {
         return (sizeof($restaurant) > 0) ? $restaurant[0] : null;
     }
     
+     /**
+     * Get the restaurants in which the user has access.
+     * @param int $userId
+     * @return a list of restaurants
+     */
+    public function getUserLocations($userId) {
+        $params = array(
+            new Database_StatementParameter(':id_user', $userId, PDO::PARAM_INT, 11)
+        );
+
+        return $this->fetchNConstruct('CALL sp_getUserLocations(:id_user)', $params);
+    }
+    
     /**
      * Add a restaurant
      * @param Model_Restaurant $restaurant
@@ -82,7 +95,8 @@ class Repository_Restaurant extends Repository_AbstractRepository {
      * @return \Model_Restaurant
      */
     protected function construct($obj) {
-        return new Model_Restaurant($obj->id_restaurant, $obj->name, $obj->address);
+        return new Model_Restaurant($obj->id_restaurant, $obj->name, 
+                                    (($obj->address == NULL) ? '' : $obj->address));
     }
 }
 

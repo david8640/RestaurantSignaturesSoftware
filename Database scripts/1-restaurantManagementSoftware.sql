@@ -39,32 +39,6 @@ CREATE TABLE IF NOT EXISTS `supplier` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin2 AUTO_INCREMENT=5;
 
 -- ---------------------------------------------------------------------------
--- Table users
--- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `users` (
-  `id_user` INT(11) NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(30) NOT NULL UNIQUE,
-  `name` VARCHAR(75) NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
-  `password` CHAR(128) NOT NULL,
-  `salt` CHAR(128) NOT NULL,
-  `session_id` CHAR(128),
-  `session_expiry_time` INT(25),
-  PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
-
--- ---------------------------------------------------------------------------
--- Table login_attempts
--- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `login_attempts` (
-  `id_user` INT(11) NOT NULL,
-  `time_of_attempt` VARCHAR(30) NOT NULL,
-  `ip_address` VARCHAR(30) DEFAULT 'n/a',
-  KEY `id_user` (`id_user`),
-  CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin2;
-
--- ---------------------------------------------------------------------------
 -- Table product_category
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `product_category` (
@@ -86,6 +60,34 @@ CREATE TABLE IF NOT EXISTS `restaurant` (
   `address` VARCHAR(250),
   PRIMARY KEY (`id_restaurant`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+
+-- ---------------------------------------------------------------------------
+-- Table users
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users` (
+  `id_user` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(30) NOT NULL UNIQUE,
+  `name` VARCHAR(75) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `password` CHAR(128) NOT NULL,
+  `salt` CHAR(128) NOT NULL,
+  `session_id` CHAR(128),
+  `session_expiry_time` INT(25),
+  `location_selected` INT(11),
+  PRIMARY KEY (`id_user`),
+  CONSTRAINT `location_selected_users_ibfk_1` FOREIGN KEY (`location_selected`) REFERENCES `restaurant` (`id_restaurant`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+
+-- ---------------------------------------------------------------------------
+-- Table login_attempts
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `login_attempts` (
+  `id_user` INT(11) NOT NULL,
+  `time_of_attempt` VARCHAR(30) NOT NULL,
+  `ip_address` VARCHAR(30) DEFAULT 'n/a',
+  KEY `id_user` (`id_user`),
+  CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin2;
 
 -- ---------------------------------------------------------------------------
 -- Table users_restaurants
