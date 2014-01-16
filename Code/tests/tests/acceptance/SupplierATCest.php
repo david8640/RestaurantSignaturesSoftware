@@ -5,7 +5,7 @@ class SupplierATCest {
     // tests
     public function goToAddPage(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SUP-1 Go to the add supplier page');
+        $I->wantTo('SUP-1: Go to the add supplier page');
         $I->amOnPage('/index.php/supplier/findAll');
         $I->click('.button_add');
         $I->see('Add Supplier');
@@ -14,7 +14,7 @@ class SupplierATCest {
 
     public function add(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SUP-1 Add a supplier (Supplier 2)');
+        $I->wantTo('SUP-1: Add a supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/create/');
         // fill the fields
         $I->fillField('name', 'Supplier 2');
@@ -30,7 +30,7 @@ class SupplierATCest {
 
     public function checkPageContent(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SUP-8 Visit the suppliers page and check content');
+        $I->wantTo('SUP-8: Visit the suppliers page and check content');
         $I->amOnPage('/index.php/supplier/findAll');
         // check if we are on the good page
         $I->see('Suppliers');
@@ -44,7 +44,7 @@ class SupplierATCest {
 
     public function edit(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SUP-2 Edit the first default supplier (Supplier 2)');
+        $I->wantTo('SUP-2: Edit the first default supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/findAll');
         // Delete first default supplier
         $I->click($this->locationInTable.'*[contains(@class, "button_edit")]');
@@ -68,7 +68,7 @@ class SupplierATCest {
 
     public function delete(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SUP-4 Delete the first default supplier (Supplier 3)');
+        $I->wantTo('SUP-4: Delete the first default supplier (Supplier 3)');
         $I->amOnPage('/index.php/supplier/findAll');
         // Delete first default supplier
         $I->click($this->locationInTable.'*[contains(@class, "button_delete")]');
@@ -82,10 +82,10 @@ class SupplierATCest {
 
     public function editInvalidSupplier(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SUP-2 Edit an invalid supplier (a)');
+        $I->wantTo('SUP-2: Edit an invalid supplier (a)');
         $I->amOnPage('/index.php/supplier/edit/a');
         $I->canSee('Invalid supplier id.');
-        $I->wantTo('Edit an invalid supplier (9999999)');
+        $I->wantTo('SUP-2: Edit an invalid supplier (9999999)');
         $I->amOnPage('/index.php/supplier/edit/9999999');
         $I->canSee('Invalid supplier id.');
         Codeception\Module\logout($I);
@@ -93,10 +93,10 @@ class SupplierATCest {
 
     public function deleteInvalidSupplier(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SUP-5 Delete an invalid supplier (a)');
+        $I->wantTo('SUP-5: Delete an invalid supplier (a)');
         $I->amOnPage('/index.php/supplier/delete/a');
         $I->canSee('Invalid supplier id.');
-        $I->wantTo('SUP-5 Delete an invalid supplier (9999999)');
+        $I->wantTo('SUP-5: Delete an invalid supplier (9999999)');
         $I->amOnPage('/index.php/supplier/delete/9999999');
         $I->canSee('An error occurred while deleting the supplier.');
         Codeception\Module\logout($I);
@@ -104,7 +104,7 @@ class SupplierATCest {
 
     public function invalidFieldSupplier(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('Verify the fields validations');
+        $I->wantTo('SUP-7: Verify the fields validations');
         $I->amOnPage('/index.php/supplier/create/');
         // try to add empty supplier
         $I->click('Save');
@@ -160,7 +160,7 @@ class SupplierATCest {
 
     public function checkIfFieldReloadedAfterError(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('Verify the fields are reload after error');
+        $I->wantTo('SUP-7: Verify the fields are reload after error');
         $I->amOnPage('/index.php/supplier/create/');
         $I->fillField('name', 'davidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidforti1');
         $I->fillField('contactName', 'davidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidfortidavidforti1');
