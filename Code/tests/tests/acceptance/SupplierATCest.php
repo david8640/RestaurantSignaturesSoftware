@@ -46,7 +46,7 @@ class SupplierATCest {
         Codeception\Module\login($I);
         $I->wantTo('SUP-2: Edit the first default supplier (Supplier 2)');
         $I->amOnPage('/index.php/supplier/findAll');
-        // Delete first default supplier
+        // Edit first default supplier
         $I->click($this->locationInTable.'*[contains(@class, "button_edit")]');
         // check if we are on the edit page
         $I->see('Edit Supplier');

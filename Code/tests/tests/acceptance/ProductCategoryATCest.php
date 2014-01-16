@@ -58,7 +58,7 @@ class ProductCategoryATCest {
         Codeception\Module\login($I);
         $I->wantTo('CAT-2: Edit the first default product category (Category 2)');
         $I->amOnPage('/index.php/productCategory/findAll');
-        // Delete first default supplier
+        // Edit first default supplier
         $I->click($this->childlocationInTable.'*[contains(@class, "button_edit")]');
         // check if we are on the edit page
         $I->see('Edit Product Category');
