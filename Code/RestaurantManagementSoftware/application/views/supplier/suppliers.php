@@ -34,6 +34,6 @@ $count = 0;
         </tr>
     <?php } ?>
 </table>
-<div class="button">
+<div class="button">    
     <?php echo HTML::anchor('supplier/create', '', array('class' => 'button_add', 'name' => 'Add')); ?>
 </div>

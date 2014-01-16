@@ -14,17 +14,27 @@ SET TIME_ZONE = "+00:00";
 DROP DATABASE IF EXISTS `restaurantManagementSoftware`;
 CREATE DATABASE IF NOT EXISTS `restaurantManagementSoftware`;
 USE `restaurantManagementSoftware`;
+
+DELIMITER GO
+
 ALTER DATABASE  `restaurantManagementSoftware` DEFAULT CHARACTER SET latin2 COLLATE latin2_general_ci;
+GO 
 
 -- ---------------------------------------------------------------------------
 -- Drop tables
 -- ---------------------------------------------------------------------------
-DROP TABLE IF EXISTS `supplier`;
-DROP TABLE IF EXISTS `product_category`;
-DROP TABLE IF EXISTS `users_restaurants`;
-DROP TABLE IF EXISTS `login_attempts`;
-DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `restaurant`;
+DROP TABLE IF EXISTS `supplier`
+GO
+DROP TABLE IF EXISTS `product_category`
+GO
+DROP TABLE IF EXISTS `users_restaurants`
+GO
+DROP TABLE IF EXISTS `login_attempts`
+GO
+DROP TABLE IF EXISTS `users`
+GO
+DROP TABLE IF EXISTS `restaurant`
+GO
 
 -- ---------------------------------------------------------------------------
 -- Table supplier
@@ -37,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `fax_number` VARCHAR(14),
   PRIMARY KEY (`id_supplier`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin2 AUTO_INCREMENT=5;
+GO
 
 -- ---------------------------------------------------------------------------
 -- Table product_category
@@ -50,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   PRIMARY KEY (`id_category`),
   CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `product_category` (`id_category`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+GO
 
 -- ---------------------------------------------------------------------------
 -- Table restaurant
@@ -60,6 +72,7 @@ CREATE TABLE IF NOT EXISTS `restaurant` (
   `address` VARCHAR(250),
   PRIMARY KEY (`id_restaurant`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+GO
 
 -- ---------------------------------------------------------------------------
 -- Table users
@@ -77,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id_user`),
   CONSTRAINT `location_selected_users_ibfk_1` FOREIGN KEY (`location_selected`) REFERENCES `restaurant` (`id_restaurant`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+GO
 
 -- ---------------------------------------------------------------------------
 -- Table login_attempts
@@ -88,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   KEY `id_user` (`id_user`),
   CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin2;
+GO
 
 -- ---------------------------------------------------------------------------
 -- Table users_restaurants
@@ -99,7 +114,8 @@ CREATE TABLE IF NOT EXISTS `users_restaurants` (
   CONSTRAINT `users_restaurants_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`),
   CONSTRAINT `users_restaurants_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
-
+GO
+DELIMITER ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
