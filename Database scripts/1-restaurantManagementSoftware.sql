@@ -125,7 +125,7 @@ GO
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `product` (
   `id_product` INT(11) NOT NULL AUTO_INCREMENT,
-  `NAME` VARCHAR(30) NOT NULL,
+  `name` VARCHAR(30) NOT NULL,
  PRIMARY KEY (`id_product`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 GO
@@ -135,8 +135,10 @@ GO
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `orders` (
   `id_order` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_restaurant` INT(11) NOT NULL,
   `dateOfOrder` DATETIME NOT NULL,
- PRIMARY KEY (`id_order`)
+ PRIMARY KEY (`id_order`),
+ CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 GO
 
@@ -150,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `orderLine` (
   `po_Number` INT(11) NOT NULL,
   `dateOrdered` DATETIME NOT NULL,
   `dateDelivered` DATETIME NOT NULL,
+  `cost` DECIMAL(5,2) NOT NULL,
   `qty` INT(11) NOT NULL,
   PRIMARY KEY (`id_order`, `id_supplier`, `id_product`),
   CONSTRAINT `orderLine_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`),

@@ -53,6 +53,17 @@ AS
 	ORDER BY R.id_restaurant;
 GO
 
+-- -----------------------------------------------------
+-- View `v_getRestaurantsUsers`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getOrders`
+GO
+CREATE VIEW v_getOrders
+AS
+	SELECT O.id_order, O.id_restaurant, O.dateOfOrder
+	FROM orders O
+GO
+
 -- ---------------------------------------------------------------------------------------
 -- Stored Procedures
 -- ---------------------------------------------------------------------------------------
