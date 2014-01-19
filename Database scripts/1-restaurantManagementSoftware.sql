@@ -35,6 +35,10 @@ DROP TABLE IF EXISTS `users`
 GO
 DROP TABLE IF EXISTS `restaurant`
 GO
+DROP TABLE IF EXISTS `orders`
+GO
+DROP TABLE IF EXISTS `orderLine`
+GO
 
 -- ---------------------------------------------------------------------------
 -- Table supplier
@@ -113,6 +117,43 @@ CREATE TABLE IF NOT EXISTS `users_restaurants` (
   PRIMARY KEY (`id_restaurant`, `id_user`),
   CONSTRAINT `users_restaurants_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`),
   CONSTRAINT `users_restaurants_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+GO
+
+-- ---------------------------------------------------------------------------
+-- Table product
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `product` (
+  `id_product` INT(11) NOT NULL AUTO_INCREMENT,
+  `NAME` VARCHAR(30) NOT NULL,
+ PRIMARY KEY (`id_product`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+GO
+
+-- ---------------------------------------------------------------------------
+-- Table orders
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id_order` INT(11) NOT NULL AUTO_INCREMENT,
+  `dateOfOrder` DATETIME NOT NULL,
+ PRIMARY KEY (`id_order`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+GO
+
+-- ---------------------------------------------------------------------------
+-- Table orderLine
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `orderLine` (
+  `id_order` INT(11) NOT NULL,
+  `id_supplier` INT(11) NOT NULL,
+  `id_product` INT(11) NOT NULL,
+  `po_Number` INT(11) NOT NULL,
+  `dateOrdered` DATETIME NOT NULL,
+  `dateDelivered` DATETIME NOT NULL,
+  `qty` INT(11) NOT NULL,
+  PRIMARY KEY (`id_order`, `id_supplier`, `id_product`),
+  CONSTRAINT `orderLine_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`),
+  CONSTRAINT `orderLine_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 GO
 DELIMITER ;
