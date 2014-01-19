@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="12.0">
+<diagram program="umlet" version="12.2">
   <zoom_level>10</zoom_level>
   <element>
     <type>com.umlet.element.Note</type>
@@ -272,10 +272,11 @@ m2=1</panel_attributes>
       <x>1490</x>
       <y>790</y>
       <w>210</w>
-      <h>100</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>Supplier
 --
+-id: int
 -name: string
 -contactName:string
 -phoneNumber: char(14)
@@ -412,6 +413,7 @@ m2=1</panel_attributes>
     <panel_attributes>OrderLine
 --
 -id: int
+-supplier: int
 -ordered: Date
 -delivered: Date
 -qty: int
@@ -816,6 +818,8 @@ inventory</panel_attributes>
     </coordinates>
     <panel_attributes>Order
 --
+-id: int
+-ordered: Date
 
 
 </panel_attributes>
@@ -1102,5 +1106,31 @@ cannot modify any part of
 the system.
 bg=blue</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>470</x>
+      <y>500</y>
+      <w>670</w>
+      <h>380</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>650;30;30;30;30;360</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>540</x>
+      <y>850</y>
+      <w>970</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>30;70;650;70;650;30;950;30</additional_attributes>
   </element>
 </diagram>
