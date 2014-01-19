@@ -54,14 +54,15 @@ AS
 GO
 
 -- -----------------------------------------------------
--- View `v_getRestaurantsUsers`
+-- View `v_getOrders`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getOrders`
 GO
 CREATE VIEW v_getOrders
 AS
-	SELECT O.id_order, O.id_restaurant, O.dateOfOrder
-	FROM orders O
+	SELECT O.id_order, O.id_restaurant, Ol.id_supplier, Ol.id_product, Ol.po_Number, Ol.dateOrdered, Ol.dateDelivered, Ol.cost, Ol.qty
+	FROM orders O LEFT JOIN orderLine Ol
+	ON O.id_order = Ol.id_Order;
 GO
 
 -- ---------------------------------------------------------------------------------------
