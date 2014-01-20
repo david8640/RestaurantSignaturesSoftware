@@ -41,7 +41,7 @@
                     if (count($locations) > 0) { 
                         echo Form::hidden('id_user', $global_user_id, array('id' => 'id_user')); ?>
                         <span class="item">
-                            <select id="locations">
+                            <select id="locations" name="locations">
                                 <?php foreach ($locations as $l) { ?>
                                     <option value="<?php echo $l->getId(); ?>" <?php echo (($l->getId() == $global_selected_location) ? 'selected': ''); ?>>
                                         <?php echo $l->getName(); ?>

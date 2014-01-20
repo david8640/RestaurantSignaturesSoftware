@@ -57,6 +57,126 @@ class RestaurantATCest {
         $I->canSee('200 King, Ottawa, Ontario, K1N 6R4, Canada', $this->locationInTable."td[3]");
         Codeception\Module\logout($I);
     }
+    
+    public function checkPageContentUserAccess(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('RES-6: Visit the user access page and check the content');
+        $I->amOnPage('/index.php/restaurantUser/findAll');
+        // check if we are on the good page
+        $I->see('User Access Management');
+        // check if the default restaurant is there
+        $I->see("New Restaurant 2");
+        $I->see('There is no users that has access to this restaurant.');
+        Codeception\Module\logout($I);
+    }
+    
+    public function checkPageContentSelectRestaurantNoAccess(\WebGuy $I) {
+        // Login
+        $I->amOnPage('/');
+        $I->fillField('username', 'dfachin');
+        $I->fillField('password', 'daniel');
+        $I->click('Login');
+        
+        $I->wantTo('RES-1: Check the content of the dropdown list of restaurants (New Restaurant 2 doesnt exist)');
+        $I->amOnPage('/index.php/restaurant/findAll');
+        // check if we are on the good page
+        $I->see('Restaurants');
+        // check the content of the restaurant list
+        $I->cantsee('New Restaurant 2', '//*[@id="locations"]');
+        
+        Codeception\Module\logout($I);
+    }
+    
+    public function editUserAccess(\WebGuy $I) {
+        // Login
+        $I->amOnPage('/');
+        $I->fillField('username', 'dfachin');
+        $I->fillField('password', 'daniel');
+        $I->click('Login');
+    
+        $I->wantTo('RES-6: Give the access to the new restaurant to the user');
+        $I->amOnPage('/index.php/restaurantUser/findAll');
+        // click on the edit button
+        $I->click('//div[@class="content"]//table[5]//*[contains(@class, "button_edit")]');
+         // check if the default restaurant and the default user is there
+        $I->see("User Access Management for New Restaurant 2");
+        $I->see('Daniel');
+        // give the access to the default user to the default restaurant
+        $I->checkOption('//td/input[@value="1"]');
+        // save
+        $I->click('Save');
+        // check that restaurant list contains default restaurant
+        $I->see('New Restaurant 2', '//*[@id="locations"]');
+        
+        Codeception\Module\logout($I);
+    }
+    
+    // TODO change drop down + change page + verify drow down selected value
+    public function checkPageContentSelectRestaurantAccess(\WebGuy $I) {
+        // Login
+        $I->amOnPage('/');
+        $I->fillField('username', 'dfachin');
+        $I->fillField('password', 'daniel');
+        $I->click('Login');
+        
+        $I->wantTo('RES-1: Check the content of the dropdown list of restaurants (New Restaurant 2 exists)');
+        $I->amOnPage('/index.php/restaurant/findAll');
+        // check if we are on the good page
+        $I->see('Restaurants');
+        // check the content of the restaurant list
+        $I->see('New Restaurant 2', '//*[@id="locations"]');
+        
+        Codeception\Module\logout($I);
+    }
+    
+    // This is not working. The select need a form ancestor but none were use because
+    // it's an ajax query submition.
+    /*public function checkPageContentSelectRestaurantChangeSelected(\WebGuy $I) {
+        // Login
+        $I->amOnPage('/');
+        $I->fillField('username', 'dfachin');
+        $I->fillField('password', 'daniel');
+        $I->click('Login');
+        
+        $I->wantTo('RES-1: Check the content of the dropdown list of restaurants (change selected restaurant)');
+        $I->amOnPage('/index.php/restaurant/findAll');
+        // check if we are on the good page
+        $I->see('Restaurants');
+        // check the content of the restaurant list
+        $I->see('New Restaurant 2', '//*[@id="locations"]');
+        // change the current restaurant selected
+        $I->selectOption('//select[@name="locations"]', 'New Restaurant 2');
+        // change the current page
+        $I->amOnPage('/index.php/index/index');
+        // check the content of the restaurant list
+        $I->seeOptionIsSelected('//*[@id="locations"]', 'New Restaurant 2');
+        
+        Codeception\Module\logout($I);
+    }*/
+    
+    public function removeUserAccess(\WebGuy $I) {
+        // Login
+        $I->amOnPage('/');
+        $I->fillField('username', 'dfachin');
+        $I->fillField('password', 'daniel');
+        $I->click('Login');
+    
+        $I->wantTo('RES-7: Remove the access to the new restaurant to the user');
+        $I->amOnPage('/index.php/restaurantUser/findAll');
+        // click on the edit button
+        $I->click('//div[@class="content"]//table[5]//*[contains(@class, "button_edit")]');
+         // check if the default restaurant and the default user is there
+        $I->see("User Access Management for New Restaurant 2");
+        $I->see('Daniel');
+        // give the access to the default user to the default restaurant
+        $I->uncheckOption('//td/input[@value="1"]');
+        // save
+        $I->click('Save');
+        // check that restaurant list contains default restaurant
+        $I->cantsee('New Restaurant 2', '//*[@id="locations"]');
+        
+        Codeception\Module\logout($I);
+    }
 
     public function delete(\WebGuy $I) {
         Codeception\Module\login($I);
@@ -137,8 +257,6 @@ class RestaurantATCest {
     
     // Tests TODO
     // RES-1
-    // RES-6
-    // RES-7
     
     // NOT Implemented
     // RES-2
