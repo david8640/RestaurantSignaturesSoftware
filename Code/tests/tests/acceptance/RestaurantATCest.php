@@ -154,7 +154,7 @@ class RestaurantATCest {
         Codeception\Module\logout($I);
     }*/
     
-    public function removeUserAccess(\WebGuy $I) {
+    /*public function removeUserAccess(\WebGuy $I) {
         // Login
         $I->amOnPage('/');
         $I->fillField('username', 'dfachin');
@@ -199,7 +199,7 @@ class RestaurantATCest {
         $I->amOnPage('/index.php/restaurant/edit/9999999');
         $I->canSee('Invalid restaurant id.');
         Codeception\Module\logout($I);
-    }
+    }*/
 
     public function deleteInvalidRestaurant(\WebGuy $I) {
         Codeception\Module\login($I);
