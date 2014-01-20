@@ -97,7 +97,7 @@ class RestaurantATCest {
         $I->wantTo('RES-6: Give the access to the new restaurant to the user');
         $I->amOnPage('/index.php/restaurantUser/findAll');
         // click on the edit button
-        $I->click('//div[@class="content"]//table[5]//*[contains(@class, "button_edit")]');
+        $I->click('//div[@class="content"]//table[last()]//*[contains(@class, "button_edit")]');
          // check if the default restaurant and the default user is there
         $I->see("User Access Management for New Restaurant 2");
         $I->see('Daniel');
