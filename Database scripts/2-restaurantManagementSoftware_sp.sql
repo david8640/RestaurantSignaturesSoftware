@@ -67,16 +67,26 @@ GO
 -- -----------------------------------------------------
 -- View `v_getOrders`
 -- -----------------------------------------------------
-DROP VIEW IF EXISTS `v_getOrders`
+DROP VIEW IF EXISTS `v_getOrderList`
 GO
-CREATE VIEW v_getOrders
+CREATE VIEW v_getOrderList
 AS
-	SELECT O.id_order, R.name as rname, O.id_restaurant, S.name as sname, Ol.id_supplier, P.name as pname, Ol.id_product, Ol.po_Number, Ol.cost, Ol.qty, Ol.dateOrdered, Ol.dateDelivered 
-	FROM orders O
-		LEFT JOIN restaurant R ON O.id_restaurant = R.id_restaurant
-		LEFT JOIN orderLine Ol ON O.id_order = Ol.id_Order
-		LEFT JOIN supplier S ON Ol.id_supplier = S.id_supplier
-		LEFT JOIN product P ON Ol.id_product = P.id_product
+	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateOfOrder, 
+		OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
+	FROM orderList OL
+		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
+GO
+
+-- -----------------------------------------------------
+-- View `v_purchaseOrders`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getPurchaseOrders`
+GO
+CREATE VIEW v_getPurchaseOrders
+AS
+	SELECT PO.po_Number, PO.id_order, PO.id_supplier, S.name as supplierName
+	FROM purchaseOrders PO
+		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 GO
 
 -- ---------------------------------------------------------------------------------------

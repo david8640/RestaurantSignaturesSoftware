@@ -37,8 +37,11 @@ DROP TABLE IF EXISTS `restaurant`
 GO
 DROP TABLE IF EXISTS `orders`
 GO
+DROP TABLE IF EXISTS `purchaseOrders`
+GO
 DROP TABLE IF EXISTS `orderLine`
 GO
+
 
 -- ---------------------------------------------------------------------------
 -- Table supplier
@@ -133,32 +136,47 @@ CREATE TABLE IF NOT EXISTS `product` (
 GO
 
 -- ---------------------------------------------------------------------------
--- Table orders
+-- Table orderList
 -- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `orders` (
+CREATE TABLE IF NOT EXISTS `orderList` (
   `id_order` INT(11) NOT NULL AUTO_INCREMENT,
   `id_restaurant` INT(11) NOT NULL,
   `dateOfOrder` DATETIME NOT NULL,
+  `subtotal` INT(11),
+  `shippingCost` INT(11),
+  `taxes` INT(11),
+  `totalCost` INT(11),
  PRIMARY KEY (`id_order`),
  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 GO
 
 -- ---------------------------------------------------------------------------
--- Table orderLine
+-- Table purchaseOrders
 -- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `orderLine` (
+CREATE TABLE IF NOT EXISTS `purchaseOrders` (
+  `po_Number` INT(11) NOT NULL AUTO_INCREMENT,
   `id_order` INT(11) NOT NULL,
   `id_supplier` INT(11) NOT NULL,
+  PRIMARY KEY (`po_Number`),
+  CONSTRAINT `purchaseOrders_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orderList` (`id_order`),
+  CONSTRAINT `purchaseOrders_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+GO
+
+-- ---------------------------------------------------------------------------
+-- Table orderLine
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `POItem` (
   `id_product` INT(11) NOT NULL,
   `po_Number` INT(11) NOT NULL,
   `dateOrdered` DATETIME NOT NULL,
   `dateDelivered` DATETIME NOT NULL,
   `cost` DECIMAL(5,2) NOT NULL,
   `qty` INT(11) NOT NULL,
-  PRIMARY KEY (`id_order`, `id_supplier`, `id_product`),
-  CONSTRAINT `orderLine_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`),
-  CONSTRAINT `orderLine_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`)
+  PRIMARY KEY (`id_product`, `po_Number`),
+  CONSTRAINT `orderLine_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+  CONSTRAINT `orderLine_ibfk_2` FOREIGN KEY (`po_Number`) REFERENCES `purchaseOrders` (`po_Number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
 GO
 DELIMITER ;
@@ -166,3 +184,44 @@ DELIMITER ;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
