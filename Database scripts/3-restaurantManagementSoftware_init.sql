@@ -60,13 +60,12 @@ GO
 -- ---------------------------------------------------------------------------
 -- Insert table product
 -- ---------------------------------------------------------------------------
-INSERT INTO `product` (`id_product`, `name`)
+INSERT INTO `product` (`id_product`, `name`, `id_category`)
 VALUES
-	(1, 'Beef'),
-	(2, 'Pork'),
-	(3, 'Frosted Flakes'),
-	(4, 'Turkey'),
-	(5, 'Herbs');
+	(1, 'Beef', 4),
+	(2, 'Pork', 4),
+	(3, 'Turkey', 4),
+	(4, 'Chive Herbs', 3);
 GO
 
 -- ---------------------------------------------------------------------------
