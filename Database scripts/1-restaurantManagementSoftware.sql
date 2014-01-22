@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `purchaseOrders` (
 GO
 
 -- ---------------------------------------------------------------------------
--- Table orderLine
+-- Table POItem
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `POItem` (
   `id_product` INT(11) NOT NULL,
