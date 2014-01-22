@@ -60,9 +60,12 @@ DROP VIEW IF EXISTS `v_getOrders`
 GO
 CREATE VIEW v_getOrders
 AS
-	SELECT O.id_order, O.id_restaurant, Ol.id_supplier, Ol.id_product, Ol.po_Number, Ol.dateOrdered, Ol.dateDelivered, Ol.cost, Ol.qty
-	FROM orders O LEFT JOIN orderLine Ol
-	ON O.id_order = Ol.id_Order;
+	SELECT O.id_order, R.name as rname, O.id_restaurant, S.name as sname, Ol.id_supplier, P.name as pname, Ol.id_product, Ol.po_Number, Ol.cost, Ol.qty, Ol.dateOrdered, Ol.dateDelivered 
+	FROM orders O
+		LEFT JOIN restaurant R ON O.id_restaurant = R.id_restaurant
+		LEFT JOIN orderLine Ol ON O.id_order = Ol.id_Order
+		LEFT JOIN supplier S ON Ol.id_supplier = S.id_supplier
+		LEFT JOIN product P ON Ol.id_product = P.id_product
 GO
 
 -- ---------------------------------------------------------------------------------------
