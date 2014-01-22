@@ -29,6 +29,17 @@ AS
 GO
 
 -- -----------------------------------------------------
+-- View `v_getProduct`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getProduct`
+GO
+CREATE VIEW v_getProduct
+AS
+	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name
+	FROM product p LEFT JOIN product_category pc ON p.id_category = pc.id_category;
+GO
+
+-- -----------------------------------------------------
 -- View `v_getRestaurants`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getRestaurants`
@@ -356,6 +367,68 @@ BEGIN
 	END IF;
 END
 GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getProduct`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getProduct`
+GO
+CREATE PROCEDURE sp_getProduct(
+    IN a_product_id INT
+)
+BEGIN
+ 	SELECT p.id_product, pc.name AS pc_name, p.id_category, p.name AS p_name
+	FROM product p LEFT JOIN product_category pc ON p.id_category = pc.id_category
+ 	WHERE p.id_product= a_product_id;
+END
+GO
+-- -----------------------------------------------------
+-- Stored Procedure `sp_deleteProduct` 
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_deleteProduct`
+GO
+CREATE PROCEDURE sp_deleteProduct(
+	IN a_product_id INT(11)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM product WHERE id_product= a_product_id) THEN
+	BEGIN
+	
+		DELETE FROM product
+		WHERE id_product = a_product_id;
+
+	END;
+	ELSE
+		CALL raise_error;
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_updateProduct'
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_updateProduct`
+GO
+CREATE PROCEDURE sp_updateProduct(
+	IN product_name INT(11),
+	IN product_category_id INT(11),
+	IN product_id INT(11)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM product WHERE product_id = id_product) THEN
+		UPDATE product SET
+			name = product_name,
+			id_category = product_category_id
+		WHERE product_id = id_product;
+		
+		ELSE
+		
+			INSERT INTO `product` (`name`, `id_category`) 
+			VALUES (`product_name`, `product_category_id`);
+		END IF;
+END;
+GO
+
 
 -- -----------------------------------------------------
 -- Stored Procedure `sp_getRestaurant`
