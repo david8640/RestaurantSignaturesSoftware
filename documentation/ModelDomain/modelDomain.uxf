@@ -272,7 +272,7 @@ m2=1</panel_attributes>
       <x>1550</x>
       <y>840</y>
       <w>210</w>
-      <h>120</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>Supplier
 --
@@ -377,30 +377,15 @@ m2=1</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>1130</x>
-      <y>840</y>
-      <w>160</w>
-      <h>210</h>
+      <x>120</x>
+      <y>930</y>
+      <w>1450</w>
+      <h>270</h>
     </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>30;190;90;190;90;30;140;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>890</x>
-      <y>980</y>
-      <w>270</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>PurchaseOrders
---
--id: int &lt;&lt;foriegn key from OrderLine&gt;&gt;
--poNumber: int
--supplierId: int 
-
-</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=.
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>30;190;30;250;790;250;790;30;1430;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
@@ -481,17 +466,6 @@ bg=orange</panel_attributes>
 
 </panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>600</x>
-      <y>990</y>
-      <w>310</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>30;30;290;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
@@ -1080,10 +1054,10 @@ m2=1</panel_attributes>
       <x>800</x>
       <y>780</y>
       <w>490</w>
-      <h>190</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>30;30;30;170;130;170;380;170;380;70;470;70</additional_attributes>
+    <additional_attributes>30;30;30;140;380;140;380;70;470;70</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -1128,14 +1102,14 @@ m2=*</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>600</x>
-      <y>900</y>
-      <w>970</w>
-      <h>90</h>
+      <y>840</y>
+      <w>690</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=.
 m1=*
 m2=1</panel_attributes>
-    <additional_attributes>30;70;650;70;650;30;950;30</additional_attributes>
+    <additional_attributes>30;100;610;100;610;30;670;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>

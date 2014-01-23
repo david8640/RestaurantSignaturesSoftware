@@ -65,20 +65,20 @@ AS
 GO
 
 -- -----------------------------------------------------
--- View `v_getOrders`
+-- View `v_getOrderList`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getOrderList`
 GO
 CREATE VIEW v_getOrderList
 AS
-	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateOfOrder, 
-		OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
+	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateOrdered, 
+		OL.dateDelivered, OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
 	FROM orderList OL
 		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
 GO
 
 -- -----------------------------------------------------
--- View `v_purchaseOrders`
+-- View `v_getPurchaseOrders`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getPurchaseOrders`
 GO
@@ -88,6 +88,19 @@ AS
 	FROM purchaseOrders PO
 		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 GO
+
+-- -----------------------------------------------------
+-- View `v_getPOItems`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getPOItems`
+GO
+CREATE VIEW v_getPOItems
+AS
+	SELECT PO.id_product, PO.po_Number, PO.cost, PO.qty
+	FROM purchaseOrders PO
+		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
+GO
+
 
 -- ---------------------------------------------------------------------------------------
 -- Stored Procedures
