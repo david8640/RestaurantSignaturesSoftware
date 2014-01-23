@@ -416,10 +416,8 @@ CREATE PROCEDURE sp_deleteProduct(
 BEGIN
 	IF EXISTS (SELECT * FROM product WHERE id_product= a_product_id) THEN
 	BEGIN
-	
 		DELETE FROM product
 		WHERE id_product = a_product_id;
-
 	END;
 	ELSE
 		CALL raise_error;
@@ -443,12 +441,10 @@ BEGIN
 			name = product_name,
 			id_category = product_category_id
 		WHERE product_id = id_product;
-		
-		ELSE
-		
-			INSERT INTO `product` (`name`, `id_category`) 
-			VALUES (`product_name`, `product_category_id`);
-		END IF;
+	ELSE
+		INSERT INTO `product` (`name`, `id_category`) 
+		VALUES (`product_name`, `product_category_id`);
+	END IF;
 END;
 GO
 
