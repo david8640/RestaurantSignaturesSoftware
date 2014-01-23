@@ -141,7 +141,8 @@ GO
 CREATE TABLE IF NOT EXISTS `orderList` (
   `id_order` INT(11) NOT NULL AUTO_INCREMENT,
   `id_restaurant` INT(11) NOT NULL,
-  `dateOfOrder` DATETIME NOT NULL,
+  `dateOrdered` DATETIME NOT NULL,
+  `dateDelivered` DATETIME NOT NULL,
   `subtotal` INT(11),
   `shippingCost` INT(11),
   `taxes` INT(11),
@@ -170,10 +171,8 @@ GO
 CREATE TABLE IF NOT EXISTS `POItem` (
   `id_product` INT(11) NOT NULL,
   `po_Number` INT(11) NOT NULL,
-  `dateOrdered` DATETIME NOT NULL,
-  `dateDelivered` DATETIME NOT NULL,
-  `cost` DECIMAL(5,2) NOT NULL,
   `qty` INT(11) NOT NULL,
+  `costPerUnit` DECIMAL(5,2) NOT NULL,
   PRIMARY KEY (`id_product`, `po_Number`),
   CONSTRAINT `orderLine_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
   CONSTRAINT `orderLine_ibfk_2` FOREIGN KEY (`po_Number`) REFERENCES `purchaseOrders` (`po_Number`)
