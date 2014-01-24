@@ -131,7 +131,8 @@ GO
 CREATE TABLE IF NOT EXISTS `product` (
   `id_product` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(30) NOT NULL,
-  `id_category` INT(11) NOT NULL, 
+  `id_category` INT(11) NOT NULL,
+  `unitOfMeasurment` VARCHAR(30) NOT NULL,
  PRIMARY KEY (`id_product`),
  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `product_category` (`id_category`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
@@ -149,6 +150,9 @@ CREATE TABLE IF NOT EXISTS `orderList` (
   `shippingCost` INT(11),
   `taxes` INT(11),
   `totalCost` INT(11),
+  `state` INT(3), -- to keep track of pending orders (save progress)
+  -- state 0: Not submitted by user
+  -- state 1: Submitted by user as "complete"
  PRIMARY KEY (`id_order`),
  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;

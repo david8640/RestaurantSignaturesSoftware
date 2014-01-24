@@ -35,7 +35,7 @@ DROP VIEW IF EXISTS `v_getProduct`
 GO
 CREATE VIEW v_getProduct
 AS
-	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name
+	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name, p.unitOfMeasurment
 	FROM product p LEFT JOIN product_category pc ON p.id_category = pc.id_category;
 GO
 
@@ -96,9 +96,8 @@ DROP VIEW IF EXISTS `v_getPOItems`
 GO
 CREATE VIEW v_getPOItems
 AS
-	SELECT PO.id_product, PO.po_Number, PO.cost, PO.qty
-	FROM purchaseOrders PO
-		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
+	SELECT PO.id_product, PO.po_Number, PO.qty, PO.costPerUnit
+	FROM POItem PO
 GO
 
 
