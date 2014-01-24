@@ -1,17 +1,20 @@
 <?php
 
 /* 
- * <copyright file="Order.php" company="RestaurantManagementSoftware">
+ * <copyright file="PurchaseOrder.php" company="RestaurantManagementSoftware">
  *     Copyright (c) 2013, 2014 All Right Reserved
  * </copyright>
- * <author>Andrew Assaly</author>
- * <date>2014-01-19</date>
- * <summary>Model representing an order.</summary>
+ * <author>David Fortin</author>
+ * <date>2014-01-24</date>
+ * <summary>Model representing a purchase order.</summary>
  */
-class Model_Order extends Model {
+class Model_PurchaseOrder extends Model {
     // Private members
+    private $poNumber;
     private $idOrder;
-    private $idRestaurant;
+    private $idSupplier;
+    private $dateOrdered;
+    private $dateDelivered;
     private $subtotal;
     private $shippingCost;
     private $taxes;
@@ -19,21 +22,26 @@ class Model_Order extends Model {
     private $state;
      
     /**
-     * Constructor of a Order model
+     * Constructor of a Purchase Order model
+     * @param string $poNumber the purchase order number
      * @param int $idOrder the id of the order
-     * @param int $idRestaurant the id of the restaurant
+     * @param int $idSupplier the id of the supplier of the purchase order
      * @param string $dateOrdered the date ordered
      * @param string $dateDelivered the date delivered
      * @param double $subtotal the subtotal of the order
-     * @param double $shippingCost the shipping cost of the order
-     * @param double $taxes the taxes of the order
-     * @param double $totalCost the total cost of the order
-     * @param int $state the state of the order
+     * @param double $shippingCost the shipping cost of the purchase order
+     * @param double $taxes the taxes of the purchase order
+     * @param double $totalCost the total cost of the purchase order
+     * @param int $state the state of the purchase order
      */
-    public function __construct($idOrder, $idRestaurant, $subtotal, $shippingCost, 
-                                $taxes, $totalCost, $state) {
+    public function __construct($poNumber, $idOrder, $idSupplier, $dateOrdered, 
+                                $dateDelivered, $subtotal, $shippingCost, $taxes, 
+                                $totalCost, $state) {
+        $this->setPONumber($poNumber);
         $this->setOrderID($idOrder);
-        $this->setRestaurantID($idRestaurant);
+        $this->setSupplierID($idSupplier);
+        $this->setDateOrdered($dateOrdered);
+        $this->setDateDelivered($dateDelivered);
         $this->setSubtotal($subtotal);
         $this->setShippingCost($shippingCost);
         $this->setTaxes($taxes);
@@ -42,6 +50,22 @@ class Model_Order extends Model {
     }
    
     // Getters and setters
+    /**
+     * get the po number
+     * @param string $poNumber 
+     */
+    public function getPONumber($poNumber) {
+        return $this->poNumber;
+    }
+
+    /**
+     * Set the po number
+     * @param int $poNumber 
+     */
+    public function setPONumber($poNumber) {
+        $this->poNumber = $poNumber;
+    }
+    
     /**
      * get the id of the order
      * @param int $idOrder 
@@ -57,20 +81,53 @@ class Model_Order extends Model {
     public function setOrderID($idOrder) {
         $this->idOrder = $idOrder;
     }
+    
     /**
-     * get the id of the restaurant
-     * @param int $idRestaurant 
+     * get the id of the supplier
+     * @param int $idSupplier
      */
-    public function getRestaurantID($idRestaurant) {
-        return $this->idRestaurant;
+    public function getSupplierID($idSupplier) {
+        return $this->idSupplier;
     }
 
     /**
-     * Set the id of the restaurant
-     * @param int $idRestaurant 
+     * Set the id of the supplier
+     * @param int $idSupplier 
      */
-    public function setRestaurantID($idRestaurant) {
-        $this->idRestaurant = $idRestaurant;
+    public function setSupplierID($idSupplier) {
+        $this->idSupplier = $idSupplier;
+    }
+    
+    /**
+     * get the date the product was ordered
+     * @param string $dateOrdered 
+     */
+    public function getDateOrdered($dateOrdered) {
+        return $this->dateOrdered;
+    }
+    
+    /**
+     * Set the date the product was ordered
+     * @param string $dateOrdered 
+     */
+    public function setDateOrdered($dateOrdered) {
+        $this->dateOrdered = $dateOrdered;
+    }
+
+    /**
+     * get the date the product was deliveredd
+     * @param string $dateDelivered 
+     */
+    public function getDateDelivered($dateDelivered) {
+        return $this->dateDelivered;
+    }
+    
+    /**
+     * Set the date the product was delivered
+     * @param string $dateDelivered 
+     */
+    public function setDateDelivered($dateDelivered) {
+        $this->dateDelivered = $dateDelivered;
     }
     
     /**
