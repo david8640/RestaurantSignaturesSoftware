@@ -17,15 +17,14 @@ if (!isset($productsOrdered)) {
 }
 ?>
 <div>
-    <div>
+    <div class='leftcolumn'>
         <h2>Products</h2>
-        <table id="suppliers_products">
+        <table id="suppliers_products" border="1">
             <tr>
                 <th>Product</th>
                 <th>Supplier</th>
                 <th>Unit</th>
                 <th>Cost/Unit</th>
-                <th>Quantity</th>
                 <th>Order</th>
             </tr>
             <?php foreach ($products as $p) { ?>
@@ -34,94 +33,84 @@ if (!isset($productsOrdered)) {
                     <td><?php echo $p->getSupplierName(); ?></td>
                     <td><?php echo $p->getUnit(); ?></td>
                     <td><?php echo $p->getCostPerUnit(); ?></td>
-                    <td><?php echo Form::input('qty', $p->getQty()); ?></td>
-                    <td><input onclick="addItem(
-                                <?php echo $p-getProductID(); ?>, 
-                                '<?php echo $p-getProductName(); ?>', 
-                                <?php echo $p-getSupplierID(); ?>, 
-                                '<?php echo $p-getSupplierName(); ?>', 
-                                '<?php echo $p-getUnit(); ?>', 
-                                <?php echo $p-getCostPerUnit(); ?>, 
-                                <?php echo $p-getQty(); ?>);"/></td>
+                    <td><input type='button' value='Add' onclick="add(<?php echo $p->getProductID(); ?>, '<?php echo $p->getProductName(); ?>', <?php echo $p->getSupplierID(); ?>, '<?php echo $p->getSupplierName(); ?>', '<?php echo $p->getUnit(); ?>', <?php echo $p->getCostPerUnit(); ?>, <?php echo $p->getQty(); ?>);"/></td>
                 </tr>
             <?php } ?>
         </table>
     </div>
-    <div>
+    <div class='rightcolumn'>
         <h2>Order</h2>
-        <table id="order">
-            <tr>
-                <th>Product</th>
-                <th>Supplier</th>
-                <th>Unit</th>
-                <th>Cost/Unit</th>
-                <th>Quantity</th>
-                <th>Cost</th>
-                <th>Remove</th>
-            </tr>
-            <?php echo Form::open(); ?>
-                <span id="productsOrdered">
-                </span>
-            <?php echo Form::close(); ?>
-        </table>
+        <?php echo Form::open('order/saveStep1'); ?>
+            <table id="order" border="1">
+            </table>
         <?php
-            echo Form::input('subtotal', array('id' => 'subtotal', 'readonly' => 'readonly'));
-        ?>
+            echo Form::label('Subtotal', 'Subtotal: ');
+            echo Form::input('subtotal', 0, array('id' => 'subtotal', 'disabled' => 'disabled'));
+            ?><span id="orderStep1SubmitBt"><?php
+                echo Form::submit(NULL, 'Next'); /* todo set different action or something to see that the action is different */
+                echo Form::submit(NULL, 'Save');
+                echo Form::close();
+            ?></span>
     </div>
 </div>
 <script>
     var order = [];
     
-    $.ready(function() {
+    $(document).ready(function() {
         addInitValues();
         display();
-        
-       $('input[id*=cost_]').each(function() {
-          var id = $(this).attr('id');
-          var partOfId = id.split('_');
-          var productId = partOfId[1];
-          var supplierId = partOfId[2];
-          var cost = $(this).val();
-          $('#'+id).focusout(function() { updateCost(cost, productId, supplierId); });
-       });
-               
-       $('input[id*=qty_]').each(function() {
-          var id = $(this).attr('id');
-          var partOfId = id.split('_');
-          var productId = partOfId[1];
-          var supplierId = partOfId[2];
-          var qty = $(this).val();
-          $('#'+id).focusout(function() { updateQty(qty, productId, supplierId); });
-       });       
     });
+        
+    function bindEvents() {
+        order.forEach(function(e) {
+            $('#cost_' + e.productId + '_' + e.supplierId).focusout(function() { updateCost(e.productId, e.supplierId); });
+            $('#qty_' + e.productId + '_' + e.supplierId).focusout(function() { updateQty(e.productId, e.supplierId); });
+        });     
+   }
     
     function addInitValues() {
         <?php 
         $addFunctions = '';
         foreach ($productsOrdered as $po) { 
-            $addFunctions .= 'addItem('.$po->getProductID().', '.$po->getProductName().
-                                    ', '.$po->getSupplierID().', '.$po->getSupplierName().
-                                    ', '.$po->getUnit().', '.$po->getCostPerUnit().
+            $addFunctions .= 'addItem('.$po->getProductID().', "'.$po->getProductName().
+                                    '", '.$po->getSupplierID().', "'.$po->getSupplierName().
+                                    '", "'.$po->getUnit().'", '.$po->getCostPerUnit().
                                     ', '.$po->getQty().');';
         }
         echo $addFunctions;
         ?>
     }
     
-    function updateCost(cost, productId, supplierId) {
-        updateItem(productId, supplierId, cost, -1);
+    function add(p_productId, p_productName, p_supplierId, p_supplierName, 
+                    p_unit, p_costPerUnit, p_qty) {
+        addItem(p_productId, p_productName, p_supplierId, p_supplierName, 
+                    p_unit, p_costPerUnit, p_qty);
+        display();
     }
     
-    function updateQty(qty, productId, supplierId) {
-        if (qty === 0) {
+    function removeIt(p_productId, p_supplierId) {
+        removeItem(p_productId, p_supplierId);
+        display();
+    }
+    
+    function updateCost(productId, supplierId) {
+        var cost = $('#cost_' + productId + '_' + supplierId).val();
+        updateItem(productId, supplierId, cost, -1);
+        display();
+    }
+    
+    function updateQty(productId, supplierId) {
+        var qty = $('#qty_' + productId + '_' + supplierId).val();
+        if (qty == 0) {
             removeItem(productId, supplierId);
         } else {
             updateItem(productId, supplierId, -1, qty);
         }
+        display();
     }
     
     function display() {
-        var tableRows = '';
+        var tableRows = displayTableHeader();
         var subtotal = 0;
         var index = 0;
         order.forEach(function(e) {
@@ -132,30 +121,44 @@ if (!isset($productsOrdered)) {
             tableRows += '<tr>'
                 +   '<td>'
                 +       '<input type="hidden" value="' + e.productId + '" name="productId'+indexStr+'"/>'
-                +       '<input type="text" value="' + e.productName + '"/>'
+                +       '<input type="hidden" value="' + e.productName + '" name="productName'+indexStr+'"/>'
+                +       '<input type="hidden" value="' + e.supplierId + '" name="supplierId'+indexStr+'"/>'
+                +       '<input type="hidden" value="' + e.supplierName + '" name="supplierName'+indexStr+'"/>'
+                +       '<input type="hidden" value="' + e.unit + '" name="unit'+indexStr+'"/>'
+                +       e.productName
                 +   '</td>'
                 +   '<td>'
-                +       '<input type="hidden" value="' + e.supplierId + '" name="supplierId'+indexStr+'"/>'
-                +       '<input type="text" value="' + e.supplierName + '"/>'
+                +       e.supplierName
                 +   '</td>'
-                +   '<td><input type="text" value="' + e.unit + '"/></td>'
+                +   '<td>' + e.unit + '</td>'
                 +   '<td><input type="text" value="' + e.costPerUnit + '" name="costPerUnit'+indexStr+'" id="cost_' + e.productId + '_' + e.supplierId + '"/></td>'
                 +   '<td><input type="text" value="' + e.qty + '" name="qty'+indexStr+'" id="qty_' + e.productId + '_' + e.supplierId + '"/></td>'
-                +   '<td><input type="text" value="' + productTotal + '" readonly="readonly"/></td>'
-                +   '<td><input onclick="removeItem(' + e.productId + ',' + e.supplierId + ')" value="Remove" /></td>'
+                +   '<td><input type="text" value="' + productTotal + '" disabled="disabled"/></td>'
+                +   '<td><input type="button" onclick="removeIt(' + e.productId + ',' + e.supplierId + ')" value="Remove" /></td>'
                 +'</tr>';
         
             index++;
         });
-        $('#productsOrdered').val(tableRows);
+        
+        $('#order').html(tableRows);
+        bindEvents();
         $('#subtotal').val(subtotal);
+    }
+    
+    function displayTableHeader() {
+        return '<tr><th>Product</th><th>Supplier</th><th>Unit</th><th>Cost/Unit</th><th>Quantity</th><th>Cost</th><th>Remove</th></tr>';
     }
     
     function addItem(p_productId, p_productName, p_supplierId, p_supplierName, 
                     p_unit, p_costPerUnit, p_qty) {
-        var obj = createItem(p_productId, p_productName, p_supplierId, p_supplierName, 
-                            p_unit, p_costPerUnit, p_qty);
-        order.push(obj);
+        var index = findItem(p_productId, p_supplierId);
+        if (index === -1) {
+            var obj = createItem(p_productId, p_productName, p_supplierId, p_supplierName, 
+                                p_unit, p_costPerUnit, (p_qty === 0) ? 1 : p_qty);
+            order.push(obj);
+        } else {
+            order[index].qty = parseInt(order[index].qty) + 1;
+        }
     }
     
     function removeItem(p_productId, p_supplierId) {

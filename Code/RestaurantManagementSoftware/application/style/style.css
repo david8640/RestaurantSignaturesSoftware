@@ -164,3 +164,27 @@ div.menu li
  .content table tr .remove {
     width: 60px; 
  }
+ 
+ .content .leftcolumn {
+     width: 39%;
+     float: left;
+ }
+ 
+ .content .rightcolumn {
+     width: 60%;
+     float: right;
+ }
+ 
+ .content #order input[type='text'] {
+     width: 95%;
+ }
+ 
+ .content #subtotal {
+     margin-top: 15px;
+ }
+ 
+ .content #orderStep1SubmitBt input {
+     float: right;
+     margin-top: 15px;
+     margin-left: 5px;
+ }

@@ -29,16 +29,17 @@ class Repository_Order extends Repository_AbstractRepository {
      */
     protected function construct($obj) {
         return new Model_Order(
-            $obj->id_order, 
+            $obj->id_order,
+            $obj->id_restaurant,    
             $obj->rname, 
-            $obj->pname, 
-            $obj->po_Number,
-            $obj->qty, 
-            $obj->cost,
             $obj->dateOrdered, 
-            $obj->dateDelivered);
+            $obj->subtotal,
+            $obj->shipping_cost, 
+            $obj->taxes,
+            $obj->total_cost, 
+            $obj->state,
+            $obj->sname);
     }
-
 }
 
 ?>
