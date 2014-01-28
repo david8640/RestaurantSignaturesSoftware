@@ -40,20 +40,25 @@ if (!isset($productsOrdered)) {
     </div>
     <div class='rightcolumn'>
         <h2>Order</h2>
-        <?php echo Form::open('order/saveStep1'); ?>
+        <form id="orderForm" action="" method="post" accept-charset="utf-8">
             <table id="order" border="1">
             </table>
         <?php
             echo Form::label('Subtotal', 'Subtotal: ');
             echo Form::input('subtotal', 0, array('id' => 'subtotal', 'disabled' => 'disabled'));
-            ?><span id="orderStep1SubmitBt"><?php
-                echo Form::submit(NULL, 'Next'); /* todo set different action or something to see that the action is different */
-                echo Form::submit(NULL, 'Save');
-                echo Form::close();
-            ?></span>
+            ?><span id="orderStep1SubmitBt">
+                <input type="button" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep1'); ?>')"/>
+                <input type="button" value="Save" onclick="submitForm('<?php echo URL::site('order/saveStep1'); ?>')"/>
+            </span>
+        <?php echo Form::close(); ?>
     </div>
 </div>
 <script>
+    function submitForm(actionUrl) {
+        $('#orderForm').attr('action', actionUrl);
+        $('#orderForm').submit();
+    }
+    
     var order = [];
     
     $(document).ready(function() {
