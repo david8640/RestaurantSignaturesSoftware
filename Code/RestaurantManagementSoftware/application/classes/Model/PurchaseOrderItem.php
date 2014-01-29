@@ -32,9 +32,9 @@ class Model_PurchaseOrderItem extends Model {
     // Getters and setters
     /**
      * get the po number
-     * @param string $poNumber 
+     * @return string
      */
-    public function getPONumber($poNumber) {
+    public function getPONumber() {
         return $this->poNumber;
     }
 
@@ -48,9 +48,9 @@ class Model_PurchaseOrderItem extends Model {
     
     /**
      * get the id of the product
-     * @param int $idProduct 
+     * @return int 
      */
-    public function getProductID($idProduct) {
+    public function getProductID() {
         return $this->idProduct;
     }
 
@@ -64,9 +64,9 @@ class Model_PurchaseOrderItem extends Model {
     
     /**
      * get the quatity of this item
-     * @param int $qty
+     * @return int
      */
-    public function getQty($qty) {
+    public function getQty() {
         return $this->qty;
     }
 
@@ -80,9 +80,9 @@ class Model_PurchaseOrderItem extends Model {
     
     /**
      * get the cost per unit for this item
-     * @param double $costPerUnit 
+     * @return double 
      */
-    public function getCostPerUnit($costPerUnit) {
+    public function getCostPerUnit() {
         return $this->costPerUnit;
     }
     

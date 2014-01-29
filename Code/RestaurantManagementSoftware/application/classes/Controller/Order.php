@@ -57,7 +57,7 @@ class Controller_Order extends Controller_Template_Generic {
         $view = View::factory('order/step1')
                     ->set('products', $products);
         
-        $this->template->title = __('Place Order : Step 1');
+        $this->template->title = __('');
         $this->template->content = $view;
     }
     
@@ -90,7 +90,7 @@ class Controller_Order extends Controller_Template_Generic {
                     ->set('products', $products)
                     ->set('productsOrdered', $productsOrdered);
         
-        $this->template->title = __('Place Order : Step 1');
+        $this->template->title = __('');
         $this->template->content = $view;
     }
 
@@ -98,34 +98,18 @@ class Controller_Order extends Controller_Template_Generic {
      * Next step 1 of the order wizards.
      */
     public function action_nextStep1() {
-        throw new Exception('next');
-        $productsOrdered = array();
-        $index = 0;
-        while (isset($_POST['productId'][$index])) {
-            $product = new Model_SupplierProduct($_POST['productId'][$index], 
-                    $_POST['productName'][$index], $_POST['supplierId'][$index], 
-                    $_POST['supplierName'][$index], $_POST['unit'][$index], 
-                    $_POST['costPerUnit'][$index], $_POST['qty'][$index]);
-            array_push($productsOrdered, $product);
-            $index++;
-        }
+        $po1 = new Model_PurchaseOrder(1, 1, 1, 'DAV5658', 'Supplier 1', '29-01-14', '', 500, 0, 0, 500, 0);
+        $po2 = new Model_PurchaseOrder(2, 2, 5, 'DAV2525', 'Supplier 2', '29-01-14', '', 250, 0, 0, 250, 0);
+        $po3 = new Model_PurchaseOrder(3, 3, 4, 'DAV4040', 'Supplier 3', '29-01-14', '', 30, 0, 0, 30, 0);
         
-        // Get all the information from the repository.
-        /*$repo = new Repository_SupplierProduct();
-        $products = $repo->getProducts();*/
-        /*$p1 = new Model_SupplierProduct(1, 'product 1', 1, 'supplier 1', 'kg', 25, 0);
-        $p2 = new Model_SupplierProduct(2, 'product 2', 3, 'supplier 3', 'L', 10, 0);
-        $p3 = new Model_SupplierProduct(3, 'product 3', 2, 'supplier 2', 'g', 5.25, 0);
-        
-        $products = array($p1, $p2, $p3);
+        $purchaseOrders = array($po1, $po2, $po3);
         
         // Transfer the information to the view.
-        $view = View::factory('order/step1')
-                    ->set('products', $products)
-                    ->set('productsOrdered', $productsOrdered);
+        $view = View::factory('order/step2')
+                    ->set('purchaseOrders', $purchaseOrders);
         
-        $this->template->title = __('Place Order : Step 1');
-        $this->template->content = $view;*/
+        $this->template->title = __('');
+        $this->template->content = $view;
     }
     
     /**

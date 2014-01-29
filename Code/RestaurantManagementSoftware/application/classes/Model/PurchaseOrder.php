@@ -11,39 +11,45 @@
 class Model_PurchaseOrder extends Model {
     // Private members
     private $poNumber;
+    private $supplierPONumber;
     private $idOrder;
-    private $idSupplier;
+    private $supplierId;
+    private $supplierName;
     private $dateOrdered;
     private $dateDelivered;
     private $subtotal;
-    private $shippingCost;
+    private $shipping;
     private $taxes;
     private $totalCost;
     private $state;
      
     /**
      * Constructor of a Purchase Order model
-     * @param string $poNumber the purchase order number
+     * @param int $poNumber the purchase order number
      * @param int $idOrder the id of the order
      * @param int $idSupplier the id of the supplier of the purchase order
+     * @param string $supplierPONumber the purchase order number of the supplier
+     * @param string $supplierName the name of the supplier of the purchase order
      * @param string $dateOrdered the date ordered
      * @param string $dateDelivered the date delivered
      * @param double $subtotal the subtotal of the order
-     * @param double $shippingCost the shipping cost of the purchase order
+     * @param double $shipping the shipping cost of the purchase order
      * @param double $taxes the taxes of the purchase order
      * @param double $totalCost the total cost of the purchase order
      * @param int $state the state of the purchase order
      */
-    public function __construct($poNumber, $idOrder, $idSupplier, $dateOrdered, 
-                                $dateDelivered, $subtotal, $shippingCost, $taxes, 
-                                $totalCost, $state) {
+    public function __construct($poNumber, $idOrder, $idSupplier, $supplierPONumber,  
+                                $supplierName, $dateOrdered, $dateDelivered, $subtotal,   
+                                $shipping, $taxes, $totalCost, $state) {
         $this->setPONumber($poNumber);
+        $this->setSupplierPONumber($supplierPONumber);
         $this->setOrderID($idOrder);
         $this->setSupplierID($idSupplier);
+        $this->setSupplierName($supplierName);
         $this->setDateOrdered($dateOrdered);
         $this->setDateDelivered($dateDelivered);
         $this->setSubtotal($subtotal);
-        $this->setShippingCost($shippingCost);
+        $this->setShipping($shipping);
         $this->setTaxes($taxes);
         $this->setTotalCost($totalCost);
         $this->setState($state);
@@ -52,9 +58,9 @@ class Model_PurchaseOrder extends Model {
     // Getters and setters
     /**
      * get the po number
-     * @param string $poNumber 
+     * @return int
      */
-    public function getPONumber($poNumber) {
+    public function getPONumber() {
         return $this->poNumber;
     }
 
@@ -68,9 +74,9 @@ class Model_PurchaseOrder extends Model {
     
     /**
      * get the id of the order
-     * @param int $idOrder 
+     * @return int 
      */
-    public function getOrderID($idOrder) {
+    public function getOrderID() {
         return $this->idOrder;
     }
 
@@ -84,25 +90,57 @@ class Model_PurchaseOrder extends Model {
     
     /**
      * get the id of the supplier
-     * @param int $idSupplier
+     * @return int
      */
-    public function getSupplierID($idSupplier) {
-        return $this->idSupplier;
+    public function getSupplierID() {
+        return $this->supplierId;
     }
 
     /**
      * Set the id of the supplier
-     * @param int $idSupplier 
+     * @param int $supplierId 
      */
-    public function setSupplierID($idSupplier) {
-        $this->idSupplier = $idSupplier;
+    public function setSupplierID($supplierId) {
+        $this->supplierId = $supplierId;
+    }
+    
+    /**
+     * get the supplier po number
+     * @return string
+     */
+    public function getSupplierPONumber() {
+        return $this->supplierPONumber;
+    }
+
+    /**
+     * Set the supplier po number
+     * @param int $supplierPONumber
+     */
+    public function setSupplierPONumber($supplierPONumber) {
+        $this->supplierPONumber = $supplierPONumber;
+    }
+    
+    /**
+     * get the supplier name
+     * @return string
+     */
+    public function getSupplierName() {
+        return $this->supplierName;
+    }
+
+    /**
+     * Set the supplier name
+     * @param int $supplierName
+     */
+    public function setSupplierName($supplierName) {
+        $this->supplierName = $supplierName;
     }
     
     /**
      * get the date the product was ordered
-     * @param string $dateOrdered 
+     * @return string
      */
-    public function getDateOrdered($dateOrdered) {
+    public function getDateOrdered() {
         return $this->dateOrdered;
     }
     
@@ -116,9 +154,9 @@ class Model_PurchaseOrder extends Model {
 
     /**
      * get the date the product was deliveredd
-     * @param string $dateDelivered 
+     * @return string
      */
-    public function getDateDelivered($dateDelivered) {
+    public function getDateDelivered() {
         return $this->dateDelivered;
     }
     
@@ -132,10 +170,10 @@ class Model_PurchaseOrder extends Model {
     
     /**
      * get the subtotal of the order
-     * @param double $subtotal 
+     * @return double
      */
-    public function getSubtotal($subtotal) {
-        return $this->dateDelivered;
+    public function getSubtotal() {
+        return $this->subtotal;
     }
     
     /**
@@ -148,25 +186,25 @@ class Model_PurchaseOrder extends Model {
     
     /**
      * get the shipping cost of the order
-     * @param double $shippingCost 
+     * @return double
      */
-    public function getShippingCost($shippingCost) {
-        return $this->shippingCost;
+    public function getShipping() {
+        return $this->shipping;
     }
     
     /**
      * Set the shipping cost of the order
-     * @param double $shippingCost
+     * @param double $shipping
      */
-    public function setShippingCost($shippingCost) {
-        $this->shippingCost = $shippingCost;
+    public function setShipping($shipping) {
+        $this->shipping = $shipping;
     }
     
     /**
      * get the taxes of the order
-     * @param double $taxes 
+     * @return double
      */
-    public function getTaxes($taxes) {
+    public function getTaxes() {
         return $this->taxes;
     }
     
@@ -180,9 +218,9 @@ class Model_PurchaseOrder extends Model {
     
     /**
      * get the total cost of the order
-     * @param double $totalCost 
+     * @return double
      */
-    public function getTotalCost($totalCost) {
+    public function getTotalCost() {
         return $this->totalCost;
     }
     
@@ -196,9 +234,9 @@ class Model_PurchaseOrder extends Model {
     
     /**
      * get the state of the order
-     * @param int $state
+     * @return int
      */
-    public function getState($state) {
+    public function getState() {
         return $this->state;
     }
     
