@@ -8,7 +8,7 @@
  *  <date>2013-10-05</date>
  *  <summary>This class contains all the constants of the application.</summary>
  */
-class Constants {
+class Constants_Constants {
     // http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/1917982#1917982
     const EmailRegex =
             '/(?(DEFINE)

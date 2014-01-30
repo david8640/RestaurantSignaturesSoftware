@@ -26,17 +26,17 @@
         <tr>
             <td><?php echo $o->getOrderID(); ?></td>
             <td><?php echo $o->getRestaurantName(); ?></td>
-            <td><?php echo $o->getOrderedDate(); ?></td>
+            <td><?php echo $o->getDateOrdered(); ?></td>
             <td><?php echo $o->getSubtotal(); ?></td>
             <td><?php echo $o->getShippingCost(); ?></td>
             <td><?php echo $o->getTaxes(); ?></td>
             <td><?php echo $o->getTotalCost(); ?></td>
             <td><?php echo $o->getStateName(); ?></td>
-            <td><?php echo HTML::anchor('order/edit/'.$o->getOrderID(), '', array('class' => 'button_edit', 'name' => 'Edit')); ?></td>
-            <td><?php echo HTML::anchor('order/delete/'.$o->getOrderID(), '', array('class' => 'button_delete', 'name' => 'Delete')); ?></td>
+            <td><?php /*echo HTML::anchor('order/edit/'.$o->getOrderID(), '', array('class' => 'button_edit', 'name' => 'Edit'));*/ ?></td>
+            <td><?php /*echo HTML::anchor('order/delete/'.$o->getOrderID(), '', array('class' => 'button_delete', 'name' => 'Delete'));*/ ?></td>
         </tr>
     <?php } ?>
 </table>
 <div class="button">
-    <?php echo HTML::anchor('order/create', '', array('class' => 'button_add', 'name' => 'Add')); ?>
+    <?php echo HTML::anchor('order/getStep1', '', array('class' => 'button_add', 'name' => 'Add')); ?>
 </div>

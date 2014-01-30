@@ -22,6 +22,7 @@ class Model_PurchaseOrder extends Model {
     private $taxes;
     private $totalCost;
     private $state;
+    private $items;
      
     /**
      * Constructor of a Purchase Order model
@@ -53,6 +54,7 @@ class Model_PurchaseOrder extends Model {
         $this->setTaxes($taxes);
         $this->setTotalCost($totalCost);
         $this->setState($state);
+        $this->items = array();
     }
    
     // Getters and setters
@@ -246,6 +248,30 @@ class Model_PurchaseOrder extends Model {
      */
     public function setState($state) {
         $this->state = $state;
+    }
+    
+    /**
+     * Add a PurchaseOrderItem into the list of items
+     * @param \Model_PurchaseOrderItem $item
+     */
+    public function addItem($item) {
+        array_push($this->items, $item);
+    }
+    
+    /**
+     * Get the list of items
+     * @return \Model_PurchaseOrderItem
+     */
+    public function getItems() {
+        return $this->items;
+    }
+    
+    /**
+     * Add an amount to the subtotal
+     * @param double $amount
+     */
+    public function addToSubtotal($amount) {
+        $this->subtotal += $amount;
     }
 }
 

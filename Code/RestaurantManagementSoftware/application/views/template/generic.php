@@ -35,6 +35,8 @@
                     <li><?php echo HTML::anchor('productCategory/findAll', 'Product Categories'); ?></li>
                     <li><?php echo HTML::anchor('restaurant/findAll', 'Restaurants'); ?></li>
                     <li><?php echo HTML::anchor('restaurantUser/findAll', 'User Access'); ?></li>
+                    <li><?php echo HTML::anchor('order/findAll', 'Orders'); ?></li>
+                    <li><?php echo HTML::anchor('order/getRestaurantOrders', 'Restaurant Orders'); ?></li>
                 </ul>
                 <div class="right">
                     <?php 
@@ -82,9 +84,10 @@
         
         <script>
             $('#locations').change(function() {
-                var userId = $('#id_user').val();
-                var locationId = $('#locations :selected').val();
+               var userId = $('#id_user').val();
+               var locationId = $('#locations :selected').val();
                $.post('<?php echo URL::site('Login/selectLocation'); ?>', { id_user: userId , id_location: locationId }); 
+               location.reload();
             });
         </script>
     </body>

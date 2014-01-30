@@ -93,6 +93,14 @@ class Model_PurchaseOrderItem extends Model {
     public function setCostPerUnit($costPerUnit) {
         $this->costPerUnit = $costPerUnit;
     }
+    
+    /**
+     * get the subtotal for this item
+     * @return double 
+     */
+    public function getSubtotal() {
+        return $this->costPerUnit * $this->qty;
+    }
 }
 
 ?>

@@ -183,9 +183,9 @@ class Controller_Supplier extends Controller_Template_Generic {
                 ->label('contactName', 'Contact name')
                 ->rule('contactName', 'not_empty')
                 ->rule('phoneNumber', 'not_empty')
-                ->rule('phoneNumber', 'regex', array(':value', Constants::PhoneRegex))
+                ->rule('phoneNumber', 'regex', array(':value', Constants_Constants::PhoneRegex))
                 ->label('phoneNumber', 'Phone number')
-                ->rule('faxNumber', 'regex', array(':value', Constants::PhoneRegex))
+                ->rule('faxNumber', 'regex', array(':value', Constants_Constants::PhoneRegex))
                 ->label('faxNumber', 'Fax number');
     }
 }

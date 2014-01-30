@@ -10,15 +10,21 @@
 
 if (!isset($products)) {
     $products = array();
+} 
+
+if (!isset($restaurants)) {
+    $restaurants = array();
 }  
 
 if (!isset($productsOrdered)) {
     $productsOrdered = array();
 }
+
 ?>
 <div>
+    <h2>Step 1 : Choose Products</h2>
     <div class='leftcolumn'>
-        <h2>Products</h2>
+        <h3>Products</h3>
         <table id="suppliers_products" border="1">
             <tr>
                 <th>Product</th>
@@ -39,8 +45,18 @@ if (!isset($productsOrdered)) {
         </table>
     </div>
     <div class='rightcolumn'>
-        <h2>Order</h2>
+        <h3>Order</h3>
         <form id="orderForm" action="" method="post" accept-charset="utf-8">
+            <?php 
+                echo Form::Label('Restaurant', 'Restaurant: '); 
+            ?>
+            <select id="locationId" name="locationId">
+                <?php foreach ($restaurants as $r) { ?>
+                    <option value="<?php echo $r->getId(); ?>" <?php echo (($r->getId() == $global_selected_location) ? 'selected': ''); ?>>
+                        <?php echo $r->getName(); ?>
+                    </option>
+                <?php } ?>
+            </select>
             <table id="order" border="1">
             </table>
         <?php
@@ -62,6 +78,10 @@ if (!isset($productsOrdered)) {
     var order = [];
     
     $(document).ready(function() {
+        // Hide the locations to avoid changing the selection while the creation
+        // of an order.
+        $('#locations').hide();
+        
         addInitValues();
         display();
     });
@@ -79,8 +99,9 @@ if (!isset($productsOrdered)) {
         foreach ($productsOrdered as $po) { 
             $addFunctions .= 'addItem('.$po->getProductID().', "'.$po->getProductName().
                                     '", '.$po->getSupplierID().', "'.$po->getSupplierName().
-                                    '", "'.$po->getUnit().'", '.$po->getCostPerUnit().
-                                    ', '.$po->getQty().');';
+                                    '", "'.$po->getUnit().'", '.
+                                    (($po->getCostPerUnit() == '') ? 0 : $po->getCostPerUnit()).', '.
+                                    (($po->getQty()  == '') ? 0 : $po->getQty()).');';
         }
         echo $addFunctions;
         ?>

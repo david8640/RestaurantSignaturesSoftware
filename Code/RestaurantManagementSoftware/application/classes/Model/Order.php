@@ -54,9 +54,9 @@ class Model_Order extends Model {
     // Getters and setters
     /**
      * get the id of the order
-     * @param int $idOrder 
+     * @return int
      */
-    public function getOrderID($idOrder) {
+    public function getOrderID() {
         return $this->idOrder;
     }
 
@@ -70,9 +70,9 @@ class Model_Order extends Model {
     
     /**
      * get the id of the restaurant
-     * @param int $idRestaurant 
+     * @return int 
      */
-    public function getRestaurantID($idRestaurant) {
+    public function getRestaurantID() {
         return $this->idRestaurant;
     }
 
@@ -86,9 +86,9 @@ class Model_Order extends Model {
     
     /**
      * get the name of the restaurant
-     * @param string $nameRestaurant 
+     * @return string 
      */
-    public function getRestaurantName($nameRestaurant) {
+    public function getRestaurantName() {
         return $this->nameRestaurant;
     }
 
@@ -102,9 +102,9 @@ class Model_Order extends Model {
   
     /**
      * get the date the order was submit
-     * @param string $dateOrdered 
+     * @return string 
      */
-    public function getDateOrdered($dateOrdered) {
+    public function getDateOrdered() {
         return $this->dateOrdered;
     }
     
@@ -118,10 +118,10 @@ class Model_Order extends Model {
     
     /**
      * get the subtotal of the order
-     * @param double $subtotal 
+     * @return double 
      */
-    public function getSubtotal($subtotal) {
-        return $this->dateDelivered;
+    public function getSubtotal() {
+        return $this->subtotal;
     }
     
     /**
@@ -134,9 +134,9 @@ class Model_Order extends Model {
     
     /**
      * get the shipping cost of the order
-     * @param double $shippingCost 
+     * @return double 
      */
-    public function getShippingCost($shippingCost) {
+    public function getShippingCost() {
         return $this->shippingCost;
     }
     
@@ -150,9 +150,9 @@ class Model_Order extends Model {
     
     /**
      * get the taxes of the order
-     * @param double $taxes 
+     * @return double 
      */
-    public function getTaxes($taxes) {
+    public function getTaxes() {
         return $this->taxes;
     }
     
@@ -166,9 +166,9 @@ class Model_Order extends Model {
     
     /**
      * get the total cost of the order
-     * @param double $totalCost 
+     * @return double 
      */
-    public function getTotalCost($totalCost) {
+    public function getTotalCost() {
         return $this->totalCost;
     }
     
@@ -182,9 +182,9 @@ class Model_Order extends Model {
     
     /**
      * get the state of the order
-     * @param int $state
+     * @return int
      */
-    public function getState($state) {
+    public function getState() {
         return $this->state;
     }
     
@@ -198,9 +198,9 @@ class Model_Order extends Model {
     
     /**
      * get the state name of the order
-     * @param string $stateName
+     * @return string
      */
-    public function getStateName($stateName) {
+    public function getStateName() {
         return $this->stateName;
     }
     

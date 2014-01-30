@@ -155,7 +155,7 @@ class Controller_Login extends Controller_Template_Generic {
                         ->rule('name', 'max_length', array(':value', 75))
                         ->label('name', 'Name')
                         ->rule('email', 'not_empty')
-                        ->rule('email', 'regex', array(':value', Constants::EmailRegex))
+                        ->rule('email', 'regex', array(':value', Constants_Constants::EmailRegex))
                         ->label('email', 'Email adress')
                         ->rule('password', 'not_empty')
                         ->label('password', 'Password')

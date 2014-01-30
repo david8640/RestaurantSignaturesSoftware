@@ -41,6 +41,12 @@ class Controller_Template_Generic extends Controller_Template {
                 echo $this->redirect('login/login');
             }
         }
+        
+        if (isset($this->template->global_user_id)) {
+            // Set the locations variable
+            $repo = new Repository_Restaurant();
+            $this->template->locations = $repo->getUserLocations($this->template->global_user_id);
+        }
 
         if ($this->auto_render) {
             // Initialize empty values
@@ -75,12 +81,6 @@ class Controller_Template_Generic extends Controller_Template {
                 } else if (isset($sessionFeedbackmessage)) {
                     Session::instance()->set('loginFeedbackMessage', $sessionFeedbackmessage);
                 }
-            }
-            
-            if (isset($this->template->global_user_id)) {
-                // Set the locations variable
-                $repo = new Repository_Restaurant();
-                $this->template->locations = $repo->getUserLocations($this->template->global_user_id);
             }
             
             $this->template->styles = array_merge($this->template->styles, $styles);
