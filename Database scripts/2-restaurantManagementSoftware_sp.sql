@@ -188,7 +188,7 @@ CREATE PROCEDURE sp_getUser(
 BEGIN
  	SELECT DISTINCT *
  	FROM users
- 	WHERE convert(u_username using latin2) collate latin2_general_ci = convert(username using latin2) collate latin2_general_ci;
+ 	WHERE u_username collate database_default = username collate database_default;
 END
 GO
 
