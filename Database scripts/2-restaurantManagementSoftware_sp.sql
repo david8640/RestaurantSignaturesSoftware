@@ -188,7 +188,7 @@ CREATE PROCEDURE sp_getUser(
 BEGIN
  	SELECT DISTINCT *
  	FROM users
- 	WHERE u_username collate latin2_general_ci = username collate latin2_general_ci;
+ 	WHERE u_username COLLATE latin2_general_ci LIKE username COLLATE latin2_general_ci;
 END
 GO
 
