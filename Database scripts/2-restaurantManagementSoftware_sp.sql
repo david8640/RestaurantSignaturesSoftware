@@ -71,6 +71,19 @@ DROP VIEW IF EXISTS `v_getOrderList`
 GO
 CREATE VIEW v_getOrderList
 AS
+	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName,
+	 OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost, OL.state
+	FROM orderList OL
+		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
+GO
+
+-- -----------------------------------------------------
+-- View `v_getRestaurantOrderList`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getRestaurantOrderList`
+GO
+CREATE VIEW v_getRestaurantOrderList
+AS
 	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateOrdered, 
 		OL.dateDelivered, OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
 	FROM orderList OL
@@ -175,7 +188,7 @@ CREATE PROCEDURE sp_getUser(
 BEGIN
  	SELECT DISTINCT *
  	FROM users
- 	WHERE u_username = username;
+ 	WHERE u_username = username collate latin2_general_ci;
 END
 GO
 
@@ -261,8 +274,8 @@ DROP PROCEDURE IF EXISTS `sp_updateUserSession`
 GO
 CREATE PROCEDURE sp_updateUserSession(
 	IN current_userid INT(11),
-	IN new_sessionId char(128),
-	IN new_sessionExpiryTime int(25)
+	IN new_sessionId CHAR(128),
+	IN new_sessionExpiryTime INT(25)
 )
 BEGIN
 	IF EXISTS (SELECT * FROM users WHERE id_user = current_userid) THEN
@@ -281,7 +294,7 @@ GO
 DROP PROCEDURE IF EXISTS `sp_getUserBySessionID`
 GO
 CREATE PROCEDURE sp_getUserBySessionID(
-	IN sessionId char(128)
+	IN sessionId CHAR(128)
 )
 BEGIN
 	SELECT * 
