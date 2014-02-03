@@ -32,6 +32,7 @@
                 <ul>
                     <li><?php echo HTML::anchor('index/index', 'Home'); ?></li>
                     <li><?php echo HTML::anchor('supplier/findAll', 'Suppliers'); ?></li>
+                    <li><?php echo HTML::anchor('product/findAll', 'Products'); ?></li>
                     <li><?php echo HTML::anchor('productCategory/findAll', 'Product Categories'); ?></li>
                     <li><?php echo HTML::anchor('restaurant/findAll', 'Restaurants'); ?></li>
                     <li><?php echo HTML::anchor('restaurantUser/findAll', 'User Access'); ?></li>
