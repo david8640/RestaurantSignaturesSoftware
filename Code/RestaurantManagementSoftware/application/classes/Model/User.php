@@ -40,7 +40,7 @@ class Model_User extends Model {
         $this->setPassword($password);
         $this->setSalt($salt);
         if ($session_id == '') {
-            $this->setSessionId(Constants::BlankHash);
+            $this->setSessionId(Constants_Constants::BlankHash);
         } else {
             $this->setSessionId($session_id);
         }   

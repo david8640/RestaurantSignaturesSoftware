@@ -31,7 +31,7 @@ if (!isset($submitAction)) {
     echo Form::label('password', 'Password: ');
     echo Form::password('password') . "<br/>";
     echo Form::hidden('salt',$user->getSalt());
-    echo Form::hidden('sessionID', Constants::BlankHash);
+    echo Form::hidden('sessionID', Constants_Constants::BlankHash);
     echo Form::hidden('sessionExpiryTime',0);
     echo Form::submit(NULL, 'Register');
     echo Form::close();

@@ -35,7 +35,7 @@ DROP VIEW IF EXISTS `v_getProduct`
 GO
 CREATE VIEW v_getProduct
 AS
-	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name
+	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name, p.unitOfMeasurment
 	FROM product p LEFT JOIN product_category pc ON p.id_category = pc.id_category;
 GO
 
@@ -65,20 +65,33 @@ AS
 GO
 
 -- -----------------------------------------------------
--- View `v_getOrders`
+-- View `v_getOrderList`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getOrderList`
 GO
 CREATE VIEW v_getOrderList
 AS
-	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateOfOrder, 
-		OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
+	SELECT OL.id_order, OL.id_restaurant, R.name as nameRestaurant,
+	 OL.dateCreated, OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost, OL.state
 	FROM orderList OL
 		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
 GO
 
 -- -----------------------------------------------------
--- View `v_purchaseOrders`
+-- View `v_getRestaurantOrderList`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getRestaurantOrderList`
+GO
+CREATE VIEW v_getRestaurantOrderList
+AS
+	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateCreated,
+	OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
+	FROM orderList OL
+		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
+GO
+
+-- -----------------------------------------------------
+-- View `v_getPurchaseOrders`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getPurchaseOrders`
 GO
@@ -88,6 +101,18 @@ AS
 	FROM purchaseOrders PO
 		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 GO
+
+-- -----------------------------------------------------
+-- View `v_getPOItems`
+-- -----------------------------------------------------	
+DROP VIEW IF EXISTS `v_getPOItems`
+GO
+CREATE VIEW v_getPOItems
+AS
+	SELECT PO.id_product, PO.po_Number, PO.qty, PO.costPerUnit
+	FROM POItem PO
+GO
+
 
 -- ---------------------------------------------------------------------------------------
 -- Stored Procedures
@@ -163,7 +188,7 @@ CREATE PROCEDURE sp_getUser(
 BEGIN
  	SELECT DISTINCT *
  	FROM users
- 	WHERE u_username = username;
+ 	WHERE u_username COLLATE latin2_general_ci LIKE username COLLATE latin2_general_ci;
 END
 GO
 
@@ -249,8 +274,8 @@ DROP PROCEDURE IF EXISTS `sp_updateUserSession`
 GO
 CREATE PROCEDURE sp_updateUserSession(
 	IN current_userid INT(11),
-	IN new_sessionId char(128),
-	IN new_sessionExpiryTime int(25)
+	IN new_sessionId CHAR(128),
+	IN new_sessionExpiryTime INT(25)
 )
 BEGIN
 	IF EXISTS (SELECT * FROM users WHERE id_user = current_userid) THEN
@@ -269,7 +294,7 @@ GO
 DROP PROCEDURE IF EXISTS `sp_getUserBySessionID`
 GO
 CREATE PROCEDURE sp_getUserBySessionID(
-	IN sessionId char(128)
+	IN sessionId CHAR(128)
 )
 BEGIN
 	SELECT * 
@@ -403,10 +428,8 @@ CREATE PROCEDURE sp_deleteProduct(
 BEGIN
 	IF EXISTS (SELECT * FROM product WHERE id_product= a_product_id) THEN
 	BEGIN
-	
 		DELETE FROM product
 		WHERE id_product = a_product_id;
-
 	END;
 	ELSE
 		CALL raise_error;
@@ -430,12 +453,10 @@ BEGIN
 			name = product_name,
 			id_category = product_category_id
 		WHERE product_id = id_product;
-		
-		ELSE
-		
-			INSERT INTO `product` (`name`, `id_category`) 
-			VALUES (`product_name`, `product_category_id`);
-		END IF;
+	ELSE
+		INSERT INTO `product` (`name`, `id_category`) 
+		VALUES (`product_name`, `product_category_id`);
+	END IF;
 END;
 GO
 

@@ -164,3 +164,41 @@ div.menu li
  .content table tr .remove {
     width: 60px; 
  }
+ 
+ .content .leftcolumn {
+     width: 39%;
+     float: left;
+ }
+ 
+ .content .rightcolumn {
+     width: 60%;
+     float: right;
+ }
+ 
+ .content #order input[type='text'] {
+     width: 95%;
+ }
+ 
+ .content #subtotal, .content #total  {
+     margin-top: 15px;
+ }
+ 
+ .content #orderStep1SubmitBt input, .content #orderStep2SubmitBt input {
+     float: right;
+     margin-top: 15px;
+     margin-left: 5px;
+ }
+
+ .content #order {
+     margin-top: 10px;
+ }
+ 
+ .content h2 {
+     margin-top: 15px;
+     margin-bottom: 10px;
+ }
+ 
+.content h3 {
+     margin-top: 0px;
+     margin-bottom: 5px;
+ }
