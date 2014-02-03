@@ -14,19 +14,19 @@ $count = 0;
     <tr>
         <th class="id">Id</th>
         <th>Name</th>
-        <th>Product ID</th>
+        <th>Category</th>
         <th class="edit">Edit</th>
         <th class="remove">Remove</th>
     </tr>
-    <?php foreach ($products as $s) { 
+    <?php foreach ($products as $p) { 
         $count++;
         ?>
         <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
-            <td><?php echo $s->getId(); ?></td>
-            <td><?php echo $s->getName(); ?></td>
-            <td><?php echo $s->getProductID(); ?></td>
-            <td><?php echo HTML::anchor('product/edit/'.$s->getId(), '', array('class' => 'button_edit', 'name' => 'Edit')); ?></td>
-            <td><?php echo HTML::anchor('product/delete/'.$s->getId(), '', array('class' => 'button_delete', 'name' => 'Delete')); ?></td>
+            <td><?php echo $p->getId(); ?></td>
+            <td><?php echo $p->getName(); ?></td>
+            <td><?php echo $p->getCategoryName(); ?></td>
+            <td><?php echo HTML::anchor('product/edit/'.$p->getId(), '', array('class' => 'button_edit', 'name' => 'Edit')); ?></td>
+            <td><?php echo HTML::anchor('product/delete/'.$p->getId(), '', array('class' => 'button_delete', 'name' => 'Delete')); ?></td>
         </tr>
     <?php } ?>
 </table>

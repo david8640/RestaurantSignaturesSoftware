@@ -29,7 +29,7 @@ if (!isset($submitAction)) {
     echo Form::label('name', 'Name :');
     echo Form::input('name', $product->getName()) . "<br/>";
     echo Form::label('id_category', 'Category ID :');
-    echo Form::input('id_category', $product->getProductID()). "<br/>";
+    echo Form::input('id_category', $product->getCategoryID()). "<br/>";
     echo Form::submit(NULL, 'Save');
     echo Form::close();
     ?>

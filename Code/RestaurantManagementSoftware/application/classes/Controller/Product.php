@@ -8,7 +8,7 @@
  *  <date>2013-11-07</date>
  *  <summary>The controller that handle all the manipulation on products.</summary>
  */
-class Controller_Product extends Controller {
+class Controller_Product extends Controller_Template_Generic {
     /**
      * Get all the products.
      */
@@ -21,7 +21,8 @@ class Controller_Product extends Controller {
         $view = View::factory('product/products')
                     ->set('products', $products);
         
-        $this->response->body($view);
+        $this->template->title = __('Products');
+        $this->template->content = $view;
     }
     
     /**

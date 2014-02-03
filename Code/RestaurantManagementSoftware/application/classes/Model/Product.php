@@ -12,17 +12,24 @@ class Model_Product extends Model {
     // Private members
     private $id;
     private $name;
-    
-    
+    private $categoryId;
+    private $categoryName;
+    private $unitOfMeasurment;
     
     /**
      * Constructor of a product model
      * @param int $id the id of the product
      * @param string $name the name of the product
+     * @param int $categoryId the id of the product's category
+     * @param string $categoryName the name of the product's category
+     * @param string $unitOfMeasurement the unit of measurement of the product
      */
-    public function __construct($id, $name) {
+    public function __construct($id, $name, $categoryId, $categoryName, $unitOfMeasurment) {
         $this->setId($id);
         $this->setName($name);
+        $this->setCategoryId($categoryId);
+        $this->setCategoryName($categoryName);
+        $this->setUnitOfMeasurment($unitOfMeasurment);
     }
    
     // Getters and setters
@@ -59,24 +66,55 @@ class Model_Product extends Model {
     }
    
     /**
-     * Get the supplier id of the product
-     * @return string
+     * Get the category id of the product
+     * @return int
      */
     
-    public function getSupplierID() {
-        return $this->supplierID;
+    public function getCategoryId() {
+        return $this->categoryId;
     }
     
     /**
-     * Set the name of the product
-     * @param string $name
+     * Set the category id of the product
+     * @param int $categoryId
      */
-    public function setSupplierID($supplierID) {
-        $this->name = $supplierID;
+    public function setCategoryId($categoryId) {
+        $this->categoryId = $categoryId;
     }
     
+    /**
+     * Get the category name of the product
+     * @return string
+     */
     
-   
+    public function getCategoryName() {
+        return $this->categoryName;
+    }
+    
+    /**
+     * Set the category name of the product
+     * @param string $categoryName
+     */
+    public function setCategoryName($categoryName) {
+        $this->categoryName = $categoryName;
+    }  
+    
+    /**
+     * Get the unit of measurment of the product
+     * @return string
+     */
+    
+    public function getUnitOfMeasurment() {
+        return $this->unitOfMeasurment;
+    }
+    
+    /**
+     * Set the unit of measurment of the product
+     * @param string $unitOfMeasurment
+     */
+    public function setUnitOfMeasurment($unitOfMeasurment) {
+        $this->unitOfMeasurment = $unitOfMeasurment;
+    } 
 }
 
 ?>

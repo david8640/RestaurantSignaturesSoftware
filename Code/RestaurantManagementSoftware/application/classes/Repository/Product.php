@@ -80,7 +80,8 @@ class Repository_Product extends Repository_AbstractRepository {
      * @return \Model_Product
      */
     protected function construct($obj) {
-        return new Model_Product($obj->id_product);
+        return new Model_Product($obj->id_product, $obj->p_name, 
+                                $obj->id_category, $obj->pc_name, $obj->unitOfMeasurment);
     }
 }
 

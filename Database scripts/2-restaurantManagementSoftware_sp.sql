@@ -29,11 +29,11 @@ AS
 GO
 
 -- -----------------------------------------------------
--- View `v_getProduct`
+-- View `v_getProducts`
 -- -----------------------------------------------------
-DROP VIEW IF EXISTS `v_getProduct`
+DROP VIEW IF EXISTS `v_getProducts`
 GO
-CREATE VIEW v_getProduct
+CREATE VIEW v_getProducts
 AS
 	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name, p.unitOfMeasurment
 	FROM product p LEFT JOIN product_category pc ON p.id_category = pc.id_category;
