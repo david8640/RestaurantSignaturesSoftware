@@ -29,8 +29,14 @@ class Controller_Product extends Controller_Template_Generic {
      * Initiate the creation of a product.
      */
     public function action_create() {
-        $view = View::factory('product/product');
-        $this->response->body($view);
+        $repo = new Repository_ProductCategory();
+        $categories = $repo->getAll();
+        
+        $view = View::factory('product/product')
+                ->set('categories', $categories);
+        
+        $this->template->title = __('Create Product');
+        $this->template->content = $view;
     }
     
     /**
@@ -89,12 +95,20 @@ class Controller_Product extends Controller_Template_Generic {
             Session::instance()->set('feedbackMessage', array('Invalid product id.'));
             $this->redirect ('index/index');
         }
+        
+        // Get all the list of categories
+        $repoCat = new Repository_ProductCategory();
+        $categories = $repoCat->getAll();
+        
 
         $view = View::factory('product/product')
                 ->set('product', $product)
-                ->set('submitAction', 'product/update');
+                ->set('submitAction', 'product/update')
+                ->set('categories', $categories)
+                ->set('pageName', 'Edit Product');;
         
-        $this->response->body($view);
+        $this->template->title = __('Edit Product');
+        $this->template->content = $view;
     }
     
     /**

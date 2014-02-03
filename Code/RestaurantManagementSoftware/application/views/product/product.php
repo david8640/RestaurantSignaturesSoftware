@@ -28,8 +28,20 @@ if (!isset($submitAction)) {
     echo Form::hidden('product_id', $product->getId()) . "<br/>";
     echo Form::label('name', 'Name :');
     echo Form::input('name', $product->getName()) . "<br/>";
-    echo Form::label('id_category', 'Category ID :');
-    echo Form::input('id_category', $product->getCategoryID()). "<br/>";
+    echo Form::label('id_category', 'Category :');
+    ?>
+    <select name='category' id="category">
+        <option value='-1'>None</option>
+        <?php foreach ($categories as $c) { 
+            $selectionText = ($c->getId() == $product->getCategoryID()) ? 'selected="selected"' : ''; ?>
+        <option value='<?php echo $c->getId(); ?>' <?php echo $selectionText; ?> >
+            <?php echo $c->getName(); ?>
+        </option>
+        <?php } ?>
+    </select> </br>
+    <?php
+    echo Form::label('unit_of_measurement', 'Unit Of Measurement :');
+    echo Form::input('unit_of_measurement', $product->getUnitOfMeasurement()). "<br/>";
     echo Form::submit(NULL, 'Save');
     echo Form::close();
     ?>

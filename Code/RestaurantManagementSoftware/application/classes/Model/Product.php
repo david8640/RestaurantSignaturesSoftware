@@ -14,7 +14,7 @@ class Model_Product extends Model {
     private $name;
     private $categoryId;
     private $categoryName;
-    private $unitOfMeasurment;
+    private $unitOfMeasurement;
     
     /**
      * Constructor of a product model
@@ -24,12 +24,12 @@ class Model_Product extends Model {
      * @param string $categoryName the name of the product's category
      * @param string $unitOfMeasurement the unit of measurement of the product
      */
-    public function __construct($id, $name, $categoryId, $categoryName, $unitOfMeasurment) {
+    public function __construct($id, $name, $categoryId, $categoryName, $unitOfMeasurement) {
         $this->setId($id);
         $this->setName($name);
         $this->setCategoryId($categoryId);
         $this->setCategoryName($categoryName);
-        $this->setUnitOfMeasurment($unitOfMeasurment);
+        $this->setUnitOfMeasurement($unitOfMeasurement);
     }
    
     // Getters and setters
@@ -100,20 +100,20 @@ class Model_Product extends Model {
     }  
     
     /**
-     * Get the unit of measurment of the product
+     * Get the unit of measurement of the product
      * @return string
      */
     
-    public function getUnitOfMeasurment() {
-        return $this->unitOfMeasurment;
+    public function getUnitOfMeasurement() {
+        return $this->unitOfMeasurement;
     }
     
     /**
-     * Set the unit of measurment of the product
-     * @param string $unitOfMeasurment
+     * Set the unit of measurement of the product
+     * @param string $unitOfMeasurement
      */
-    public function setUnitOfMeasurment($unitOfMeasurment) {
-        $this->unitOfMeasurment = $unitOfMeasurment;
+    public function setUnitOfMeasurement($unitOfMeasurement) {
+        $this->unitOfMeasurement = $unitOfMeasurement;
     } 
 }
 

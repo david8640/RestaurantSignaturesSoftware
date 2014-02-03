@@ -15,6 +15,7 @@ $count = 0;
         <th class="id">Id</th>
         <th>Name</th>
         <th>Category</th>
+        <th>Unit Of Measurement</th>
         <th class="edit">Edit</th>
         <th class="remove">Remove</th>
     </tr>
@@ -25,6 +26,7 @@ $count = 0;
             <td><?php echo $p->getId(); ?></td>
             <td><?php echo $p->getName(); ?></td>
             <td><?php echo $p->getCategoryName(); ?></td>
+            <td><?php echo $p->getUnitOfMeasurement(); ?></td>
             <td><?php echo HTML::anchor('product/edit/'.$p->getId(), '', array('class' => 'button_edit', 'name' => 'Edit')); ?></td>
             <td><?php echo HTML::anchor('product/delete/'.$p->getId(), '', array('class' => 'button_delete', 'name' => 'Delete')); ?></td>
         </tr>

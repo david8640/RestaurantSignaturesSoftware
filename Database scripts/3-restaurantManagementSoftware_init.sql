@@ -60,7 +60,7 @@ GO
 -- ---------------------------------------------------------------------------
 -- Insert table product
 -- ---------------------------------------------------------------------------
-INSERT INTO `product` (`id_product`, `name`, `id_category`, `unitOfMeasurment`)
+INSERT INTO `product` (`id_product`, `name`, `id_category`, `unitOfMeasurement`)
 VALUES
 	(1, 'Beef', 4, 'Kg'),
 	(2, 'Pork', 4, 'Kg'),

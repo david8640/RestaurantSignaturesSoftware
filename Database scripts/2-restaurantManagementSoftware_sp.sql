@@ -35,7 +35,7 @@ DROP VIEW IF EXISTS `v_getProducts`
 GO
 CREATE VIEW v_getProducts
 AS
-	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name, p.unitOfMeasurment
+	SELECT p.id_product, p.name AS p_name, p.id_category, pc.name AS pc_name, p.unitOfMeasurement
 	FROM product p LEFT JOIN product_category pc ON p.id_category = pc.id_category;
 GO
 
@@ -412,7 +412,7 @@ CREATE PROCEDURE sp_getProduct(
     IN a_product_id INT
 )
 BEGIN
- 	SELECT p.id_product, pc.name AS pc_name, p.id_category, p.name AS p_name
+ 	SELECT p.id_product, pc.name AS pc_name, p.id_category, p.name AS p_name, p.unitOfMeasurement
 	FROM product p LEFT JOIN product_category pc ON p.id_category = pc.id_category
  	WHERE p.id_product= a_product_id;
 END

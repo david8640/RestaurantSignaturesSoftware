@@ -132,7 +132,7 @@
     `id_product` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(30) NOT NULL,
     `id_category` INT(11) NOT NULL,
-    `unitOfMeasurment` VARCHAR(30) NOT NULL,
+    `unitOfMeasurement` VARCHAR(30) NOT NULL,
    PRIMARY KEY (`id_product`),
    CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `product_category` (`id_category`)
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;

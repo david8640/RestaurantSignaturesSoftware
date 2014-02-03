@@ -81,7 +81,7 @@ class Repository_Product extends Repository_AbstractRepository {
      */
     protected function construct($obj) {
         return new Model_Product($obj->id_product, $obj->p_name, 
-                                $obj->id_category, $obj->pc_name, $obj->unitOfMeasurment);
+                                $obj->id_category, $obj->pc_name, $obj->unitOfMeasurement);
     }
 }
 
