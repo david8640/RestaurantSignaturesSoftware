@@ -71,11 +71,11 @@ GO
 -- ---------------------------------------------------------------------------
 -- Insert table orderList
 -- ---------------------------------------------------------------------------
-INSERT INTO `orderList` (`id_order`, `id_restaurant`, `dateOrdered`, `dateDelivered`,
-	`subtotal`, `shippingCost`, `taxes`, `totalCost`)
+INSERT INTO `orderList` (`id_order`, `id_restaurant`, `dateCreated`,
+	`subtotal`, `taxes`, `totalCost`, `shippingCost`, `state`)
 VALUES
-	(1, 5, '2014-01-19 18:55:55', '' , 1000, 50, 100, 1150),
-	(2, 6, '2014-01-22 12:07:55', '' , 550, 50, 50, 650);
+	(1, 5, '2014-01-19 18:55:55', 1000, 50, 100, 1150, 0),
+	(2, 6, '2014-01-22 12:07:55', 550, 50, 50, 650, 1);
 GO
 
 -- ---------------------------------------------------------------------------

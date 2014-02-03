@@ -10,10 +10,10 @@
  */
 class Model_Order extends Model {
     // Private members
-    private $idOrder;
-    private $idRestaurant;
+    private $id_order;
+    private $id_restaurant;
     private $nameRestaurant;
-    private $dateOrdered;
+    private $dateCreated; //the creation date of the order
     private $subtotal;
     private $shippingCost;
     private $taxes;
@@ -23,32 +23,28 @@ class Model_Order extends Model {
      
     /**
      * Constructor of a Order model
-     * @param int $idOrder the id of the order
-     * @param int $idRestaurant the id of the restaurant
+     * @param int $id_order the id of the order
+     * @param int $id_restaurant the id of the restaurant
      * @param string $nameRestaurant the name of the restaurant
-     * @param string $dateOrdered the date ordered
-     * @param string $dateOrdered the date ordered
-     * @param string $dateDelivered the date delivered
+     * @param string $dateCreated the date ordered
      * @param double $subtotal the subtotal of the order
      * @param double $shippingCost the shipping cost of the order
      * @param double $taxes the taxes of the order
      * @param double $totalCost the total cost of the order
      * @param int $state the state of the order
-     * @param string $stateName the name of the state
      */
-    public function __construct($idOrder, $idRestaurant, $nameRestaurant, $dateOrdered,
-                                $subtotal, $shippingCost, $taxes, $totalCost, 
-                                $state, $stateName) {
-        $this->setOrderID($idOrder);
-        $this->setRestaurantID($idRestaurant);
+    public function __construct($id_order, $id_restaurant, $nameRestaurant, $dateCreated,
+                                $subtotal, $shippingCost, $taxes, $totalCost, $state) {
+        $this->setOrderID($id_order);
+        $this->setRestaurantID($id_restaurant);
         $this->setRestaurantName($nameRestaurant);
-        $this->setDateOrdered($dateOrdered);
+        $this->setdateCreated($dateCreated);
         $this->setSubtotal($subtotal);
         $this->setShippingCost($shippingCost);
         $this->setTaxes($taxes);
         $this->setTotalCost($totalCost);
         $this->setState($state);
-        $this->setStateName($stateName);
+        $this->setStateName($state);
     }
    
     // Getters and setters
@@ -57,15 +53,15 @@ class Model_Order extends Model {
      * @return int
      */
     public function getOrderID() {
-        return $this->idOrder;
+        return $this->id_order;
     }
 
     /**
      * Set the id of the order
-     * @param int $idOrder 
+     * @param int $id_order 
      */
-    public function setOrderID($idOrder) {
-        $this->idOrder = $idOrder;
+    public function setOrderID($id_order) {
+        $this->id_order = $id_order;
     }
     
     /**
@@ -73,15 +69,15 @@ class Model_Order extends Model {
      * @return int 
      */
     public function getRestaurantID() {
-        return $this->idRestaurant;
+        return $this->id_restaurant;
     }
 
     /**
      * Set the id of the restaurant
-     * @param int $idRestaurant 
+     * @param int $id_restaurant 
      */
-    public function setRestaurantID($idRestaurant) {
-        $this->idRestaurant = $idRestaurant;
+    public function setRestaurantID($id_restaurant) {
+        $this->id_restaurant = $id_restaurant;
     }
     
     /**
@@ -104,16 +100,16 @@ class Model_Order extends Model {
      * get the date the order was submit
      * @return string 
      */
-    public function getDateOrdered() {
-        return $this->dateOrdered;
+    public function getdateCreated() {
+        return $this->dateCreated;
     }
     
     /**
      * Set the date the order was submit
-     * @param string $dateOrdered 
+     * @param string $dateCreated 
      */
-    public function setDateOrdered($dateOrdered) {
-        $this->dateOrdered = $dateOrdered;
+    public function setdateCreated($dateCreated) {
+        $this->dateCreated = $dateCreated;
     }
     
     /**
@@ -206,10 +202,16 @@ class Model_Order extends Model {
     
     /**
      * Set the state name of the order
-     * @param string $stateName
+     * @param int $state
      */
-    public function setStateName($stateName) {
-        $this->stateName = $stateName;
+    public function setStateName($state) {
+        if ($state == 0) { //saved
+            $this->stateName = "In Progress";
+        } else if ($state == 1) { //ordered
+            $this->stateName = "Ordered";
+        } else  {
+            $this->stateName = "In Progress";
+        }
     }
 }
 

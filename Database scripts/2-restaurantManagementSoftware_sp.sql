@@ -71,8 +71,8 @@ DROP VIEW IF EXISTS `v_getOrderList`
 GO
 CREATE VIEW v_getOrderList
 AS
-	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName,
-	 OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost, OL.state
+	SELECT OL.id_order, OL.id_restaurant, R.name as nameRestaurant,
+	 OL.dateCreated, OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost, OL.state
 	FROM orderList OL
 		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
 GO
@@ -84,8 +84,8 @@ DROP VIEW IF EXISTS `v_getRestaurantOrderList`
 GO
 CREATE VIEW v_getRestaurantOrderList
 AS
-	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateOrdered, 
-		OL.dateDelivered, OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
+	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateCreated,
+	OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
 	FROM orderList OL
 		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
 GO
@@ -104,7 +104,7 @@ GO
 
 -- -----------------------------------------------------
 -- View `v_getPOItems`
--- -----------------------------------------------------
+-- -----------------------------------------------------	
 DROP VIEW IF EXISTS `v_getPOItems`
 GO
 CREATE VIEW v_getPOItems
