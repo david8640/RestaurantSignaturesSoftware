@@ -70,12 +70,12 @@ class Repository_Order extends Repository_AbstractRepository {
         return new Model_Order(
             $obj->id_order,
             $obj->id_restaurant,    
-            $obj->rname, 
+            $obj->nameRestaurant, 
             $obj->dateCreated, 
             $obj->subtotal,
-            $obj->shipping_cost, 
+            $obj->shippingCost, 
             $obj->taxes,
-            $obj->total_cost, 
+            $obj->totalCost, 
             $obj->state);
     }
 }

@@ -16,8 +16,6 @@ class Controller_Order extends Controller_Template_Generic {
         $repo = new Repository_Order();
         $orders = $repo->getAll();
         
-        var_dump($orders);
-
         // Transfer the information to the view.
         $view = View::factory('order/orders')
                     ->set('orders', $orders);
