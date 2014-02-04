@@ -30,7 +30,7 @@ if (!isset($submitAction)) {
     echo Form::input('name', $product->getName()) . "<br/>";
     echo Form::label('id_category', 'Category :');
     ?>
-    <select name='category' id="category">
+    <select name='id_category' id="id_category">
         <option value='-1'>None</option>
         <?php foreach ($categories as $c) { 
             $selectionText = ($c->getId() == $product->getCategoryID()) ? 'selected="selected"' : ''; ?>

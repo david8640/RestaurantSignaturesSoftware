@@ -12,4 +12,8 @@ class ValidationExtension {
     public static function positive_number($value) {
         return ($value >= 0);
     }
+    
+    public static function category_selected($value) {
+        return ($value != -1);
+    }
 }

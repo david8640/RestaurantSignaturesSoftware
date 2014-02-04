@@ -42,9 +42,11 @@ class Repository_Product extends Repository_AbstractRepository {
     public function add($product) {
         $params = array (
             new Database_StatementParameter(':pname', $product->getName(), PDO::PARAM_STR, 100),
+            new Database_StatementParameter(':pcategoryId', $product->getCategoryID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':pUnitOfMeasurement', $product->getUnitOfMeasurement(), PDO::PARAM_STR, 30)
         );
         
-        return $this->execute('CALL sp_saveProduct(-1, :pname)', $params);
+        return $this->execute('CALL sp_saveProduct(-1, :pname, :pcategoryId, :pUnitOfMeasurement)', $params);
     }
     
     /**
@@ -56,9 +58,11 @@ class Repository_Product extends Repository_AbstractRepository {
         $params = array (
             new Database_StatementParameter(':pid', $product->getId(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':pname', $product->getName(), PDO::PARAM_STR, 100),
+            new Database_StatementParameter(':pcategoryId', $product->getCategoryID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':pUnitOfMeasurement', $product->getUnitOfMeasurement(), PDO::PARAM_STR, 30)
         );
 
-        return $this->execute('CALL sp_saveProduct(:sid, :pname)', $params);
+        return $this->execute('CALL sp_saveProduct(:pid, :pname, :pcategoryId, :pUnitOfMeasurement)', $params);
     }
     
     /**

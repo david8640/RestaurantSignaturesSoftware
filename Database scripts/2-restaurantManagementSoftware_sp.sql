@@ -438,24 +438,26 @@ END
 GO
 
 -- -----------------------------------------------------
--- Stored Procedure `sp_updateProduct'
+-- Stored Procedure `sp_saveProduct'
 -- -----------------------------------------------------
-DROP PROCEDURE IF EXISTS `sp_updateProduct`
+DROP PROCEDURE IF EXISTS `sp_saveProduct`
 GO
-CREATE PROCEDURE sp_updateProduct(
-	IN product_name INT(11),
+CREATE PROCEDURE sp_saveProduct(
+	IN product_id INT(11),
+	IN product_name VARCHAR(100),
 	IN product_category_id INT(11),
-	IN product_id INT(11)
+	IN unit_of_measurement VARCHAR(30)
 )
 BEGIN
-	IF EXISTS (SELECT * FROM product WHERE product_id = id_product) THEN
+	IF EXISTS (SELECT * FROM product WHERE id_product = product_id) THEN
 		UPDATE product SET
 			name = product_name,
-			id_category = product_category_id
-		WHERE product_id = id_product;
+			id_category = product_category_id,
+			unitOfMeasurement = unit_of_measurement 
+		WHERE id_product = product_id;
 	ELSE
-		INSERT INTO `product` (`name`, `id_category`) 
-		VALUES (`product_name`, `product_category_id`);
+		INSERT INTO `product` (`name`, `id_category`, `unitOfMeasurement`) 
+		VALUES (product_name, product_category_id, unit_of_measurement);
 	END IF;
 END;
 GO

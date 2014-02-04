@@ -29,6 +29,7 @@ class Controller_Product extends Controller_Template_Generic {
      * Initiate the creation of a product.
      */
     public function action_create() {
+        // Get all the categories
         $repo = new Repository_ProductCategory();
         $categories = $repo->getAll();
         
@@ -45,9 +46,9 @@ class Controller_Product extends Controller_Template_Generic {
     public function action_add() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             $post = $this->getValidationFactory($_POST);
-            $product = new Model_Product(-1, $post['name']);
+            $product = new Model_Product(-1, $post['name'], $post['id_category'], 
+                                        '', $post['unit_of_measurement']);
                                         
-            
             if ($post->check()) {
                 // Add the product
                 $repo = new Repository_Product();
@@ -56,22 +57,30 @@ class Controller_Product extends Controller_Template_Generic {
                 // Redirect if the add was successful
                 if ($success) {
                     Session::instance()->set('feedbackMessage', array('The product was added.'));
-                    $this->redirect ('index/index');
+                    $this->redirect ('product/findAll');
+                } else {
+                    $feedbackMessage = array('An error occured.');
                 }
             } else {
                 // Invalid fields
                 $feedbackMessage = $post->errors('product');
             }
             
+            $repoCat = new Repository_ProductCategory();
+            $categories = $repoCat->getAll();
+            
             $view = View::factory('product/product')
                     ->set('product', $product)
-                    ->set('feedbackMessage', $feedbackMessage)
-                    ->set('submitAction', 'product/add');
-            $this->response->body($view);
+                    ->set('submitAction', 'product/add')
+                    ->set('categories', $categories);
+            
+            $this->template->title = __('Create Product');
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->content = $view;
         } else {
             // Empty POST
             Session::instance()->set('feedbackMessage', array('An error occured.'));
-            $this->redirect ('index/index');
+            $this->redirect ('product/findAll');
         }
     }
     
@@ -117,7 +126,9 @@ class Controller_Product extends Controller_Template_Generic {
     public function action_update() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             $post = $this->getValidationFactory($_POST);
-            $product = new Model_Product($post['id']);
+            $product = new Model_Product($post['product_id'], $post['name'], 
+                                         $post['id_category'], '', 
+                                         $post['unit_of_measurement']);
             
             if ($post->check()) {
                 // Update the product
@@ -127,23 +138,32 @@ class Controller_Product extends Controller_Template_Generic {
                 // Redirect if the update was successful
                 if ($success) {
                     Session::instance()->set('feedbackMessage', array('The product was updated.'));
-                    $this->redirect ('index/index');
+                    $this->redirect ('product/findAll');
+                } else {
+                    $feedbackMessage = array('An error occured.');
                 }
             } else {
                 // Invalid fields
                 $feedbackMessage = $post->errors('product');
             }
             
+            // Get all the list of categories
+            $repoCat = new Repository_ProductCategory();
+            $categories = $repoCat->getAll();
+            
             $view = View::factory('product/product')
                     ->set('product', $product)
-                    ->set('feedbackMessage', $feedbackMessage)
-                    ->set('submitAction', 'product/update');
+                    ->set('submitAction', 'product/update')
+                    ->set('pageName', 'Edit Product')
+                    ->set('categories', $categories);
         
-            $this->response->body($view);
+            $this->template->title = __('Edit Product');
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->content = $view;
         } else {
             // Empty POST
             Session::instance()->set('feedbackMessage', array('An error occured.'));
-            $this->redirect ('index/index');
+            $this->redirect ('product/findAll');
         }
     }
     
@@ -155,7 +175,7 @@ class Controller_Product extends Controller_Template_Generic {
         // Validate id
         if (!(Valid::not_empty($id) && Valid::numeric($id))) {
             Session::instance()->set('feedbackMessage', array('Invalid product id.'));
-            $this->redirect ('index/index');
+            $this->redirect ('product/findAll');
         }
         
         // Delete the product
@@ -165,12 +185,12 @@ class Controller_Product extends Controller_Template_Generic {
         // Delete failed
         if (!$success) {
             Session::instance()->set('feedbackMessage', array('An error occuring while deleting the product.'));
-            $this->redirect ('index/index');
+            $this->redirect ('product/findAll');
         }
         
         // Delete succeed
         Session::instance()->set('feedbackMessage', array('The product was deleted.'));
-        $this->redirect ('index/index');
+        $this->redirect ('product/findAllxs');
     }
     
     /**
@@ -181,7 +201,12 @@ class Controller_Product extends Controller_Template_Generic {
     private function getValidationFactory($post) {
         return Validation::factory($post)
                 ->rule('name', 'not_empty')
-                ->rule('name', 'max_length', array(':value', 100));
+                ->rule('name', 'max_length', array(':value', 100))
+                ->label('name', 'Name')
+                ->rule('id_category', 'ValidationExtension::category_selected')
+                ->label('id_category', 'Category')
+                ->rule('unit_of_measurement', 'max_length', array(':value', 30))
+                ->label('unit_of_measurement', 'Unit Of Measurement');
     }
 }
 
