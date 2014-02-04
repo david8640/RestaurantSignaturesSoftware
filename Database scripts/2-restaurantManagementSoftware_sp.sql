@@ -188,7 +188,7 @@ CREATE PROCEDURE sp_getUser(
 BEGIN
  	SELECT DISTINCT *
  	FROM users
- 	WHERE u_username COLLATE latin2_general_ci LIKE username COLLATE latin2_general_ci;
+ 	WHERE u_username COLLATE latin2_general_ci = username COLLATE latin2_general_ci;
 END
 GO
 
@@ -299,7 +299,7 @@ CREATE PROCEDURE sp_getUserBySessionID(
 BEGIN
 	SELECT * 
 	FROM users 
-	WHERE session_id = sessionId;
+	WHERE session_id COLLATE latin2_general_ci = sessionId COLLATE latin2_general_ci;
 END
 GO
 
