@@ -38,7 +38,7 @@ class Model_Order extends Model {
         $this->setOrderID($id_order);
         $this->setRestaurantID($id_restaurant);
         $this->setRestaurantName($nameRestaurant);
-        $this->setdateCreated($dateCreated);
+        $this->setDateCreated($dateCreated);
         $this->setSubtotal($subtotal);
         $this->setShippingCost($shippingCost);
         $this->setTaxes($taxes);
@@ -100,7 +100,7 @@ class Model_Order extends Model {
      * get the date the order was submit
      * @return string 
      */
-    public function getdateCreated() {
+    public function getDateCreated() {
         return $this->dateCreated;
     }
     
@@ -108,7 +108,7 @@ class Model_Order extends Model {
      * Set the date the order was submit
      * @param string $dateCreated 
      */
-    public function setdateCreated($dateCreated) {
+    public function setDateCreated($dateCreated) {
         $this->dateCreated = $dateCreated;
     }
     

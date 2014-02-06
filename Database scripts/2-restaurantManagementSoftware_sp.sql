@@ -1,3 +1,260 @@
+  SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=1;
+  SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=1;
+  SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+  SET TIME_ZONE = "+00:00";
+
+  /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+  /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+  /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+  /*!40101 SET NAMES utf8 */;
+
+  -- ---------------------------------------------------------------------------
+  -- Creation database
+  -- ---------------------------------------------------------------------------
+  DROP DATABASE IF EXISTS `restaurantManagementSoftware`;
+  CREATE DATABASE IF NOT EXISTS `restaurantManagementSoftware`;
+  USE `restaurantManagementSoftware`;
+
+  DELIMITER GO
+
+  ALTER DATABASE  `restaurantManagementSoftware` DEFAULT CHARACTER SET latin2 COLLATE latin2_general_ci;
+  GO 
+
+  -- ---------------------------------------------------------------------------
+  -- Drop tables
+  -- ---------------------------------------------------------------------------
+  DROP TABLE IF EXISTS `supplier`
+  GO
+  DROP TABLE IF EXISTS `product_category`
+  GO
+  DROP TABLE IF EXISTS `users_restaurants`
+  GO
+  DROP TABLE IF EXISTS `login_attempts`
+  GO
+  DROP TABLE IF EXISTS `users`
+  GO
+  DROP TABLE IF EXISTS `restaurant`
+  GO
+  DROP TABLE IF EXISTS `product`
+  GO
+  DROP TABLE IF EXISTS `supplier_product`
+  GO
+  DROP TABLE IF EXISTS `order_list`
+  GO
+  DROP TABLE IF EXISTS `purchase_orders`
+  GO
+  DROP TABLE IF EXISTS `PO_item`
+  GO
+
+
+  -- ---------------------------------------------------------------------------
+  -- Table supplier
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `supplier` (
+    `id_supplier` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `contact_name` VARCHAR(100) NOT NULL,
+    `phone_number` VARCHAR(14) NOT NULL,
+    `fax_number` VARCHAR(14),
+    PRIMARY KEY (`id_supplier`)
+  ) ENGINE=InnoDB  DEFAULT CHARSET=latin2 AUTO_INCREMENT=5;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table product_category
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `product_category` (
+    `id_category` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `parent` INT(11), 
+    `orderof` INT(11) NOT NULL,
+    UNIQUE (`orderof`),
+    PRIMARY KEY (`id_category`),
+    CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `product_category` (`id_category`) ON DELETE SET NULL
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table restaurant
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `restaurant` (
+    `id_restaurant` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `address` VARCHAR(250),
+    PRIMARY KEY (`id_restaurant`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table users
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `users` (
+    `id_user` INT(11) NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(30) NOT NULL UNIQUE,
+    `name` VARCHAR(75) NOT NULL,
+    `email` VARCHAR(50) NOT NULL,
+    `password` CHAR(128) NOT NULL,
+    `salt` CHAR(128) NOT NULL,
+    `session_id` CHAR(128),
+    `session_expiry_time` INT(25),
+    `location_selected` INT(11),
+    PRIMARY KEY (`id_user`),
+    CONSTRAINT `location_selected_users_ibfk_1` FOREIGN KEY (`location_selected`) REFERENCES `restaurant` (`id_restaurant`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table login_attempts
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `login_attempts` (
+    `id_user` INT(11) NOT NULL,
+    `time_of_attempt` VARCHAR(30) NOT NULL,
+    `ip_address` VARCHAR(30) DEFAULT 'n/a',
+    KEY `id_user` (`id_user`),
+    CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table users_restaurants
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `users_restaurants` (
+    `id_restaurant` INT(11) NOT NULL,
+    `id_user` INT(11) NOT NULL,
+    PRIMARY KEY (`id_restaurant`, `id_user`),
+    CONSTRAINT `users_restaurants_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`),
+    CONSTRAINT `users_restaurants_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table product
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `product` (
+    `id_product` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(30) NOT NULL,
+    `id_category` INT(11) NOT NULL,
+    `unitOfMeasurement` VARCHAR(30) NOT NULL,
+   PRIMARY KEY (`id_product`),
+   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `product_category` (`id_category`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+  
+  -- ---------------------------------------------------------------------------
+  -- Table supplier_product
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `supplier_product` (
+    `id_product` INT(11) NOT NULL,
+    `id_supplier` INT(11) NOT NULL,
+    `price` REAL NOT NULL,
+    `unitOfMeasurement` VARCHAR(30) NOT NULL,
+   PRIMARY KEY (`id_product`, `id_supplier`),
+   CONSTRAINT `supplier_product_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+   CONSTRAINT `supplier_supplier_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table order_list
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `order_list` (
+    `id_order` INT(11) NOT NULL AUTO_INCREMENT,
+    `id_restaurant` INT(11) NOT NULL,
+    `dateCreated` DATETIME NOT NULL,
+
+    `subtotal` INT(11), -- sum of of subtotal of each PO
+    `taxes` INT(11), -- sum of all taxes of each PO
+    `totalCost` INT(11), -- sum of of total of each PO
+    `shippingCost` INT(11), -- sum of of shipping of each PO
+
+    `state` INT(3), -- 0: saved, 1: ordered
+   PRIMARY KEY (`id_order`),
+   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table purchase_orders
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `purchase_orders` (
+    `po_Number` VARCHAR(20) NOT NULL UNIQUE,
+    `id_order` INT(11) NOT NULL,
+    `id_supplier` INT(11) NOT NULL,
+
+    `dateOrdered` DATETIME NOT NULL,
+    `dateDelivered` DATETIME NOT NULL,
+    `subtotal` INT(11),
+    `taxes` INT(11),
+    `shippingCost` INT(11),
+    `totalCost` INT(11),
+    `state` INT(3), -- 0: order, 1: shipped, 2: received
+
+    PRIMARY KEY (`po_Number`),
+    CONSTRAINT `purchase_orders_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `order_list` (`id_order`),
+    CONSTRAINT `purchase_orders_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+
+  -- ---------------------------------------------------------------------------
+  -- Table PO_item
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `PO_item` (
+    `id_product` INT(11) NOT NULL,
+    `po_Number` VARCHAR(20) NOT NULL,
+    `qty` INT(11) NOT NULL,
+    `costPerUnit` DECIMAL(5,2) NOT NULL,
+    PRIMARY KEY (`id_product`, `po_Number`),
+    CONSTRAINT `PO_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+    CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`po_Number`) REFERENCES `purchase_orders` (`po_Number`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+  DELIMITER ;
+
+  /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+  /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+  /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 USE `restaurantManagementSoftware`;
 
 DELIMITER GO
@@ -40,6 +297,18 @@ AS
 GO
 
 -- -----------------------------------------------------
+-- View `v_getSuppliersProducts`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getSuppliersProducts`
+GO
+CREATE VIEW v_getSuppliersProducts
+AS
+	SELECT sp.id_product, p.name AS pname, sp.id_supplier, s.name AS sname, sp.unitOfMeasurement, sp.price
+	FROM supplier_product sp LEFT JOIN product p ON sp.id_product = p.id_product
+							LEFT JOIN supplier s ON sp.id_supplier = s.id_supplier;
+GO
+
+-- -----------------------------------------------------
 -- View `v_getRestaurants`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getRestaurants`
@@ -73,7 +342,7 @@ CREATE VIEW v_getOrderList
 AS
 	SELECT OL.id_order, OL.id_restaurant, R.name as nameRestaurant,
 	 OL.dateCreated, OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost, OL.state
-	FROM orderList OL
+	FROM order_list OL
 		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
 GO
 
@@ -86,7 +355,7 @@ CREATE VIEW v_getRestaurantOrderList
 AS
 	SELECT OL.id_order, OL.id_restaurant, R.name as restaurantName, OL.dateCreated,
 	OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost
-	FROM orderList OL
+	FROM order_list OL
 		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant
 GO
 
@@ -98,7 +367,7 @@ GO
 CREATE VIEW v_getPurchaseOrders
 AS
 	SELECT PO.po_Number, PO.id_order, PO.id_supplier, S.name as supplierName
-	FROM purchaseOrders PO
+	FROM purchase_orders PO
 		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 GO
 
@@ -110,7 +379,7 @@ GO
 CREATE VIEW v_getPOItems
 AS
 	SELECT PO.id_product, PO.po_Number, PO.qty, PO.costPerUnit
-	FROM POItem PO
+	FROM PO_item PO
 GO
 
 
@@ -462,6 +731,66 @@ BEGIN
 END;
 GO
 
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getSupplierProduct`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getSupplierProduct`
+GO
+CREATE PROCEDURE sp_getSupplierProduct(
+    IN a_supplier_id INT(11),
+    IN a_product_id INT(11)
+)
+BEGIN
+ 	SELECT sp.id_product, p.name AS pname, sp.id_supplier, s.name AS sname, sp.unitOfMeasurement, sp.price
+	FROM supplier_product sp LEFT JOIN product p ON sp.id_product = p.id_product
+							LEFT JOIN supplier s ON sp.id_supplier = s.id_supplier
+ 	WHERE sp.id_product= a_product_id AND sp.id_supplier = a_supplier_id;
+END
+GO
+-- -----------------------------------------------------
+-- Stored Procedure `sp_deleteSupplierProduct` 
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_deleteSupplierProduct`
+GO
+CREATE PROCEDURE sp_deleteSupplierProduct(
+	IN a_supplier_id INT(11),
+	IN a_product_id INT(11)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM supplier_product WHERE id_product = a_product_id AND id_supplier = a_supplier_id) THEN
+	BEGIN
+		DELETE FROM supplier_product
+		WHERE id_product= a_product_id AND id_supplier = a_supplier_id;
+	END;
+	ELSE
+		CALL raise_error;
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_saveSupplierProduct'
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_saveSupplierProduct`
+GO
+CREATE PROCEDURE sp_saveSupplierProduct(
+	IN a_supplier_id INT(11),
+	IN a_product_id INT(11),
+	IN p_price REAL,
+	IN unit_of_measurement VARCHAR(30)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM supplier_product WHERE id_product = a_product_id AND id_supplier = a_supplier_id) THEN
+		UPDATE supplier_product SET
+			price = p_price,
+			unitOfMeasurement = unit_of_measurement 
+		WHERE id_product = a_product_id AND id_supplier = a_supplier_id;
+	ELSE
+		INSERT INTO `supplier_product` (`id_product`, `id_supplier`, `price`, `unitOfMeasurement`) 
+		VALUES (a_product_id, a_supplier_id, p_price, unit_of_measurement);
+	END IF;
+END;
+GO
 
 -- -----------------------------------------------------
 -- Stored Procedure `sp_getRestaurant`

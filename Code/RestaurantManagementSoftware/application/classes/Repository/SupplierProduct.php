@@ -14,25 +14,69 @@
 
 class Repository_SupplierProduct extends Repository_AbstractRepository {
     /**
-     * Get all the suppliers' products.
-     * @return array of suppliers' products
-     */
+    * Get all the suppliers' products.
+    * @return array of SupplierProduct
+    */ 
     public function getAll() {
-        // TODO
-        $p1 = new Model_SupplierProduct(1, 'product 1', 1, 'supplier 1', 'kg', 25, 0);
-        $p2 = new Model_SupplierProduct(2, 'product 2', 3, 'supplier 3', 'L', 10, 0);
-        $p3 = new Model_SupplierProduct(3, 'product 3', 2, 'supplier 2', 'g', 5.25, 0);
-        
-        return array($p1, $p2, $p3);
+        return $this->fetchNConstruct('SELECT * FROM v_getSuppliersProducts', array()); 
     }
-
+    
     /**
-     * Constructs an order from an anonymous object.
+     * Get the supplier product with the product id and suppler id pass in parameter.
+     * @param int $supplierId
+     * @param int $productId
+     * @return a SupplierProduct
+     */
+    public function get($supplierId, $productId) {
+        $params = array (
+            new Database_StatementParameter(':spsupplierId', $supplierId, PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':spproductId', $productId, PDO::PARAM_INT, 11)
+        );
+        
+        $supplierProduct = $this->fetchNConstruct('CALL sp_getSupplierProduct(:spsupplierId, :spproductId)', $params);
+        return (sizeof($supplierProduct) > 0) ? $supplierProduct[0] : null;
+    }
+    
+    /**
+     * Save a supplierProduct
+     * @param Model_SupplierProduct $supplierProduct
+     * @return int
+     */
+    public function save($supplierProduct) {
+        $params = array (
+            new Database_StatementParameter(':spsupplierId', $supplierProduct->getSupplierID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':spproductId', $supplierProduct->getProductID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':spprice', $supplierProduct->getCostPerUnit(), PDO::PARAM_STR, 20),
+            new Database_StatementParameter(':spUnitOfMeasurement', $supplierProduct->getUnit(), PDO::PARAM_STR, 30)
+        );
+        
+        return $this->execute('CALL sp_saveSupplier(:spsupplierId, :spproductId, :spprice, :spUnitOfMeasurement)', $params);
+    }
+   
+    /**
+     * Delete a supplier product
+     * @param int $supplierId
+     * @param int $productId
+     * @return int
+     */
+    public function delete($supplierId, $productId) {
+       $params = array (
+            new Database_StatementParameter(':spsupplierId', $supplierId, PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':spproductId', $productId, PDO::PARAM_INT, 11)
+        );
+
+        return $this->execute('CALL sp_deleteSupplierProduct(:spsupplierId, :spproductId)', $params);
+    }
+    
+    /**
+     * Constructs a supplier product from an anonymous object.
      * @param object $obj
      * @return \Model_SupplierProduct
      */
     protected function construct($obj) {
-        // TODO
+        return new Model_SupplierProduct($obj->id_product, $obj->pname, 
+                                         $obj->id_supplier, $obj->sname, 
+                                         $obj->unitOfMeasurement, $obj->price, 0);
     }
 }
 

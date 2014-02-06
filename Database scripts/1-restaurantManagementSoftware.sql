@@ -37,11 +37,13 @@
   GO
   DROP TABLE IF EXISTS `product`
   GO
-  DROP TABLE IF EXISTS `orderList`
+  DROP TABLE IF EXISTS `supplier_product`
   GO
-  DROP TABLE IF EXISTS `purchaseOrders`
+  DROP TABLE IF EXISTS `order_list`
   GO
-  DROP TABLE IF EXISTS `POItem`
+  DROP TABLE IF EXISTS `purchase_orders`
+  GO
+  DROP TABLE IF EXISTS `PO_item`
   GO
 
 
@@ -137,11 +139,25 @@
    CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `product_category` (`id_category`)
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
+  
+  -- ---------------------------------------------------------------------------
+  -- Table supplier_product
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `supplier_product` (
+    `id_product` INT(11) NOT NULL,
+    `id_supplier` INT(11) NOT NULL,
+    `price` REAL NOT NULL,
+    `unitOfMeasurement` VARCHAR(30) NOT NULL,
+   PRIMARY KEY (`id_product`, `id_supplier`),
+   CONSTRAINT `supplier_product_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+   CONSTRAINT `supplier_supplier_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
 
   -- ---------------------------------------------------------------------------
-  -- Table orderList
+  -- Table order_list
   -- ---------------------------------------------------------------------------
-  CREATE TABLE IF NOT EXISTS `orderList` (
+  CREATE TABLE IF NOT EXISTS `order_list` (
     `id_order` INT(11) NOT NULL AUTO_INCREMENT,
     `id_restaurant` INT(11) NOT NULL,
     `dateCreated` DATETIME NOT NULL,
@@ -158,9 +174,9 @@
   GO
 
   -- ---------------------------------------------------------------------------
-  -- Table purchaseOrders
+  -- Table purchase_orders
   -- ---------------------------------------------------------------------------
-  CREATE TABLE IF NOT EXISTS `purchaseOrders` (
+  CREATE TABLE IF NOT EXISTS `purchase_orders` (
     `po_Number` VARCHAR(20) NOT NULL UNIQUE,
     `id_order` INT(11) NOT NULL,
     `id_supplier` INT(11) NOT NULL,
@@ -174,22 +190,22 @@
     `state` INT(3), -- 0: order, 1: shipped, 2: received
 
     PRIMARY KEY (`po_Number`),
-    CONSTRAINT `purchaseOrders_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orderList` (`id_order`),
-    CONSTRAINT `purchaseOrders_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
+    CONSTRAINT `purchase_orders_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `order_list` (`id_order`),
+    CONSTRAINT `purchase_orders_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
 
   -- ---------------------------------------------------------------------------
-  -- Table POItem
+  -- Table PO_item
   -- ---------------------------------------------------------------------------
-  CREATE TABLE IF NOT EXISTS `POItem` (
+  CREATE TABLE IF NOT EXISTS `PO_item` (
     `id_product` INT(11) NOT NULL,
     `po_Number` VARCHAR(20) NOT NULL,
     `qty` INT(11) NOT NULL,
     `costPerUnit` DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (`id_product`, `po_Number`),
-    CONSTRAINT `orderLine_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
-    CONSTRAINT `orderLine_ibfk_2` FOREIGN KEY (`po_Number`) REFERENCES `purchaseOrders` (`po_Number`)
+    CONSTRAINT `PO_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+    CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`po_Number`) REFERENCES `purchase_orders` (`po_Number`)
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
   DELIMITER ;

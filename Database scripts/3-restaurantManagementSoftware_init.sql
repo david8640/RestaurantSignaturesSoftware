@@ -69,9 +69,20 @@ VALUES
 GO
 
 -- ---------------------------------------------------------------------------
--- Insert table orderList
+-- Insert table supplier_product
 -- ---------------------------------------------------------------------------
-INSERT INTO `orderList` (`id_order`, `id_restaurant`, `dateCreated`,
+INSERT INTO `supplier_product` (`id_product`, `id_supplier`, `price`, `unitOfMeasurement`)
+VALUES
+	(1, 1, 2.50, 'Kg'),
+	(1, 2, 2.40, 'Kg'),
+	(2, 1, 3.50, 'Kg'),
+	(2, 2, 4.50, 'Kg');
+GO
+
+-- ---------------------------------------------------------------------------
+-- Insert table order_list
+-- ---------------------------------------------------------------------------
+INSERT INTO `order_list` (`id_order`, `id_restaurant`, `dateCreated`,
 	`subtotal`, `taxes`, `totalCost`, `shippingCost`, `state`)
 VALUES
 	(1, 5, '2014-01-19 18:55:55', 1000, 50, 100, 1150, 0),
@@ -79,9 +90,9 @@ VALUES
 GO
 
 -- ---------------------------------------------------------------------------
--- Insert table purchaseOrders
+-- Insert table purchase_orders
 -- ---------------------------------------------------------------------------
-INSERT INTO `purchaseOrders` (`po_Number`, `id_order`, `id_supplier`)
+INSERT INTO `purchase_orders` (`po_Number`, `id_order`, `id_supplier`)
 VALUES
 	(1, 1, 1),
 	(2, 2, 1),
@@ -90,9 +101,9 @@ VALUES
 GO
 
 -- ---------------------------------------------------------------------------
--- Insert table POItem
+-- Insert table PO_item
 -- ---------------------------------------------------------------------------
-INSERT INTO `POItem` (`id_product`, `po_Number`,`qty`, `costPerUnit`)
+INSERT INTO `PO_item` (`id_product`, `po_Number`,`qty`, `costPerUnit`)
 VALUES
 	(1, 1, 10, 50),
 	(1, 2, 10, 50),

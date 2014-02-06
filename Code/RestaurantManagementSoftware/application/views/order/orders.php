@@ -26,7 +26,7 @@
         <tr>
             <td><?php echo $o->getOrderID(); ?></td>
             <td><?php echo $o->getRestaurantName(); ?></td>
-            <td><?php echo $o->getDateOrdered(); ?></td>
+            <td><?php echo $o->getDateCreated(); ?></td>
             <td><?php echo $o->getSubtotal(); ?></td>
             <td><?php echo $o->getShippingCost(); ?></td>
             <td><?php echo $o->getTaxes(); ?></td>
