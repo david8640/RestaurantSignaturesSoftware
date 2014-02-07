@@ -25,6 +25,4 @@ return array(
 	'range'         => ':field must be within the range of :param2 to :param3',
 	'regex'         => ':field does not match the required format',
 	'url'           => ':field must be a url',
-        'ValidationExtension::positive_number'   => ':field must be a positive integer',
-        'ValidationExtension::category_selected' => 'A category must be selected',
 );

@@ -38,6 +38,7 @@
                     <li><?php echo HTML::anchor('restaurantUser/findAll', 'User Access'); ?></li>
                     <li><?php echo HTML::anchor('order/findAll', 'Orders'); ?></li>
                     <li><?php echo HTML::anchor('order/getRestaurantOrders', 'Restaurant Orders'); ?></li>
+                    <li><?php echo HTML::anchor('supplierProduct/findAll', 'Suppliers\' Products'); ?></li>
                 </ul>
                 <div class="right">
                     <?php 

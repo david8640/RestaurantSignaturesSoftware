@@ -14,7 +14,7 @@ class Model_SupplierProduct extends Model {
     private $productName;
     private $supplierId;
     private $supplierName;
-    private $unit;
+    private $unitOfMeasurement;
     private $costPerUnit;
     private $qty;
     
@@ -24,17 +24,17 @@ class Model_SupplierProduct extends Model {
      * @param string $productName the name of the product
      * @param int $supplierId the id of the supplier
      * @param string $supplierName the name of the supplier
-     * @param string $unit the unit of the product
+     * @param string $unitOfMeasurement the unit of the product
      * @param double $costPerUnit the cost/unit of the product
      * @param int $qty the quantity of the product
      */
     public function __construct($productId, $productName, $supplierId, $supplierName,
-                                $unit, $costPerUnit, $qty) {
+                                $unitOfMeasurement, $costPerUnit, $qty) {
         $this->setProductID($productId);
         $this->setProductName($productName);
         $this->setSupplierID($supplierId);
         $this->setSupplierName($supplierName);
-        $this->setUnit($unit);
+        $this->setUnitOfMeasurement($unitOfMeasurement);
         $this->setCostPerUnit($costPerUnit);
         $this->setQty($qty);
     }
@@ -108,16 +108,16 @@ class Model_SupplierProduct extends Model {
      * Get the unit of the product
      * @return string
      */
-    public function getUnit() {
-        return $this->unit;
+    public function getUnitOfMeasurement() {
+        return $this->unitOfMeasurement;
     }
     
     /**
      * Set the unit of the product
-     * @param string $unit
+     * @param string $unitOfMeasurement
      */
-    public function setUnit($unit) {
-        $this->unit = $unit;
+    public function setUnitOfMeasurement($unitOfMeasurement) {
+        $this->unitOfMeasurement = $unitOfMeasurement;
     }     
     
     /**

@@ -47,10 +47,10 @@ class Repository_SupplierProduct extends Repository_AbstractRepository {
             new Database_StatementParameter(':spsupplierId', $supplierProduct->getSupplierID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':spproductId', $supplierProduct->getProductID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':spprice', $supplierProduct->getCostPerUnit(), PDO::PARAM_STR, 20),
-            new Database_StatementParameter(':spUnitOfMeasurement', $supplierProduct->getUnit(), PDO::PARAM_STR, 30)
+            new Database_StatementParameter(':spUnitOfMeasurement', $supplierProduct->getUnitOfMeasurement(), PDO::PARAM_STR, 30)
         );
         
-        return $this->execute('CALL sp_saveSupplier(:spsupplierId, :spproductId, :spprice, :spUnitOfMeasurement)', $params);
+        return $this->execute('CALL sp_saveSupplierProduct(:spsupplierId, :spproductId, :spprice, :spUnitOfMeasurement)', $params);
     }
    
     /**
