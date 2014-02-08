@@ -47,9 +47,17 @@ class Repository_Order extends Repository_AbstractRepository {
      * @return int orderId or -1 (Error)
      */
     public function save($order) {
-        // TODO 
-        // return -1 if error
-        // otherwise return orderId
+        $params = array (
+            new Database_StatementParameter(':id_order', $order->getOrderID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':id_restaurant', $order->getRestaurantID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':dateCreated', $order->getDateCreated(), PDO::PARAM_STR, 19), //date  needs to be passed as a string
+            new Database_StatementParameter(':subtotal', $order->getSubtotal(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':taxes', $order->getTaxes(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':totalCost', $order->getTotalCost(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':shippingCost', $order->getShippingCost(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':state', $order->getState(), PDO::PARAM_INT, 3)
+        );
+        return $this->execute('CALL sp_saveOrder(:id_order, :id_restaurant, :dateCreated, :subtotal, :taxes, :totalCost, :shippingCost, :state)', $params);
     }
     
     /**

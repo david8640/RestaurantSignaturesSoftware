@@ -37,9 +37,9 @@ if (!isset($productsOrdered)) {
                 <tr>
                     <td><?php echo $p->getProductName(); ?></td>
                     <td><?php echo $p->getSupplierName(); ?></td>
-                    <td><?php echo $p->getUnit(); ?></td>
+                    <td><?php echo $p->getUnitOfMeasurement(); ?></td>
                     <td><?php echo $p->getCostPerUnit(); ?></td>
-                    <td><input type='button' value='Add' onclick="add(<?php echo $p->getProductID(); ?>, '<?php echo $p->getProductName(); ?>', <?php echo $p->getSupplierID(); ?>, '<?php echo $p->getSupplierName(); ?>', '<?php echo $p->getUnit(); ?>', <?php echo $p->getCostPerUnit(); ?>, <?php echo $p->getQty(); ?>);"/></td>
+                    <td><input type='button' value='Add' onclick="add(<?php echo $p->getProductID(); ?>, '<?php echo $p->getProductName(); ?>', <?php echo $p->getSupplierID(); ?>, '<?php echo $p->getSupplierName(); ?>', '<?php echo $p->getUnitOfMeasurement(); ?>', <?php echo $p->getCostPerUnit(); ?>, <?php echo $p->getQty(); ?>);"/></td>
                 </tr>
             <?php } ?>
         </table>
@@ -99,7 +99,7 @@ if (!isset($productsOrdered)) {
         foreach ($productsOrdered as $po) { 
             $addFunctions .= 'addItem('.$po->getProductID().', "'.$po->getProductName().
                                     '", '.$po->getSupplierID().', "'.$po->getSupplierName().
-                                    '", "'.$po->getUnit().'", '.
+                                    '", "'.$po->getUnitOfMeasurement().'", '.
                                     (($po->getCostPerUnit() == '') ? 0 : $po->getCostPerUnit()).', '.
                                     (($po->getQty()  == '') ? 0 : $po->getQty()).');';
         }
