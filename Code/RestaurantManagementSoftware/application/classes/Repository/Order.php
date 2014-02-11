@@ -19,10 +19,6 @@ class Repository_Order extends Repository_AbstractRepository {
      */
     public function getAll() {
         return $this->fetchNConstruct('SELECT * FROM v_getOrderList', array());
-        /*$order1 = new Model_Order(1, 1, 'Restaurant 1', '2014-01-29', 0, 0, 0, 0, Constants_OrderState::IN_PROGRESS, 'In Progress');
-        $order3 = new Model_Order(3, 1, 'Restaurant 1', '2014-01-29', 0, 0, 0, 0, Constants_OrderState::IN_PROGRESS, 'In Progress');
-        $order2 = new Model_Order(2, 2, 'Restaurant 2', '2014-01-29', 0, 0, 0, 0, Constants_OrderState::IN_PROGRESS, 'In Progress');
-        return array($order1, $order2, $order3); */
     }
     
     /**
