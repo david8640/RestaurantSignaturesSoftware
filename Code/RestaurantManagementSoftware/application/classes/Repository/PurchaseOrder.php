@@ -13,7 +13,7 @@
  */
 
 class Repository_PurchaseOrder extends Repository_AbstractRepository { 
-    public function save($purchaseOrders) {
+    public function save($orderId, $purchaseOrders) {
         $successDeleteAll = $this->deleteAllPurchaseOrderOfOrder($orderId);
         if (!$successDeleteAll) {
             return false;

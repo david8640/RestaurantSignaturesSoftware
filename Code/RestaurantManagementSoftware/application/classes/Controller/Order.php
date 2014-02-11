@@ -105,7 +105,7 @@ class Controller_Order extends Controller_Template_Generic {
                         $purchaseOrders = $this->createPurchaseOrders($orderId, $now, $productsOrdered);
                         // Save the purchase orders and purchase order items to the database.
                         $poRepo = new Repository_PurchaseOrder();
-                        $success = $poRepo->save($purchaseOrders);    
+                        $success = $poRepo->save($orderId, $purchaseOrders);    
 
                         // If there was a problem remove the order from the database
                         // and add a feedback message.

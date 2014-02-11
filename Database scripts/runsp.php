@@ -7,23 +7,23 @@ class DatabaseAutoReset {
     /*******************************************************************************/
     // Local Settings
     /*******************************************************************************/
-    private $filePathTables = '/Applications/MAMP/htdocs/seg4910-project/Database scripts/1-restaurantManagementSoftware.sql';
-    private $filePathProcedures = '/Applications/MAMP/htdocs/seg4910-project/Database scripts/2-restaurantManagementSoftware_sp.sql';
-    private $filePathInit = '/Applications/MAMP/htdocs/seg4910-project/Database scripts/3-restaurantManagementSoftware_init.sql';
-    private $host = 'localhost:8889';
-    private $database = 'restaurantManagementSoftware';
-    private $username = 'root';
-    private $password = 'root';
+    //private $filePathTables = '/Applications/MAMP/htdocs/seg4910-project/Database scripts/1-restaurantManagementSoftware.sql';
+    //private $filePathProcedures = '/Applications/MAMP/htdocs/seg4910-project/Database scripts/2-restaurantManagementSoftware_sp.sql';
+    //private $filePathInit = '/Applications/MAMP/htdocs/seg4910-project/Database scripts/3-restaurantManagementSoftware_init.sql';
+    //private $host = 'localhost:8889';
+    //private $database = 'restaurantManagementSoftware';
+    //private $username = 'root';
+	//private $password = 'root';
     /*******************************************************************************/
     // Server Settings
     /*******************************************************************************/
-    //private $filePathTables = 'Database scripts/1-restaurantManagementSoftware.sql';
-    //private $filePathProcedures = 'Database scripts/2-restaurantManagementSoftware_sp.sql';
-    //private $filePathInit = 'Database scripts/3-restaurantManagementSoftware_init.sql';
-    //private $host = 'db498909085.db.1and1.com';
-    //private $database = 'db498909085';
-    //private $username = 'dbo498909085';
-    //private $password = 'davidfortin8640';
+    private $filePathTables = '1-restaurantManagementSoftware.sql';
+    private $filePathProcedures = '2-restaurantManagementSoftware_sp.sql';
+    private $filePathInit = '3-restaurantManagementSoftware_init.sql';
+    private $host = 'db498909085.db.1and1.com';
+    private $database = 'db498909085';
+    private $username = 'dbo498909085';
+    private $password = 'davidfortin8640';
     
     function main() {
         $valuesTbl = $this->runTableScript();
@@ -226,7 +226,8 @@ class DatabaseAutoReset {
                 && strpos($begin, 'SET TIME') === FALSE && strpos($begin, '-- ') === FALSE
                 && strpos($begin, 'DROP DATABASE') === FALSE && strpos($begin, 'CREATE DATAB') === FALSE
                 && strpos($begin, 'USE ') === FALSE 
-                && strpos($begin, '/*!40101') === FALSE && strpos($begin, 'DELIMITER') === FALSE) { 
+                && strpos($begin, '/*!40101') === FALSE && strpos($begin, 'DELIMITER') === FALSE
+                && strpos($begin, 'ALTER DATABASE') === FALSE) { 
                 $fileContent .= $line;
             }
         }
