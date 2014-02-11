@@ -72,8 +72,11 @@ if (!isset($submitAction)) {
     
     // Set the number of digits to 2
     function fixFormat() {
-        $price = new Number($('#price').val());
-        $('#price').val($price.toFixed(2));
+        var value = $('#price').val();
+        if (!isNaN(value)) {
+            $price = new Number(value);
+            $('#price').val($price.toFixed(2));
+        }
     }
 </script>
     

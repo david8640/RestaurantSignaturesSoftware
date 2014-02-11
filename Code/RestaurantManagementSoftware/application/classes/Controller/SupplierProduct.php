@@ -217,7 +217,7 @@ class Controller_SupplierProduct extends Controller_Template_Generic {
                 ->rule('product_id', 'not_empty')
                 ->label('product_id', 'Product')
                 ->rule('price', 'not_empty')
-                ->rule('price', 'decimal', array(':digits', '2'))
+                ->rule('price', 'numeric')
                 ->rule('price', 'ValidationExtension::positive_number')
                 ->label('price', 'Price')
                 ->rule('unit_of_measurement', 'not_empty')

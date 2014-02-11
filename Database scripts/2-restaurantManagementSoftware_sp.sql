@@ -519,7 +519,7 @@ GO
 CREATE PROCEDURE sp_saveSupplierProduct(
 	IN a_supplier_id INT(11),
 	IN a_product_id INT(11),
-	IN p_price REAL,
+	IN p_price DECIMAL(10,2),
 	IN unit_of_measurement VARCHAR(30)
 )
 BEGIN
@@ -735,6 +735,22 @@ END
 GO
 
 -- -----------------------------------------------------
+-- Stored Procedure `sp_getRestaurantOrders`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getRestaurantOrders`
+GO
+CREATE PROCEDURE sp_getRestaurantOrders(
+  IN ro_id_restaurant INT
+)
+BEGIN
+	SELECT O.id_order, O.id_restaurant, R.name as nameRestaurant, O.dateCreated, O.subtotal,
+		O.shippingCost, O.taxes, O.totalCost, O.state
+	FROM order_list O LEFT JOIN restaurant R ON O.id_restaurant = R.id_restaurant
+	WHERE O.id_restaurant = ro_id_restaurant;			 
+END
+GO
+
+-- -----------------------------------------------------
 -- Stored Procedure `sp_saveOrder`
 -- -----------------------------------------------------
 DROP PROCEDURE IF EXISTS `sp_saveOrder`
@@ -743,16 +759,18 @@ CREATE PROCEDURE sp_saveOrder(
   IN id_order_in INT(11),
   IN id_restaurant_in INT(11),
   IN dateCreated_in DATETIME,
-  IN subtotal_in INT(11),
-  IN taxes_in INT(11),
-  IN totalCost_in INT(11),
-  IN shippingCost_in INT(11),
+  IN subtotal_in DECIMAL(10,2),
+  IN taxes_in DECIMAL(10,2),
+  IN totalCost_in DECIMAL(10,2),
+  IN shippingCost_in DECIMAL(10,2),
   IN state_in INT(3)
   )
 BEGIN
+	DECLARE id INT(11);
+	SET id = -1;
 	IF EXISTS (SELECT * FROM order_list WHERE id_order = id_order_in) THEN
+	BEGIN
 		UPDATE order_list SET 
-  			id_order =  id_order_in,
   			id_restaurant = id_restaurant_in,
   			dateCreated = dateCreated_in,
   			subtotal = subtotal_in,
@@ -761,11 +779,18 @@ BEGIN
   			shippingCost = shippingCost_in,
   			state = state_in
 		WHERE id_order = id_order_in;
+		-- Get the id of the order if the update was successful
+		SET id = id_order_in;
+	END;
 	ELSE
-		INSERT INTO `order_list` (`id_order`, `id_restaurant`, `dateCreated`, `subtotal`,
+	BEGIN
+		INSERT INTO `order_list` (`id_restaurant`, `dateCreated`, `subtotal`,
   					`taxes`, `totalCost`, `shippingCost`, `state`) 
-		VALUES (id_order_in, id_restaurant_in, dateCreated_in, subtotal_in, taxes_in, totalCost_in, shippingCost_in, state_in);
+		VALUES (id_restaurant_in, dateCreated_in, subtotal_in, taxes_in, totalCost_in, shippingCost_in, state_in);
+		SET id = LAST_INSERT_ID();
+	END;
 	END IF;
+	SELECT id;
 END
 GO
 

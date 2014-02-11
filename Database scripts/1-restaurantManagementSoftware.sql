@@ -146,7 +146,7 @@
   CREATE TABLE IF NOT EXISTS `supplier_product` (
     `id_product` INT(11) NOT NULL,
     `id_supplier` INT(11) NOT NULL,
-    `price` REAL NOT NULL,
+    `price` DECIMAL(10,2) NOT NULL,
     `unitOfMeasurement` VARCHAR(30) NOT NULL,
    PRIMARY KEY (`id_product`, `id_supplier`),
    CONSTRAINT `supplier_product_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
@@ -161,12 +161,10 @@
     `id_order` INT(11) NOT NULL AUTO_INCREMENT,
     `id_restaurant` INT(11) NOT NULL,
     `dateCreated` DATETIME NOT NULL,
-
-    `subtotal` INT(11), -- sum of of subtotal of each PO
-    `taxes` INT(11), -- sum of all taxes of each PO
-    `totalCost` INT(11), -- sum of of total of each PO
-    `shippingCost` INT(11), -- sum of of shipping of each PO
-
+    `subtotal` DECIMAL(10,2), -- sum of of subtotal of each PO
+    `taxes` DECIMAL(10,2), -- sum of all taxes of each PO
+    `totalCost` DECIMAL(10,2), -- sum of of total of each PO
+    `shippingCost` DECIMAL(10,2), -- sum of of shipping of each PO
     `state` INT(3), -- 0: saved, 1: ordered
    PRIMARY KEY (`id_order`),
    CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
@@ -180,13 +178,12 @@
     `po_Number` VARCHAR(20) NOT NULL UNIQUE,
     `id_order` INT(11) NOT NULL,
     `id_supplier` INT(11) NOT NULL,
-
     `dateOrdered` DATETIME NOT NULL,
     `dateDelivered` DATETIME NOT NULL,
-    `subtotal` INT(11),
-    `taxes` INT(11),
-    `shippingCost` INT(11),
-    `totalCost` INT(11),
+    `subtotal` DECIMAL(10,2),
+    `taxes` DECIMAL(10,2),
+    `shippingCost` DECIMAL(10,2),
+    `totalCost` DECIMAL(10,2),
     `state` INT(3), -- 0: order, 1: shipped, 2: received
 
     PRIMARY KEY (`po_Number`),
@@ -202,7 +199,7 @@
     `id_product` INT(11) NOT NULL,
     `po_Number` VARCHAR(20) NOT NULL,
     `qty` INT(11) NOT NULL,
-    `costPerUnit` DECIMAL(5,2) NOT NULL,
+    `costPerUnit` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`id_product`, `po_Number`),
     CONSTRAINT `PO_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
     CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`po_Number`) REFERENCES `purchase_orders` (`po_Number`)

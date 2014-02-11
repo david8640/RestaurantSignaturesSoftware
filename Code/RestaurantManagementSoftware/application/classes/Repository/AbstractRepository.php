@@ -66,6 +66,26 @@ abstract class Repository_AbstractRepository {
     }
 
     /**
+     * Execute a query and return the id (insert, update, 
+     * delete).
+     * @param string $query
+     * @param array(StatementParameter) $params
+     * @return int id
+     */
+    protected function executeNReturnId($query, $params) {
+        $connection = null;
+        try {
+            $connection = $this->connect();
+            $id = $this->execReturnId($connection, $query, $params);
+            $this->close($connection);
+            return $id;
+        } catch (Exception $e) {
+            $this->close($connection);
+            throw new Exception('Executing query failed.\n' . $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+    
+    /**
      * Connect to the database.
      * @return connection to database
      * @throws Exception
@@ -126,8 +146,25 @@ abstract class Repository_AbstractRepository {
         $statement = $connection->prepare($query);
         $this->bindParameters($statement, $params);
         $result = $statement->execute();
-
         return $result;
+    }
+    
+    /**
+     * Execute the query and return and id.
+     * @param connection $connection
+     * @param string $query
+     * @param array(StatementParameter) $params
+     * @return int id
+     */
+    private function execReturnId($connection, $query, $params) {
+        $statement = $connection->prepare($query);
+        $this->bindParameters($statement, $params);
+        $statement->execute();
+        $id = -1;
+        while ($obj = $statement->fetch(PDO::FETCH_OBJ)) {
+            $id = $obj->id;
+        }
+        return $id;
     }
 
     /**

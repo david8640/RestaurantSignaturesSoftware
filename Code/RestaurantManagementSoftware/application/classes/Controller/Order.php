@@ -88,14 +88,17 @@ class Controller_Order extends Controller_Template_Generic {
                 // if the location id is invalid a feedback message is send 
                 // and nothing is save in the database.
                 if (count($errors) == 0) {
+                    // Get the order id if exists
+                    $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
+                    
                     // Save the order to the database.
-                    $order = new Model_Order(-1, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
+                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
                     $orderRepo = new Repository_Order();
-                    $orderId = $orderRepo->save($order);
+                    $orderSavedId = $orderRepo->save($order);
 
                     $feedbackMessage = array();
                     // Check that the order was insert properly.
-                    if ($orderId == -1) {
+                    if ($orderSavedId == -1) {
                         // if the order as not been create add an error message.
                         array_push($feedbackMessage, 'An error occured.');
                     } else {
@@ -133,8 +136,9 @@ class Controller_Order extends Controller_Template_Generic {
             $view = View::factory('order/step1')
                         ->set('products', $products)
                         ->set('productsOrdered', $productsOrdered)
+                        ->set('orderId', $orderSavedId)
                         ->set('restaurants', $this->template->locations)
-                        ->set('global_selected_location', $this->template->global_selected_location);
+                        ->set('global_selected_location', $restaurantId);
 
             $this->template->feedbackMessage = $feedbackMessage;
             $this->template->title = __('');

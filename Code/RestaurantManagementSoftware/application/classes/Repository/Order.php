@@ -27,14 +27,11 @@ class Repository_Order extends Repository_AbstractRepository {
      * @return array of orders
      */
     public function getRestaurantOrders($idRestaurant) {
-        if ($idRestaurant == 5) {
-            $order1 = new Model_Order(1, 1, '', '2014-01-29', 0, 0, 0, 0, Constants_OrderState::IN_PROGRESS, 'In Progress');
-            $order2 = new Model_Order(2, 1, '', '2014-01-29', 0, 0, 0, 0, Constants_OrderState::IN_PROGRESS, 'In Progress');
-        } else {
-            $order1 = new Model_Order(1, 2, '', '2014-01-29', 0, 0, 0, 0, Constants_OrderState::IN_PROGRESS, 'In Progress');
-            $order2 = new Model_Order(2, 2, '', '2014-01-29', 0, 0, 0, 0, Constants_OrderState::IN_PROGRESS, 'In Progress');
-        }
-        return array($order1, $order2);
+        $params = array (
+            new Database_StatementParameter(':rid', $idRestaurant, PDO::PARAM_INT, 11)
+        );
+        
+        return $this->fetchNConstruct('CALL sp_getRestaurantOrders(:rid)', $params);
     }
     
     /**
@@ -47,13 +44,13 @@ class Repository_Order extends Repository_AbstractRepository {
             new Database_StatementParameter(':id_order', $order->getOrderID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':id_restaurant', $order->getRestaurantID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':dateCreated', $order->getDateCreated(), PDO::PARAM_STR, 19), //date  needs to be passed as a string
-            new Database_StatementParameter(':subtotal', $order->getSubtotal(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':taxes', $order->getTaxes(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':totalCost', $order->getTotalCost(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':shippingCost', $order->getShippingCost(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':subtotal', $order->getSubtotal(), PDO::PARAM_STR, 20),
+            new Database_StatementParameter(':taxes', $order->getTaxes(), PDO::PARAM_STR, 20),
+            new Database_StatementParameter(':totalCost', $order->getTotalCost(), PDO::PARAM_STR, 20),
+            new Database_StatementParameter(':shippingCost', $order->getShippingCost(), PDO::PARAM_STR, 20),
             new Database_StatementParameter(':state', $order->getState(), PDO::PARAM_INT, 3)
         );
-        return $this->execute('CALL sp_saveOrder(:id_order, :id_restaurant, :dateCreated, :subtotal, :taxes, :totalCost, :shippingCost, :state)', $params);
+        return $this->executeNReturnId('CALL sp_saveOrder(:id_order, :id_restaurant, :dateCreated, :subtotal, :taxes, :totalCost, :shippingCost, :state)', $params);
     }
     
     /**

@@ -20,6 +20,10 @@ if (!isset($productsOrdered)) {
     $productsOrdered = array();
 }
 
+if (!isset($orderId)) {
+    $orderId = -1;
+}
+
 ?>
 <div>
     <h2>Step 1 : Choose Products</h2>
@@ -47,7 +51,8 @@ if (!isset($productsOrdered)) {
     <div class='rightcolumn'>
         <h3>Order</h3>
         <form id="orderForm" action="" method="post" accept-charset="utf-8">
-            <?php 
+            <?php
+                echo Form::hidden('orderId', $orderId);
                 echo Form::Label('Restaurant', 'Restaurant: '); 
             ?>
             <select id="locationId" name="locationId">
@@ -139,8 +144,9 @@ if (!isset($productsOrdered)) {
         var tableRows = displayTableHeader();
         var subtotal = 0;
         var index = 0;
-        order.forEach(function(e) {
-            var productTotal = e.costPerUnit * e.qty;
+        order.forEach(function(e) { 
+            // If it's not a valid number than put 0
+            var productTotal = ((isNaN(e.costPerUnit)) ? 0 : e.costPerUnit) * ((isNaN(e.qty)) ? 0 : e.qty);
             subtotal += productTotal;
             var indexStr = '['+index+']';
             
