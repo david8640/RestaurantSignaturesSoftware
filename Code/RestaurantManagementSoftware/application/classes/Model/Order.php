@@ -207,10 +207,8 @@ class Model_Order extends Model {
     public function setStateName($state) {
         if ($state == 0) { //saved
             $this->stateName = "In Progress";
-        } else if ($state == 1) { //ordered
-            $this->stateName = "Ordered";
-        } else  {
-            $this->stateName = "In Progress";
+        } else if ($state == 1) { //submitted
+            $this->stateName = "Submitted";
         }
     }
 }

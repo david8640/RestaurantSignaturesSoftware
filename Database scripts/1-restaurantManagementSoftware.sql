@@ -165,7 +165,7 @@
     `taxes` DECIMAL(10,2), -- sum of all taxes of each PO
     `totalCost` DECIMAL(10,2), -- sum of of total of each PO
     `shippingCost` DECIMAL(10,2), -- sum of of shipping of each PO
-    `state` INT(3), -- 0: saved, 1: ordered
+    `state` INT(3), -- 0: in progress, 1: submitted
    PRIMARY KEY (`id_order`),
    CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
@@ -175,7 +175,8 @@
   -- Table purchase_orders
   -- ---------------------------------------------------------------------------
   CREATE TABLE IF NOT EXISTS `purchase_orders` (
-    `po_Number` VARCHAR(20) NOT NULL UNIQUE,
+    `id_po` INT(11) NOT NULL AUTO_INCREMENT,
+    `po_NumberSupplier` VARCHAR(20) UNIQUE,
     `id_order` INT(11) NOT NULL,
     `id_supplier` INT(11) NOT NULL,
     `dateOrdered` DATETIME NOT NULL,
@@ -184,10 +185,9 @@
     `taxes` DECIMAL(10,2),
     `shippingCost` DECIMAL(10,2),
     `totalCost` DECIMAL(10,2),
-    `state` INT(3), -- 0: order, 1: shipped, 2: received
-
-    PRIMARY KEY (`po_Number`),
-    CONSTRAINT `purchase_orders_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `order_list` (`id_order`),
+    `state` INT(3), -- 0: in progress, 1: ordered, 2: shipped, 3:received
+    PRIMARY KEY (`id_po`),
+    CONSTRAINT `purchase_orders_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `order_list` (`id_order`) ON DELETE CASCADE,
     CONSTRAINT `purchase_orders_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
@@ -197,12 +197,12 @@
   -- ---------------------------------------------------------------------------
   CREATE TABLE IF NOT EXISTS `PO_item` (
     `id_product` INT(11) NOT NULL,
-    `po_Number` VARCHAR(20) NOT NULL,
+    `id_po` INT(11) NOT NULL,
     `qty` INT(11) NOT NULL,
     `costPerUnit` DECIMAL(10,2) NOT NULL,
-    PRIMARY KEY (`id_product`, `po_Number`),
+    PRIMARY KEY (`id_product`, `id_po`),
     CONSTRAINT `PO_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
-    CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`po_Number`) REFERENCES `purchase_orders` (`po_Number`)
+    CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`id_po`) REFERENCES `purchase_orders` (`id_po`) ON DELETE CASCADE
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
   DELIMITER ;

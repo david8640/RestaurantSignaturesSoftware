@@ -190,7 +190,7 @@ class Controller_Product extends Controller_Template_Generic {
         
         // Delete succeed
         Session::instance()->set('feedbackMessage', array('The product was deleted.'));
-        $this->redirect ('product/findAllxs');
+        $this->redirect ('product/findAll');
     }
     
     /**

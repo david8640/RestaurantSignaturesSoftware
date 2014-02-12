@@ -10,7 +10,7 @@
  */
 class Model_PurchaseOrder extends Model {
     // Private members
-    private $poNumber;
+    private $poId;
     private $supplierPONumber;
     private $idOrder;
     private $supplierId;
@@ -26,7 +26,7 @@ class Model_PurchaseOrder extends Model {
      
     /**
      * Constructor of a Purchase Order model
-     * @param int $poNumber the purchase order number
+     * @param int $poId the purchase order id
      * @param int $idOrder the id of the order
      * @param int $idSupplier the id of the supplier of the purchase order
      * @param string $supplierPONumber the purchase order number of the supplier
@@ -39,10 +39,10 @@ class Model_PurchaseOrder extends Model {
      * @param double $totalCost the total cost of the purchase order
      * @param int $state the state of the purchase order
      */
-    public function __construct($poNumber, $idOrder, $idSupplier, $supplierPONumber,  
+    public function __construct($poId, $idOrder, $idSupplier, $supplierPONumber,  
                                 $supplierName, $dateOrdered, $dateDelivered, $subtotal,   
                                 $shipping, $taxes, $totalCost, $state) {
-        $this->setPONumber($poNumber);
+        $this->setPOID($poId);
         $this->setSupplierPONumber($supplierPONumber);
         $this->setOrderID($idOrder);
         $this->setSupplierID($idSupplier);
@@ -59,19 +59,19 @@ class Model_PurchaseOrder extends Model {
    
     // Getters and setters
     /**
-     * get the po number
+     * get the po if
      * @return int
      */
-    public function getPONumber() {
-        return $this->poNumber;
+    public function getPOID() {
+        return $this->poId;
     }
 
     /**
-     * Set the po number
-     * @param int $poNumber 
+     * Set the po id
+     * @param int $poId 
      */
-    public function setPONumber($poNumber) {
-        $this->poNumber = $poNumber;
+    public function setPOID($poId) {
+        $this->poId = $poId;
     }
     
     /**

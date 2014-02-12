@@ -11,12 +11,17 @@
  *      for each purchase order item.
  *  </summary>
  */
-
-class Repository_PurchaseOrderItem extends Repository_AbstractRepository { 
-    public function save($purchaseOrderItems) {       
+class Repository_PurchaseOrderItem extends Repository_AbstractRepository {
+    /**
+     * Save a list of purchase order items
+     * @param int purchase order id
+     * @param list $purchaseOrderItems
+     * @return boolean success
+     */
+    public function save($poId, $purchaseOrderItems) {
         foreach ($purchaseOrderItems as $poItem) {
             // Insert PO
-            $successInsertPoItem = $this->add($poItem);
+            $successInsertPoItem = $this->add($poId, $poItem);
             if (!$successInsertPoItem) {
                 return false;
             }
@@ -24,15 +29,21 @@ class Repository_PurchaseOrderItem extends Repository_AbstractRepository {
         return true;
     }
     
-    private function add($poItem) {
+    /**
+     * Add a purchase order item in database
+     * @param int purchase order id
+     * @param \Model_PurchaseOrderItem $poItem
+     * @return boolean success
+     */
+    private function add($poId, $poItem) {
         $params = array (
-            new Database_StatementParameter(':poiPoNumber', $poItem->getPONumber(), PDO::PARAM_STR, 20),
+            new Database_StatementParameter(':poiPoId', $poId, PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poiIdProduct', $poItem->getProductID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poiQty', $poItem->getQty(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poiCostPerUnit', $poItem->getCostPerUnit(), PDO::PARAM_STR, 20)
         );
         
-        return $this->execute('CALL sp_addPurchaseOrderItem(:poiPoNumber, :poiIdProduct, :poiQty, :poiCostPerUnit)', $params);
+        return $this->execute('CALL sp_addPurchaseOrderItem(:poiPoId, :poiIdProduct, :poiQty, :poiCostPerUnit)', $params);
     }
     
     /**

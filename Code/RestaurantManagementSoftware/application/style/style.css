@@ -132,7 +132,8 @@ div.menu li
      padding-right: 10px;
  }
  
- .content .button_delete, .content .button_edit, .content .button_add {
+ .content .button_delete, .content .button_edit, .content .button_add, .content .button_delete_disabled, 
+ .content .button_edit_disabled {
      display:block; 
      height:20px;
      background-size: auto 100%;
@@ -144,8 +145,17 @@ div.menu li
      background-image: url('images/delete-icon.png');
  } 
  
+ .content .button_delete_disabled {
+     background-image: url('images/delete-icon_disabled.png');
+     
+ }
+ 
  .content .button_edit {     
      background-image: url('images/edit-icon.png');
+ }
+ 
+ .content .button_edit_disabled {
+     background-image: url('images/edit-icon_disabled.png');
  }
  
  .content .button_add {

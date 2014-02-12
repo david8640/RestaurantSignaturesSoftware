@@ -109,7 +109,7 @@ DROP VIEW IF EXISTS `v_getPurchaseOrders`
 GO
 CREATE VIEW v_getPurchaseOrders
 AS
-	SELECT PO.po_Number, PO.id_order, PO.id_supplier, S.name as supplierName
+	SELECT PO.id_po, PO.po_NumberSupplier, PO.id_order, PO.id_supplier, S.name as supplierName
 	FROM purchase_orders PO
 		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 GO
@@ -121,8 +121,8 @@ DROP VIEW IF EXISTS `v_getPOItems`
 GO
 CREATE VIEW v_getPOItems
 AS
-	SELECT PO.id_product, PO.po_Number, PO.qty, PO.costPerUnit
-	FROM PO_item PO
+	SELECT POI.id_product, POI.id_po, PO.po_NumberSupplier, POI.qty, POI.costPerUnit
+	FROM PO_item POI LEFT JOIN purchase_orders PO ON POI.id_po = PO.id_po
 GO
 
 
@@ -157,7 +157,7 @@ BEGIN
 		DELETE FROM supplier 
 		WHERE id_supplier = s_supplier_id;
 	ELSE
-		CALL raise_error;
+		SELECT 0; /* ERREUR */
 	END IF;
 END
 GO
@@ -370,7 +370,7 @@ BEGIN
 		UPDATE product_category SET orderof = orderof - 1 WHERE orderof > orderOfItemToDelete;
 	END;
 	ELSE
-		CALL raise_error;
+		SELECT 0; /* ERREUR */
 	END IF;
 END
 GO
@@ -398,7 +398,7 @@ BEGIN
 			WHERE id_category = c_id_category;
 		END;
 		ELSE
-			CALL raise_error;
+			SELECT 0; /* ERREUR */
 		END IF;
 	END;
 	ELSE
@@ -444,7 +444,7 @@ BEGIN
 		WHERE id_product = a_product_id;
 	END;
 	ELSE
-		CALL raise_error;
+		SELECT 0; /* ERREUR */
 	END IF;
 END
 GO
@@ -506,7 +506,7 @@ BEGIN
 		WHERE id_product= a_product_id AND id_supplier = a_supplier_id;
 	END;
 	ELSE
-		CALL raise_error;
+		SELECT 0; /* ERREUR */
 	END IF;
 END
 GO
@@ -563,7 +563,7 @@ BEGIN
 		DELETE FROM restaurant 
 		WHERE id_restaurant = r_id_restaurant;
 	ELSE
-		CALL raise_error;
+		SELECT 0; /* ERREUR */
 	END IF;
 END
 GO
@@ -665,7 +665,7 @@ BEGIN
    		END;
 		-- Invalid operation
 		ELSE
-   			CALL raise_error;
+   			SIGNAL SQLSTATE '45000'; /* ERREUR */
    		END IF;
    	END LOOP manip_loop;
 END
@@ -793,6 +793,83 @@ BEGIN
 	SELECT id;
 END
 GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_deleteOrder`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_deleteOrder`
+GO
+CREATE PROCEDURE sp_deleteOrder(
+	IN o_id_order INT(11)
+)
+BEGIN
+	/* Delete only if the order is in progress otherwise the order cannot be delete */
+	IF EXISTS (SELECT * FROM order_list WHERE id_order = o_id_order AND state = 0 /*In Progress*/) THEN
+		DELETE FROM order_list 
+		WHERE id_order = o_id_order;
+	ELSE
+		SIGNAL SQLSTATE '45000'; /* ERREUR */
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_addPurchaseOrder`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_addPurchaseOrder`
+GO
+CREATE PROCEDURE sp_addPurchaseOrder(
+	IN po_po_number VARCHAR(20),
+	IN po_id_order INT(11),
+	IN po_id_supplier INT(11),
+	IN po_date_ordered DATETIME,
+	IN po_date_delivered DATETIME,
+	IN po_subtotal DECIMAL(10,2),
+  	IN po_taxes DECIMAL(10,2),
+  	IN po_totalCost DECIMAL(10,2),
+ 	IN po_shippingCost DECIMAL(10,2),
+ 	IN po_state INT(3)
+)
+BEGIN
+	INSERT INTO `purchase_orders` (`po_NumberSupplier`, `id_order`, `id_supplier`,
+    							`dateOrdered`, `dateDelivered`, `subtotal`, `taxes`, 
+    							`shippingCost`, `totalCost`, `state`) 
+	VALUES (po_po_number, po_id_order, po_id_supplier, po_date_ordered, po_date_delivered, 
+			po_subtotal, po_taxes, po_totalCost, po_shippingCost, po_state);
+	SELECT LAST_INSERT_ID() AS id;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_addPurchaseOrderItem`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_addPurchaseOrderItem`
+GO
+CREATE PROCEDURE sp_addPurchaseOrderItem(
+	IN poi_id_po INT(11),
+	IN poi_id_product INT(11),
+	IN poi_qty INT(11),
+	IN poi_cost_per_unit DECIMAL(10,2)
+)
+BEGIN
+	INSERT INTO `PO_item` (`id_product`, `id_po`, `qty`, `costPerUnit`) 
+	VALUES (poi_id_product, poi_id_po, poi_qty, poi_cost_per_unit);
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_deleteAllPurcaseOrdersOfOrder`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_deleteAllPurcaseOrdersOfOrder`
+GO
+CREATE PROCEDURE sp_deleteAllPurcaseOrdersOfOrder(
+	IN po_id_order INT(11)
+)
+BEGIN
+	DELETE FROM purchase_orders 
+	WHERE id_order = po_id_order;
+END
+GO                          
 
 -- ---------------------------------------------------------------------------------------
 -- Functions

@@ -79,7 +79,7 @@ class Controller_Order extends Controller_Template_Generic {
             // is send and the elements are not save in the database.
             if (count($errors) == 0) {
                 // Get the current date
-                $now = date('d/m/Y'); 
+                $now = date("Y-m-d H:i:s"); 
                 // Get the location id an validate it.
                 $returnValues = $this->getLocationId($_POST);
                 $restaurantId = $returnValues[0];
@@ -102,7 +102,7 @@ class Controller_Order extends Controller_Template_Generic {
                         // if the order as not been create add an error message.
                         array_push($feedbackMessage, 'An error occured.');
                     } else {
-                        $purchaseOrders = $this->createPurchaseOrders($orderId, $now, $productsOrdered);
+                        $purchaseOrders = $this->createPurchaseOrders($orderSavedId, $now, $productsOrdered);
                         // Save the purchase orders and purchase order items to the database.
                         $poRepo = new Repository_PurchaseOrder();
                         $success = $poRepo->save($orderId, $purchaseOrders);    
@@ -171,6 +171,34 @@ class Controller_Order extends Controller_Template_Generic {
         
         $this->template->title = __('');
         $this->template->content = $view;
+    }
+    
+    /**
+     * Delete an order.
+     */
+    public function action_delete() {
+        $id = $this->request->param('id');
+        $lastAction = $this->request->param('lastAction');
+        
+        // Validate id
+        if (!(Valid::not_empty($id) && Valid::numeric($id))) {
+            Session::instance()->set('feedbackMessage', array('Invalid order id.'));
+            $this->redirect ('order/' . $lastAction);
+        }
+        
+        // Delete the product
+        $repo = new Repository_Order();
+        $success = $repo->delete($id);
+        
+        // Delete failed
+        if (!$success) {
+            Session::instance()->set('feedbackMessage', array('An error occuring while deleting the order.'));
+            $this->redirect ('order/' . $lastAction);
+        }
+        
+        // Delete succeed
+        Session::instance()->set('feedbackMessage', array('The order was deleted.'));
+        $this->redirect ('order/' . $lastAction);
     }
     
     /**
@@ -247,7 +275,7 @@ class Controller_Order extends Controller_Template_Generic {
         foreach ($productsOrdered as $p) {
             $supplierId = $p->getSupplierID();
             if (!array_key_exists($supplierId, $purchaseOrders)) { 
-                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, '', '', $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS);
+                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, NULL, '', $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS);
             }
             $purchaseOrderItem = new Model_PurchaseOrderItem(-1, $p->getProductID(), $p->getQty(), $p->getCostPerUnit());
             $purchaseOrders[$supplierId]->addToSubtotal($purchaseOrderItem->getSubtotal());

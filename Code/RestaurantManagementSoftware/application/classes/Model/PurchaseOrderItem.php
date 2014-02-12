@@ -10,20 +10,20 @@
  */
 class Model_PurchaseOrderItem extends Model {
     // Private members
-    private $poNumber;
+    private $poId;
     private $idProduct;
     private $qty;
     private $costPerUnit;
      
     /**
      * Constructor of a Purchase Order Item model
-     * @param string $poNumber the purchase order number
+     * @param int $poId the purchase order id
      * @param int $idProduct the id of the purchase order
      * @param int $qty the quatity of this item
      * @param double $costPerUnit the cost per unit for this item
      */
-    public function __construct($poNumber, $idProduct, $qty, $costPerUnit) {
-        $this->setPONumber($poNumber);
+    public function __construct($poId, $idProduct, $qty, $costPerUnit) {
+        $this->setPOID($poId);
         $this->setProductID($idProduct);
         $this->setQty($qty);
         $this->setCostPerUnit($costPerUnit);
@@ -31,19 +31,19 @@ class Model_PurchaseOrderItem extends Model {
    
     // Getters and setters
     /**
-     * get the po number
-     * @return string
+     * get the po id
+     * @return int
      */
-    public function getPONumber() {
-        return $this->poNumber;
+    public function getPOID() {
+        return $this->poId;
     }
 
     /**
-     * Set the po number
-     * @param int $poNumber 
+     * Set the po id
+     * @param int $poId 
      */
-    public function setPONumber($poNumber) {
-        $this->poNumber = $poNumber;
+    public function setPOID($poId) {
+        $this->poId = $poId;
     }
     
     /**

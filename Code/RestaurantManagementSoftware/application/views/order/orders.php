@@ -32,8 +32,20 @@
             <td><?php echo $o->getTaxes(); ?></td>
             <td><?php echo $o->getTotalCost(); ?></td>
             <td><?php echo $o->getStateName(); ?></td>
-            <td><?php /*echo HTML::anchor('order/edit/'.$o->getOrderID(), '', array('class' => 'button_edit', 'name' => 'Edit'));*/ ?></td>
-            <td><?php /*echo HTML::anchor('order/delete/'.$o->getOrderID(), '', array('class' => 'button_delete', 'name' => 'Delete'));*/ ?></td>
+            <td><?php 
+                if ($o->getState() == Constants_OrderState::IN_PROGRESS) {
+                    echo HTML::anchor('order/edit/'.$o->getOrderID().'/findAll', '', array('class' => 'button_edit', 'name' => 'Edit'));
+                } else {
+                    ?><span class="button_edit_disabled"></span><?php
+                }
+            ?></td>    
+            <td><?php 
+                if ($o->getState() == Constants_OrderState::IN_PROGRESS) {
+                    echo HTML::anchor('order/delete/'.$o->getOrderID().'/findAll', '', array('class' => 'button_delete', 'name' => 'Delete'));
+                } else {
+                    ?><span class="button_delete_disabled"></span><?php
+                }
+            ?></td>
         </tr>
     <?php } ?>
 </table>

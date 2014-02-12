@@ -59,7 +59,11 @@ class Repository_Order extends Repository_AbstractRepository {
      * @return int 0 or 1
      */
     public function delete($orderId) {
-        // TODO 
+        $params = array (
+            new Database_StatementParameter(':oid', $orderId, PDO::PARAM_INT, 11)
+        );
+
+        return $this->execute('CALL sp_deleteOrder(:oid)', $params);
     }
 
     /**

@@ -92,18 +92,18 @@ GO
 -- ---------------------------------------------------------------------------
 -- Insert table purchase_orders
 -- ---------------------------------------------------------------------------
-INSERT INTO `purchase_orders` (`po_Number`, `id_order`, `id_supplier`)
+INSERT INTO `purchase_orders` (`id_po`, `po_NumberSupplier`, `id_order`, `id_supplier`)
 VALUES
-	(1, 1, 1),
-	(2, 2, 1),
-	(3, 1, 2),
-	(4, 2, 2);
+	(1, 'ABCC', 1, 1),
+	(2, 'ABCD', 2, 1),
+	(3, 'ABCE', 1, 2),
+	(4, 'ABCF', 2, 2);
 GO
 
 -- ---------------------------------------------------------------------------
 -- Insert table PO_item
 -- ---------------------------------------------------------------------------
-INSERT INTO `PO_item` (`id_product`, `po_Number`,`qty`, `costPerUnit`)
+INSERT INTO `PO_item` (`id_product`, `id_po`,`qty`, `costPerUnit`)
 VALUES
 	(1, 1, 10, 50),
 	(1, 2, 10, 50),
