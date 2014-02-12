@@ -35,6 +35,20 @@ class Repository_Order extends Repository_AbstractRepository {
     }
     
     /**
+     * Get the order with the id pass in parameter.
+     * @param int $id
+     * @return an order
+     */
+    public function get($id) {
+        $params = array (
+            new Database_StatementParameter(':oid', $id, PDO::PARAM_INT, 11)
+        );
+        
+        $orders = $this->fetchNConstruct('CALL sp_getOrder(:oid)', $params);
+        return (sizeof($orders) > 0) ? $orders[0] : null;
+    }
+    
+    /**
      * Add an order.
      * @param Model_Order $order
      * @return int orderId or -1 (Error)

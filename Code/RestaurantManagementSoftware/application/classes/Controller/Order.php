@@ -174,6 +174,47 @@ class Controller_Order extends Controller_Template_Generic {
     }
     
     /**
+     * Initiate the edition of an order.
+     */
+    public function action_edit() {
+        $id = $this->request->param('id');
+        $lastAction = $this->request->param('lastAction');
+        // Validate id
+        if (!(Valid::not_empty($id) && Valid::numeric($id))) {
+            Session::instance()->set('feedbackMessage', array('Invalid product id.'));
+            $this->redirect ('order/' . $lastAction);
+        }
+        
+        // Get the order to edit
+        $repoOrder = new Repository_Order();
+        $order = $repoOrder->get($id);
+
+        // The id do not refer to a valid order
+        if (!is_object($order)) {
+            Session::instance()->set('feedbackMessage', array('Invalid order id.'));
+            $this->redirect ('order/' . $lastAction);
+        }
+        
+        // Get all the products
+        $repoProd = new Repository_SupplierProduct();
+        $products = $repoProd->getAll();
+        // Get all the products ordered
+        $repoPOI = new Repository_PurchaseOrderItem();
+        $purchaseOrderItems = $repoPOI->getAll($order->getOrderID());
+        $productsOrdered = $this->convertPurchaseOrderItemsToSupplierProducts($purchaseOrderItems);        
+        
+        $view = View::factory('order/step1')
+                ->set('products', $products)
+                ->set('productsOrdered', $productsOrdered)
+                ->set('orderId', $order->getOrderID())
+                ->set('restaurants', $this->template->locations)
+                ->set('global_selected_location', $order->getRestaurantID());
+        
+        $this->template->title = __('');
+        $this->template->content = $view;
+    }
+    
+    /**
      * Delete an order.
      */
     public function action_delete() {
@@ -199,6 +240,23 @@ class Controller_Order extends Controller_Template_Generic {
         // Delete succeed
         Session::instance()->set('feedbackMessage', array('The order was deleted.'));
         $this->redirect ('order/' . $lastAction);
+    }
+    
+    /**
+     * Convert a purchase order item to a supplier product 
+     * @param list $purchaseOrderItems
+     * @return list of SupplierProduct
+     */
+    private function convertPurchaseOrderItemsToSupplierProducts($purchaseOrderItems) {
+        $products = array();
+        foreach ($purchaseOrderItems as $poi) {
+            $p = new Model_SupplierProduct($poi->getProductID(), $poi->getProductName(),
+                            $poi->getSupplierID(), $poi->getSupplierName(), 
+                            $poi->getUnitOfMeasurement(), $poi->getCostPerUnit(), 
+                            $poi->getQty());
+            array_push($products, $p);   
+        }
+        return $products;
     }
     
     /**
@@ -275,9 +333,12 @@ class Controller_Order extends Controller_Template_Generic {
         foreach ($productsOrdered as $p) {
             $supplierId = $p->getSupplierID();
             if (!array_key_exists($supplierId, $purchaseOrders)) { 
-                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, NULL, '', $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS);
+                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, NULL, '', $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS, array());
             }
-            $purchaseOrderItem = new Model_PurchaseOrderItem(-1, $p->getProductID(), $p->getQty(), $p->getCostPerUnit());
+            
+            $purchaseOrderItem = new Model_PurchaseOrderItem(-1, $p->getProductID(), '', 
+                                                            $p->getCostPerUnit(), $p->getQty(), 
+                                                            '', -1, '');
             $purchaseOrders[$supplierId]->addToSubtotal($purchaseOrderItem->getSubtotal());
             $purchaseOrders[$supplierId]->addItem($purchaseOrderItem);
         }

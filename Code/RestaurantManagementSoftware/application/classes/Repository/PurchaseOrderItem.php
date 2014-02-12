@@ -13,6 +13,32 @@
  */
 class Repository_PurchaseOrderItem extends Repository_AbstractRepository {
     /**
+    * Get all the purchase order items.
+    * @param int order id
+    * @return array of purchase order items
+    */ 
+    public function getAll($orderId) {
+        $params = array (
+            new Database_StatementParameter(':orderId', $orderId, PDO::PARAM_INT, 11)
+        );
+        
+        return $this->fetchNConstruct('CALL sp_getPurchaseOrderItemsByOrderId(:orderId)', $params);
+    }
+    
+    /**
+     * Get all the purchase order items.
+     * @param int purchase order id
+     * @return array of purchase order items
+     */
+    public function getAllByPOId($poId) {
+        $params = array (
+            new Database_StatementParameter(':poid', $poId, PDO::PARAM_INT, 11)
+        );
+        
+        return $this->fetchNConstruct('CALL sp_getPurchaseOrderItems(:poid)', $params);
+    }
+    
+    /**
      * Save a list of purchase order items
      * @param int purchase order id
      * @param list $purchaseOrderItems
@@ -47,12 +73,19 @@ class Repository_PurchaseOrderItem extends Repository_AbstractRepository {
     }
     
     /**
-     * Constructs an order from an anonymous object.
+     * Constructs an purchase order item from an anonymous object.
      * @param object $obj
-     * @return \Model_PurchaseOrder
+     * @return \Model_PurchaseOrderItem
      */
     protected function construct($obj) {
-        // TODO
+        return new Model_PurchaseOrderItem($obj->id_po, 
+                                           $obj->id_product,
+                                           (isset($obj->productName)) ? $obj->productName : '',
+                                           $obj->costPerUnit,
+                                           $obj->qty,
+                                           (isset($obj->unitOfMeasurement)) ? $obj->unitOfMeasurement : '',
+                                           (isset($obj->id_supplier)) ? $obj->id_supplier : '',
+                                           (isset($obj->supplierName)) ? $obj->supplierName : '');
     }
 }
 

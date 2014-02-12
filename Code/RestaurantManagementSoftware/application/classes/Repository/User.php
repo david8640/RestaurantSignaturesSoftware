@@ -13,7 +13,6 @@
  */
 
 class Repository_User extends Repository_AbstractRepository {
-
     /**
      * Get all the users.
      * @return array of users
@@ -164,7 +163,7 @@ class Repository_User extends Repository_AbstractRepository {
         return new Model_User($obj->id_user, $obj->username, $obj->name, 
                 $obj->email, $obj->password, $obj->salt, $obj->session_id, 
                 $obj->session_expiry_time, 
-                (($obj->location_selected == NULL) ? -1 : $obj->location_selected));
+                (isset($obj->location_selected)) ? $obj->location_selected : -1);
     }
 
 }

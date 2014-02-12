@@ -69,7 +69,7 @@ DROP VIEW IF EXISTS `v_getRestaurantsUsers`
 GO
 CREATE VIEW v_getRestaurantsUsers
 AS
-	SELECT R.id_restaurant, R.name AS name_restaurant, U.id_user, U.name AS name_user, NULL AS is_check
+	SELECT R.id_restaurant, R.name AS name_restaurant, U.id_user, U.name AS name_user
 	FROM restaurant R 
 		LEFT JOIN users_restaurants UR ON R.id_restaurant = UR.id_restaurant
 		LEFT JOIN users U ON U.id_user = UR.id_user
@@ -109,22 +109,12 @@ DROP VIEW IF EXISTS `v_getPurchaseOrders`
 GO
 CREATE VIEW v_getPurchaseOrders
 AS
-	SELECT PO.id_po, PO.po_NumberSupplier, PO.id_order, PO.id_supplier, S.name as supplierName
+	SELECT PO.id_po, PO.po_NumberSupplier, PO.id_order, PO.id_supplier, S.name as supplierName, 
+			PO.dateOrdered, PO.dateDelivered, PO.subtotal, PO.taxes, PO.shippingCost, PO.totalCost,
+			PO.state
 	FROM purchase_orders PO
 		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 GO
-
--- -----------------------------------------------------
--- View `v_getPOItems`
--- -----------------------------------------------------	
-DROP VIEW IF EXISTS `v_getPOItems`
-GO
-CREATE VIEW v_getPOItems
-AS
-	SELECT POI.id_product, POI.id_po, PO.po_NumberSupplier, POI.qty, POI.costPerUnit
-	FROM PO_item POI LEFT JOIN purchase_orders PO ON POI.id_po = PO.id_po
-GO
-
 
 -- ---------------------------------------------------------------------------------------
 -- Stored Procedures
@@ -600,7 +590,7 @@ CREATE PROCEDURE sp_getRestaurantUsers(
   IN ru_id_restaurant INT
 )
 BEGIN
-	SELECT U.id_user, U.name AS name_user, (IF (id_user_check = U.id_user, 1, 0)) AS is_check, NULL AS id_restaurant, NULL AS name_restaurant
+	SELECT U.id_user, U.name AS name_user, (IF (id_user_check = U.id_user, 1, 0)) AS is_check
 	FROM users U LEFT JOIN (SELECT U1.id_user as id_user_check
   							FROM users U1 
   							WHERE EXISTS (SELECT UR.id_user
@@ -712,7 +702,7 @@ BEGIN
   	END IF;
 
 	-- Get all the locations of a user
-	SELECT R.id_restaurant, R.name, NULL AS address
+	SELECT R.id_restaurant, R.name
   	FROM restaurant R, users_restaurants RU
   	WHERE R.id_restaurant = RU.id_restaurant AND RU.id_user = ur_id_user;
 END
@@ -814,6 +804,23 @@ END
 GO
 
 -- -----------------------------------------------------
+-- Stored Procedure `sp_getOrder`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getOrder`
+GO
+CREATE PROCEDURE sp_getOrder(
+  IN o_id_order INT
+)
+BEGIN
+	SELECT OL.id_order, OL.id_restaurant, R.name as nameRestaurant,
+			OL.dateCreated, OL.subtotal, OL.shippingCost, OL.taxes, OL.totalCost, OL.state
+	FROM order_list OL
+		LEFT JOIN restaurant R ON OL.id_restaurant = R.id_restaurant     		 
+	WHERE OL.id_order = o_id_order;
+END
+GO
+
+-- -----------------------------------------------------
 -- Stored Procedure `sp_addPurchaseOrder`
 -- -----------------------------------------------------
 DROP PROCEDURE IF EXISTS `sp_addPurchaseOrder`
@@ -869,7 +876,41 @@ BEGIN
 	DELETE FROM purchase_orders 
 	WHERE id_order = po_id_order;
 END
-GO                          
+GO          
+         
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getPurchaseOrderItems`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getPurchaseOrderItems`
+GO
+CREATE PROCEDURE sp_getPurchaseOrderItems(
+  IN poi_po_id INT
+)
+BEGIN
+	SELECT POI.id_product, POI.id_po, POI.qty, POI.costPerUnit
+	FROM PO_item POI
+	WHERE POI.id_po = poi_po_id;     		 
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getPurchaseOrderItemsByOrderId`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getPurchaseOrderItemsByOrderId`
+GO
+CREATE PROCEDURE sp_getPurchaseOrderItemsByOrderId(
+  IN poi_order_id INT
+)
+BEGIN
+	SELECT POI.id_po, POI.id_product, P.name AS productName, POI.costPerUnit, POI.qty, 
+			SP.unitOfMeasurement, PO.id_supplier, S.name as supplierName
+	FROM PO_item POI LEFT JOIN purchase_orders PO ON POI.id_po = PO.id_po
+					LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
+					LEFT JOIN supplier_product SP ON PO.id_supplier = SP.id_supplier AND POI.id_product = SP.id_product 
+					LEFT JOIN product P ON POI.id_product = P.id_product
+	WHERE PO.id_order = poi_order_id;     		 
+END
+GO
 
 -- ---------------------------------------------------------------------------------------
 -- Functions

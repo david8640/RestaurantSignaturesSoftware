@@ -38,10 +38,11 @@ class Model_PurchaseOrder extends Model {
      * @param double $taxes the taxes of the purchase order
      * @param double $totalCost the total cost of the purchase order
      * @param int $state the state of the purchase order
+     * @param list $items list of purchase order items
      */
     public function __construct($poId, $idOrder, $idSupplier, $supplierPONumber,  
                                 $supplierName, $dateOrdered, $dateDelivered, $subtotal,   
-                                $shipping, $taxes, $totalCost, $state) {
+                                $shipping, $taxes, $totalCost, $state, $items) {
         $this->setPOID($poId);
         $this->setSupplierPONumber($supplierPONumber);
         $this->setOrderID($idOrder);
@@ -54,7 +55,7 @@ class Model_PurchaseOrder extends Model {
         $this->setTaxes($taxes);
         $this->setTotalCost($totalCost);
         $this->setState($state);
-        $this->items = array();
+        $this->items = $items;
     }
    
     // Getters and setters

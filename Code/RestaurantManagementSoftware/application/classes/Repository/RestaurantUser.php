@@ -55,11 +55,11 @@ class Repository_RestaurantUser extends Repository_AbstractRepository {
      * @return \Model_RestaurantUser
      */
     protected function construct($obj) {
-        return new Model_RestaurantUser(($obj->id_restaurant == NULL) ? -1 : $obj->id_restaurant, 
-                                        ($obj->name_restaurant == NULL) ? '' : $obj->name_restaurant, 
-                                        ($obj->id_user == NULL) ? -1 : $obj->id_user, 
-                                        ($obj->name_user == NULL) ? '' : $obj->name_user,
-                                        ($obj->is_check == NULL) ? -1 : $obj->is_check);
+        return new Model_RestaurantUser((isset($obj->id_restaurant)) ? $obj->id_restaurant : -1, 
+                                        (isset($obj->name_restaurant)) ? $obj->name_restaurant : '', 
+                                        (isset($obj->id_user)) ? $obj->id_user : -1, 
+                                        (isset($obj->name_user)) ? $obj->name_user : '', 
+                                        (isset($obj->is_check)) ? $obj->is_check : -1);
     }
     
     /**

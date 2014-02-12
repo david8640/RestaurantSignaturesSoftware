@@ -96,7 +96,8 @@ class Repository_Restaurant extends Repository_AbstractRepository {
      */
     protected function construct($obj) {
         return new Model_Restaurant($obj->id_restaurant, $obj->name, 
-                                    (($obj->address == NULL) ? '' : $obj->address));
+                                    (isset($obj->address)) ? $obj->address : '');
+                                    
     }
 }
 

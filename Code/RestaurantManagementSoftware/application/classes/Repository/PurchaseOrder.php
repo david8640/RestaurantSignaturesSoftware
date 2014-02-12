@@ -14,6 +14,14 @@
 
 class Repository_PurchaseOrder extends Repository_AbstractRepository {
     /**
+     * Get all the purchase orders.
+     * @return array of purchase orders
+     */
+    public function getAll() {
+        return $this->fetchNConstruct('SELECT * FROM v_getPurchaseOrders', array());
+    }
+    
+    /**
      * Save a list of purchase orders of an order.
      * @param int $orderId
      * @param list $purchaseOrders
@@ -80,12 +88,22 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
     }
     
     /**
-     * Constructs an order from an anonymous object.
+     * Constructs an purchase order from an anonymous object.
      * @param object $obj
      * @return \Model_PurchaseOrder
      */
     protected function construct($obj) {
-        // TODO
+        $poId = $obj->id_po;
+        
+        $repoPOItem = new Repository_PurchaseOrderItem();
+        $items = $repoPOItem->getAllByPOId($poId);
+        
+        return new Model_PurchaseOrder($poId, $obj->id_order, $obj->id_supplier, 
+                                        $obj->po_NumberSupplier, $obj->supplierName, 
+                                        $obj->dateOrdered, $obj->dateDelivered, 
+                                        $obj->subtotal, $obj->shippingCost, 
+                                        $obj->taxes, $obj->totalCost, $obj->state,
+                                        $items);
     }
 }
 

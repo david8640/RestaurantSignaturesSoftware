@@ -92,7 +92,7 @@ class Controller_Product extends Controller_Template_Generic {
         // Validate id
         if (!(Valid::not_empty($id) && Valid::numeric($id))) {
             Session::instance()->set('feedbackMessage', array('Invalid product id.'));
-            $this->redirect ('index/index');
+            $this->redirect ('product/findAll');
         }
         
         // Get the product to edit
@@ -102,7 +102,7 @@ class Controller_Product extends Controller_Template_Generic {
         // The id do not refer to a valid product
         if (!is_object($product)) {
             Session::instance()->set('feedbackMessage', array('Invalid product id.'));
-            $this->redirect ('index/index');
+            $this->redirect ('product/findAll');
         }
         
         // Get all the list of categories
@@ -114,7 +114,7 @@ class Controller_Product extends Controller_Template_Generic {
                 ->set('product', $product)
                 ->set('submitAction', 'product/update')
                 ->set('categories', $categories)
-                ->set('pageName', 'Edit Product');;
+                ->set('pageName', 'Edit Product');
         
         $this->template->title = __('Edit Product');
         $this->template->content = $view;
