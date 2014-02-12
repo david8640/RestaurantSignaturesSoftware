@@ -157,7 +157,7 @@ BEGIN
 		DELETE FROM supplier 
 		WHERE id_supplier = s_supplier_id;
 	ELSE
-		SELECT 0; /* ERREUR */
+		SIGNAL SQLSTATE '45000'; /* ERREUR */
 	END IF;
 END
 GO
@@ -370,7 +370,7 @@ BEGIN
 		UPDATE product_category SET orderof = orderof - 1 WHERE orderof > orderOfItemToDelete;
 	END;
 	ELSE
-		SELECT 0; /* ERREUR */
+		SIGNAL SQLSTATE '45000'; /* ERREUR */
 	END IF;
 END
 GO
@@ -398,7 +398,7 @@ BEGIN
 			WHERE id_category = c_id_category;
 		END;
 		ELSE
-			SELECT 0; /* ERREUR */
+			SIGNAL SQLSTATE '45000'; /* ERREUR */
 		END IF;
 	END;
 	ELSE
@@ -444,7 +444,7 @@ BEGIN
 		WHERE id_product = a_product_id;
 	END;
 	ELSE
-		SELECT 0; /* ERREUR */
+		SIGNAL SQLSTATE '45000'; /* ERREUR */
 	END IF;
 END
 GO
@@ -506,7 +506,7 @@ BEGIN
 		WHERE id_product= a_product_id AND id_supplier = a_supplier_id;
 	END;
 	ELSE
-		SELECT 0; /* ERREUR */
+		SIGNAL SQLSTATE '45000'; /* ERREUR */
 	END IF;
 END
 GO
@@ -563,7 +563,7 @@ BEGIN
 		DELETE FROM restaurant 
 		WHERE id_restaurant = r_id_restaurant;
 	ELSE
-		SELECT 0; /* ERREUR */
+		SIGNAL SQLSTATE '45000'; /* ERREUR */
 	END IF;
 END
 GO
