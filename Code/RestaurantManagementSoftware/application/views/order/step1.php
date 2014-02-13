@@ -104,9 +104,9 @@ if (!isset($orderId)) {
         foreach ($productsOrdered as $po) { 
             $addFunctions .= 'addItem('.$po->getProductID().', "'.$po->getProductName().
                                     '", '.$po->getSupplierID().', "'.$po->getSupplierName().
-                                    '", "'.$po->getUnitOfMeasurement().'", '.
-                                    (($po->getCostPerUnit() == '') ? 0 : $po->getCostPerUnit()).', '.
-                                    (($po->getQty()  == '') ? 0 : $po->getQty()).');';
+                                    '", "'.$po->getUnitOfMeasurement().'", "'.
+                                    (($po->getCostPerUnit() == '') ? 0 : $po->getCostPerUnit()).'", "'.
+                                    (($po->getQty()  == '') ? 0 : $po->getQty()).'");';
         }
         echo $addFunctions;
         ?>

@@ -36,7 +36,7 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
         $repoPOItem = new Repository_PurchaseOrderItem();
         foreach ($purchaseOrders as $po) {
             // Insert PO
-            $poId = $this->add($po);
+            $poId = $this->add($orderId, $po);
             if ($poId == -1) {
                 return false;
             }
@@ -50,14 +50,42 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
         return true;
     }
     
+        /**
+     * Delete All the purchase orders from an order.
+     * @param int $orderId
+     * @return boolean success
+     */
+    public function deleteAllPurchaseOrdersOfOrder($orderId) {
+        $params = array (
+            new Database_StatementParameter(':poOrderid', $orderId, PDO::PARAM_INT, 11)
+        );
+
+        return $this->execute('CALL sp_deleteAllPurcaseOrdersOfOrder(:poOrderid)', $params);
+    }
+    
+    /**
+     * Checks if the poNumber is unique. 
+     * @param string $poNumber
+     * @return boolean true = po number is unique
+     */
+    public function isSupplierPONumberUnique($poNumber) {
+        $params = array (
+            new Database_StatementParameter(':poNumber', $poNumber, PDO::PARAM_STR, 20)
+        );
+        
+        return $this->execute('CALL sp_isSupplierPONumberUnique(:poNumber)', $params);
+    }
+    
     /**
      * Add a purchase order element in database and return the id.
+     * @param int $orderId
      * @param \Model_PurchaseOrder $po
      * @return int id
      */
-    private function add($po) {
+    private function add($orderId, $po) {
         $params = array (
-            new Database_StatementParameter(':poIdOrder', $po->getOrderID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':poSupplierNumber', $po->getSupplierPONumber(), PDO::PARAM_STR, 20),
+            new Database_StatementParameter(':poIdOrder', $orderId, PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poIdSupplier', $po->getSupplierID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poDateOrdered', $po->getDateOrdered(), PDO::PARAM_STR, 19), //date  needs to be passed as a string
             new Database_StatementParameter(':poDateDelivered', $po->getDateDelivered(), PDO::PARAM_STR, 19),
@@ -68,25 +96,12 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
             new Database_StatementParameter(':poState', $po->getState(), PDO::PARAM_INT, 3)
         );
         
-        return $this->executeNReturnId('CALL sp_addPurchaseOrder(NULL, :poIdOrder, '
+        return $this->executeNReturnId('CALL sp_addPurchaseOrder(:poSupplierNumber, :poIdOrder, '
                                 . ':poIdSupplier, :poDateOrdered, :poDateDelivered,'
                                 . ':poSubtotal, :poTaxes, :poTotalCost, :poShippingCost,'
                                 . ':poState)', $params);
     }
-    
-    /**
-     * Delete All the purchase orders from an order.
-     * @param int $orderId
-     * @return boolean success
-     */
-    private function deleteAllPurchaseOrdersOfOrder($orderId) {
-        $params = array (
-            new Database_StatementParameter(':poOrderid', $orderId, PDO::PARAM_INT, 11)
-        );
-
-        return $this->execute('CALL sp_deleteAllPurcaseOrdersOfOrder(:poOrderid)', $params);
-    }
-    
+        
     /**
      * Constructs an purchase order from an anonymous object.
      * @param object $obj

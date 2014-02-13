@@ -16,6 +16,14 @@ if (!isset($purchaseOrders)) {
 <div>
     <h2>Step 2 : Purchase Orders</h2>
     <form id="purchaseOrders" action="" method="post" accept-charset="utf-8">
+        <div>
+            <?php
+            // Step 1 - Informations
+            // Order
+            echo Form::hidden('orderId', $order->getOrderID());
+            echo Form::hidden('restaurantId', $order->getRestaurantID());
+            ?>
+        </div>
         <table border="1">
             <tr>
                 <th>Supplier</th>
@@ -33,21 +41,38 @@ if (!isset($purchaseOrders)) {
                 $total += $poTotal;
                 ?>
                 <tr>
-                    <td><?php 
-                        echo Form::hidden('poNumber[' . $index . ']', $p->getPONumber());
-                        echo $p->getSupplierName(); 
+                    <td><?php
+                        // Step 1 - Informations
+                        // Purchase Order Item
+                        // [BEGIN]
+                        $itemIndex = 0;
+                        foreach ($p->getItems() as $item) {
+                            echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
+                            echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID());
+                            echo Form::hidden('poItemCostPerUnit[' . $index . '][' . $itemIndex . ']', $item->getCostPerUnit());
+                            echo Form::hidden('poItemQty[' . $index . '][' . $itemIndex . ']', $item->getQty());
+                            $itemIndex++;
+                        }
+                        // [END]
+                        
+                        echo Form::hidden('poNumber[' . $index . ']', $p->getPOID());
+                        echo Form::hidden('idOrder[' . $index . ']', $p->getOrderID());
+                        echo Form::hidden('idSupplier[' . $index . ']', $p->getSupplierID());
+                        echo Form::input('supplierName[' . $index . ']', $p->getSupplierName(), array('readonly' => 'readonly'));
                     ?></td>
                     <td><?php echo Form::input('supplierPONumber[' . $index . ']', $p->getSupplierPONumber()); ?></td>
-                    <td><?php echo Form::input('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getPONumber(), 'disabled' => 'disabled')); ?></td>
-                    <td><?php echo Form::input('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getPONumber())); ?></td>
-                    <td><?php echo Form::input('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getPONumber())); ?></td>
-                    <td><?php echo Form::input('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getPONumber(), 'disabled' => 'disabled')); ?></td>
+                    <td><?php echo Form::input('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getPOID(), 'readonly' => 'readonly')); ?></td>
+                    <td><?php echo Form::input('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getPOID())); ?></td>
+                    <td><?php echo Form::input('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getPOID())); ?></td>
+                    <td><?php echo Form::input('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getPOID(), 'readonly' => 'readonly')); ?></td>
                 </tr>
-            <?php } ?>
+            <?php 
+                $index++;
+            } ?>
         </table>
         <?php
-            echo Form::label('Total', 'Total: ');
-            echo Form::input('total', $total, array('id' => 'total', 'disabled' => 'disabled'));
+            echo Form::label('total', 'Total: ');
+            echo Form::input('total', $total, array('id' => 'total', 'readonly' => 'readonly'));
         ?>
         <span id="orderStep2SubmitBt">
             <input type="button" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep2'); ?>')"/>
@@ -57,8 +82,8 @@ if (!isset($purchaseOrders)) {
 </div>
 <script>
     function submitForm(actionUrl) {
-        $('#orderForm').attr('action', actionUrl);
-        $('#orderForm').submit();
+        $('#purchaseOrders').attr('action', actionUrl);
+        $('#purchaseOrders').submit();
     }
    
     $(document).ready(function() {        
@@ -85,10 +110,14 @@ if (!isset($purchaseOrders)) {
    
     function update(poNumber) {
         // Update total for current po
-        var subtotal = parseInt($('#subtotal_' + poNumber).val());
-        var shipping = parseInt($('#shipping_' + poNumber).val());
-        var taxes = parseInt($('#taxes_' + poNumber).val());        
-        $('#totalCost_' + poNumber).val(subtotal + shipping + taxes);
+        var subtotal = parseFloat($('#subtotal_' + poNumber).val());
+        var shipping = parseFloat($('#shipping_' + poNumber).val());
+        var taxes = parseFloat($('#taxes_' + poNumber).val());        
+        
+         $('#totalCost_' + poNumber).val(
+                ((isNaN(subtotal)) ? 0 : subtotal) + 
+                ((isNaN(shipping)) ? 0 : shipping) + 
+                ((isNaN(taxes)) ? 0 : taxes));
         
         // Update global total
         var total = 0;

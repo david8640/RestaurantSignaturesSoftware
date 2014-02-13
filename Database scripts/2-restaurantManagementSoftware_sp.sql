@@ -842,7 +842,7 @@ BEGIN
     							`dateOrdered`, `dateDelivered`, `subtotal`, `taxes`, 
     							`shippingCost`, `totalCost`, `state`) 
 	VALUES (po_po_number, po_id_order, po_id_supplier, po_date_ordered, po_date_delivered, 
-			po_subtotal, po_taxes, po_totalCost, po_shippingCost, po_state);
+			po_subtotal, po_taxes, po_shippingCost, po_totalCost, po_state);
 	SELECT LAST_INSERT_ID() AS id;
 END
 GO
@@ -876,7 +876,22 @@ BEGIN
 	DELETE FROM purchase_orders 
 	WHERE id_order = po_id_order;
 END
-GO          
+GO      
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_isSupplierPONumberUnique`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_isSupplierPONumberUnique`
+GO
+CREATE PROCEDURE sp_isSupplierPONumberUnique (
+	IN po_supplierPONumber VARCHAR(20)
+)
+BEGIN
+	IF EXISTS(SELECT * FROM purchase_orders WHERE po_NumberSupplier = po_supplierPONumber) THEN
+		CALL raise_error; -- ERREUR
+	END IF;
+END
+GO     
          
 -- -----------------------------------------------------
 -- Stored Procedure `sp_getPurchaseOrderItems`

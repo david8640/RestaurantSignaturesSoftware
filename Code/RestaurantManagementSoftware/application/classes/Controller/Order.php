@@ -44,136 +44,6 @@ class Controller_Order extends Controller_Template_Generic {
     }
     
     /**
-     * Setup step 1 of the order wizards.
-     */
-    public function action_getStep1() {
-        $selectedLocation = $this->template->global_selected_location;
-        $this->RedirectIfInvalidSelectedLocation($selectedLocation, 'create an order');
-        
-        // Get all the information from the repository.
-        $repo = new Repository_SupplierProduct();
-        $products = $repo->getAll();
-        
-        // Transfer the information to the view.
-        $view = View::factory('order/step1')
-                    ->set('products', $products)
-                    ->set('restaurants', $this->template->locations)
-                    ->set('global_selected_location', $selectedLocation);
-        
-        $this->template->title = __('');
-        $this->template->content = $view;
-    }
-    
-    /**
-     * Save step 1 of the order wizards.
-     */
-    public function action_saveStep1() {
-        if (isset($_POST) && Valid::not_empty($_POST)) {
-            // Get the products ordered and validate it.
-            $returnValues = $this->getProductsOrdered($_POST);
-            $productsOrdered = $returnValues[0];
-            $total = $returnValues[1];
-            $errors = $returnValues[2];
-            
-            // if there is any errors in the products ordered a feedback message
-            // is send and the elements are not save in the database.
-            if (count($errors) == 0) {
-                // Get the current date
-                $now = date("Y-m-d H:i:s"); 
-                // Get the location id an validate it.
-                $returnValues = $this->getLocationId($_POST);
-                $restaurantId = $returnValues[0];
-                $errors = $returnValues[1];
-                
-                // if the location id is invalid a feedback message is send 
-                // and nothing is save in the database.
-                if (count($errors) == 0) {
-                    // Get the order id if exists
-                    $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
-                    
-                    // Save the order to the database.
-                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
-                    $orderRepo = new Repository_Order();
-                    $orderSavedId = $orderRepo->save($order);
-
-                    $feedbackMessage = array();
-                    // Check that the order was insert properly.
-                    if ($orderSavedId == -1) {
-                        // if the order as not been create add an error message.
-                        array_push($feedbackMessage, 'An error occured.');
-                    } else {
-                        $purchaseOrders = $this->createPurchaseOrders($orderSavedId, $now, $productsOrdered);
-                        // Save the purchase orders and purchase order items to the database.
-                        $poRepo = new Repository_PurchaseOrder();
-                        $success = $poRepo->save($orderId, $purchaseOrders);    
-
-                        // If there was a problem remove the order from the database
-                        // and add a feedback message.
-                        if (!$success) {
-                            array_push($feedbackMessage, 'The purchases orders cannot be created.');
-
-                            // Delete the order save earlier to avoid problem
-                            $removeSuccess = $orderRepo->delete($orderId);
-                            if (!$removeSuccess) {
-                                array_push($feedbackMessage, 'The order cannot be deleted successfully.');
-                            }
-                        } else {
-                            array_push($feedbackMessage, 'The order has been saved.');
-                        }
-                    }
-                } else {
-                    $feedbackMessage = $errors;
-                }
-            } else {
-                $feedbackMessage = $errors;
-            }
-
-            // Get all the information from the repository about the products
-            $repo = new Repository_SupplierProduct();
-            $products = $repo->getAll();
-
-            // Transfer the information to the view.
-            $view = View::factory('order/step1')
-                        ->set('products', $products)
-                        ->set('productsOrdered', $productsOrdered)
-                        ->set('orderId', $orderSavedId)
-                        ->set('restaurants', $this->template->locations)
-                        ->set('global_selected_location', $restaurantId);
-
-            $this->template->feedbackMessage = $feedbackMessage;
-            $this->template->title = __('');
-            $this->template->content = $view;
-        } else {
-            // Empty POST
-            Session::instance()->set('feedbackMessage', array('An error occured.'));
-            $this->redirect ('index/index');
-        }
-    }
-
-    /**
-     * Next step 1 of the order wizards.
-     */
-    public function action_nextStep1() {
-        // TODO - IMPLEMENTATION SIMILAR TO saveStep1
-        
-        /* TO REMOVE */
-        /* START */
-        $po1 = new Model_PurchaseOrder(1, 1, 1, 'DAV5658', 'Supplier 1', '29-01-14', '', 500, 0, 0, 500, 0);
-        $po2 = new Model_PurchaseOrder(2, 2, 5, 'DAV2525', 'Supplier 2', '29-01-14', '', 250, 0, 0, 250, 0);
-        $po3 = new Model_PurchaseOrder(3, 3, 4, 'DAV4040', 'Supplier 3', '29-01-14', '', 30, 0, 0, 30, 0);
-        
-        $purchaseOrders = array($po1, $po2, $po3);
-        /* END */
-        
-        // Transfer the information to the view.
-        $view = View::factory('order/step2')
-                    ->set('purchaseOrders', $purchaseOrders);
-        
-        $this->template->title = __('');
-        $this->template->content = $view;
-    }
-    
-    /**
      * Initiate the edition of an order.
      */
     public function action_edit() {
@@ -240,6 +110,188 @@ class Controller_Order extends Controller_Template_Generic {
         // Delete succeed
         Session::instance()->set('feedbackMessage', array('The order was deleted.'));
         $this->redirect ('order/' . $lastAction);
+    }
+    
+    /*****************************************************************************/
+    /*/ Step 1
+    /*****************************************************************************/
+    /**
+     * Setup step 1 of the order wizards.
+     */
+    public function action_getStep1() {
+        $selectedLocation = $this->template->global_selected_location;
+        $this->RedirectIfInvalidSelectedLocation($selectedLocation, 'create an order');
+        
+        // Get all the information from the repository.
+        $repo = new Repository_SupplierProduct();
+        $products = $repo->getAll();
+        
+        // Transfer the information to the view.
+        $view = View::factory('order/step1')
+                    ->set('products', $products)
+                    ->set('restaurants', $this->template->locations)
+                    ->set('global_selected_location', $selectedLocation);
+        
+        $this->template->title = __('');
+        $this->template->content = $view;
+    }
+    
+    /**
+     * Save step 1 of the order wizards.
+     */
+    public function action_saveStep1() {
+        if (isset($_POST) && Valid::not_empty($_POST)) {
+            // Get the products ordered and validate it.
+            $returnValues = $this->getProductsOrdered($_POST);
+            $productsOrdered = $returnValues[0];
+            $total = $returnValues[1];
+            $errors = $returnValues[2];
+            
+            // Initialize
+            $orderSavedId = -1;
+            $restaurantId = $_POST['locationId'];
+                    
+            // if there is any errors in the products ordered a feedback message
+            // is send and the elements are not save in the database.
+            if (count($errors) == 0) {
+                // Get the current date
+                $now = date(Constants_Constants::dateFormat); 
+                // Get the location id an validate it.
+                $returnValues = $this->getLocationId($_POST);
+                $restaurantId = $returnValues[0];
+                $errors = $returnValues[1];
+                
+                // if the location id is invalid a feedback message is send 
+                // and nothing is save in the database.
+                if (count($errors) == 0) {
+                    // Get the order id if exists
+                    $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
+                    
+                    // Save the order to the database.
+                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
+                    $orderRepo = new Repository_Order();
+                    $orderSavedId = $orderRepo->save($order);
+
+                    $feedbackMessage = array();
+                    // Check that the order was insert properly.
+                    if ($orderSavedId == -1) {
+                        // if the order as not been create add an error message.
+                        array_push($feedbackMessage, 'An error occured.');
+                    } else {
+                        $purchaseOrders = $this->createPurchaseOrders($orderSavedId, $now, $productsOrdered);
+                        // Save the purchase orders and purchase order items to the database.
+                        $poRepo = new Repository_PurchaseOrder();
+                        $success = $poRepo->save($orderSavedId, $purchaseOrders);    
+
+                        // If there was a problem remove the order from the database
+                        // and add a feedback message.
+                        if (!$success) {
+                            array_push($feedbackMessage, 'The purchases orders cannot be created.');
+
+                            // Delete the order save earlier to avoid problem
+                            $removeSuccess = $orderRepo->deleteAllPurchaseOrdersOfOrder($orderSavedId);
+                            if (!$removeSuccess) {
+                                array_push($feedbackMessage, 'The order cannot be deleted successfully.');
+                            }
+                        } else {
+                            array_push($feedbackMessage, 'The order has been saved.');
+                        }
+                    }
+                } else {
+                    $feedbackMessage = $errors;
+                }
+            } else {
+                $feedbackMessage = $errors;
+            }
+
+            // Get all the information from the repository about the products
+            $repo = new Repository_SupplierProduct();
+            $products = $repo->getAll();
+
+            // Transfer the information to the view.
+            $view = View::factory('order/step1')
+                        ->set('products', $products)
+                        ->set('productsOrdered', $productsOrdered)
+                        ->set('orderId', $orderSavedId)
+                        ->set('restaurants', $this->template->locations)
+                        ->set('global_selected_location', $restaurantId);
+
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->title = __('');
+            $this->template->content = $view;
+        } else {
+            // Empty POST
+            Session::instance()->set('feedbackMessage', array('An error occured.'));
+            $this->redirect ('index/index');
+        }
+    }
+
+    /**
+     * Next step 1 of the order wizards.
+     */
+    public function action_nextStep1() {
+        if (isset($_POST) && Valid::not_empty($_POST)) {
+            // Get the products ordered and validate it.
+            $returnValues = $this->getProductsOrdered($_POST);
+            $productsOrdered = $returnValues[0];
+            $total = $returnValues[1];
+            $errors = $returnValues[2];
+            
+            // Initialize
+            $orderId = -1;
+            $restaurantId = $_POST['locationId'];
+            $feedbackMessage = array();
+            
+            // if there is any errors in the products ordered a feedback message
+            // is send and the elements are not save in the database.
+            if (count($errors) == 0) {
+                // Get the current date
+                $now = date(Constants_Constants::dateFormat); 
+                // Get the location id an validate it.
+                $returnValues = $this->getLocationId($_POST);
+                $restaurantId = $returnValues[0];
+                $errors = $returnValues[1];
+                
+                // if the location id is invalid a feedback message is send 
+                // and nothing is save in the database.
+                if (count($errors) == 0) {
+                    // Get the order id if exists
+                    $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
+
+                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
+                    $purchaseOrders = $this->createPurchaseOrders($orderId, $now, $productsOrdered);
+                } else {
+                    $feedbackMessage = $errors;
+                }
+            } else {
+                $feedbackMessage = $errors;
+            }
+            
+            // Transfer the information to the view.
+            if (!empty($feedbackMessage)) {
+                $repo = new Repository_SupplierProduct();
+                $products = $repo->getAll();
+                
+               $view = View::factory('order/step1')
+                           ->set('products', $products)
+                           ->set('productsOrdered', $productsOrdered)
+                           ->set('orderId', $orderId)
+                           ->set('restaurants', $this->template->locations)
+                           ->set('global_selected_location', $restaurantId);
+               $this->template->feedbackMessage = $feedbackMessage;
+            } else {
+                 $view = View::factory('order/step2')
+                                    ->set('order', $order)    
+                                    ->set('purchaseOrders', $purchaseOrders);
+            }
+
+            $this->template->title = __('');
+            $this->template->content = $view;
+        } else {
+            // Empty POST
+            Session::instance()->set('feedbackMessage', array('An error occured.'));
+            $this->redirect ('index/index');
+        }
     }
     
     /**
@@ -332,8 +384,9 @@ class Controller_Order extends Controller_Template_Generic {
         $purchaseOrders = array();
         foreach ($productsOrdered as $p) {
             $supplierId = $p->getSupplierID();
+            $supplierName = $p->getSupplierName();
             if (!array_key_exists($supplierId, $purchaseOrders)) { 
-                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, NULL, '', $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS, array());
+                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, NULL, $supplierName, $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS, array());
             }
             
             $purchaseOrderItem = new Model_PurchaseOrderItem(-1, $p->getProductID(), '', 
@@ -384,6 +437,290 @@ class Controller_Order extends Controller_Template_Generic {
         return Validation::factory($post)
                 ->rule('locationId', 'not_empty')
                 ->label('locationId', 'Location Id');
+    }
+    
+    /*****************************************************************************/
+    /*/ Step 2
+    /*****************************************************************************/
+    /**
+     * Save step 2 of the order wizards.
+     */
+    public function action_saveStep2() {
+        if (isset($_POST) && Valid::not_empty($_POST)) {
+            // Get the order
+            $returnValues = $this->getOrder($_POST);
+            $order = $returnValues[0];
+            $errors = $returnValues[1];
+            
+            if (count($errors) == 0) {
+                // Get the products ordered and validate it.
+                $returnValues = $this->getPurchaseOrders($_POST);
+                $purchaseOrders = $returnValues[0];
+                $subtotal = $returnValues[1];
+                $shipping = $returnValues[2];
+                $taxes = $returnValues[3];
+                $total = $returnValues[4];
+                $errors = $returnValues[5];
+                
+                $feedbackMessage = array();
+                if (count($errors) == 0) {
+                    // Update the order variables accordint to the purchase orders
+                    $order->setSubtotal($subtotal);
+                    $order->setShippingCost($shipping);
+                    $order->setTaxes($taxes);
+                    $order->setTotalCost($total);
+                    
+                    // Save the order to the database.
+                    $orderRepo = new Repository_Order();
+                    $orderSavedId = $orderRepo->save($order);
+                    
+                    // Check that the order was insert properly.
+                    if ($orderSavedId == -1) {
+                        // if the order as not been create add an error message.
+                        array_push($feedbackMessage, 'An error occured.');
+                    } else {
+                        // Set the order id
+                        $order->setOrderID($orderSavedId);
+                        
+                        // Save the purchase orders and purchase order items to the database.
+                        $poRepo = new Repository_PurchaseOrder();
+                        $success = $poRepo->save($orderSavedId, $purchaseOrders);    
+
+                        // If there was a problem remove the order from the database
+                        // and add a feedback message.
+                        if (!$success) {
+                            array_push($feedbackMessage, 'The purchases orders cannot be created.');
+
+                            // Delete the order save earlier to avoid problem
+                            $removeSuccess = $orderRepo->deleteAllPurchaseOrdersOfOrder($orderSavedId);
+                            if (!$removeSuccess) {
+                                array_push($feedbackMessage, 'The order cannot be deleted successfully.');
+                            }
+                        } else {
+                            array_push($feedbackMessage, 'The order has been saved.');
+                        }
+                    } 
+                } else {
+                    $feedbackMessage = $errors;
+                } 
+            } else {
+                $feedbackMessage = $errors;
+            }
+
+            // Transfer the information to the view.
+            $view = View::factory('order/step2')
+                                ->set('order', $order)    
+                                ->set('purchaseOrders', $purchaseOrders);
+
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->title = __('');
+            $this->template->content = $view;
+        } else {
+            // Empty POST
+            Session::instance()->set('feedbackMessage', array('An error occured.'));
+            $this->redirect ('index/index');
+        }
+    }
+    
+    /**
+     * Get the order from the post. It also validate the fields.
+     * @param $_POST $post
+     * @return [0] : order
+     *         [2] : array containing errors if some fields are not valid
+     */
+    private function getOrder($post) {
+        $vf = $this->getOrderValidationFactory($post);
+        $errors = array();
+        
+        // Get the current date
+        $now = date(Constants_Constants::dateFormat);
+        $order = new Model_Order($vf['orderId'], $vf['restaurantId'], '', 
+                                $now, 0, 0, 0, $vf['total'], 
+                                Constants_OrderState::IN_PROGRESS);
+        
+        if(!$vf->check()) {
+            $errors = $vf->errors('order');
+        }
+        return array($order, $errors);
+    }
+    
+    /**
+     * Get the validation object for order.
+     * @param $_POST The post variable of the request
+     * @return Validation::factory
+     */
+    private function getOrderValidationFactory($post) {
+        return Validation::factory($post)
+                ->rule('orderId', 'not_empty')
+                ->label('orderId', 'Order Id')
+                ->rule('restaurantId', 'not_empty')
+                ->label('restaurantId', 'Restaurant Id')
+                ->rule('total', 'not_empty')
+                ->label('total', 'Total');
+    }
+    
+    /**
+     * Get the purchase orders from the post. It also validate the fields.
+     * @param $_POST $post
+     * @return [0] : purchase order list
+     *         [1] : subtotal sum of all prochase orders
+     *         [2] : shipping sum of all prochase orders
+     *         [3] : taxes sum of all prochase orders
+     *         [4] : total sum of all prochase orders
+     *         [5] : array containing errors if some fields are not valid
+     */
+    private function getPurchaseOrders($post) {
+        $index = 0;
+        
+        // Initialize values
+        $subtotal = 0;
+        $shipping = 0;
+        $taxes = 0;
+        $total = 0;
+        
+        // Get the current date
+        $now = date(Constants_Constants::dateFormat);
+        
+        // Validate that the po number is unique
+        $repo = new Repository_PurchaseOrder();
+        
+        $purchaseOrders = array();
+        $errors = array();
+        while (isset($post['poNumber'][$index])) {
+            // Validate a purchase order 
+            $vf = $this->getPurchaseOrderValidationFactory($post, $index);
+            if (!$vf->check()) {
+                // Add the messages to the errors array
+                foreach ($vf->errors('po') as $i) {
+                    array_push($errors, $i);
+                }
+            }
+            
+            // Check if PO# is unique
+            if (!$repo->isSupplierPONumberUnique($vf['supplierPONumber'])) {
+                array_push($errors, $vf['supplierName'] . ': PO# must be unique.');
+            }
+            
+            // Get and validate purchase order items
+            $returnValues = $this->getPurchaseOrderItems($post, $index);
+            $items = $returnValues[0];
+            $errorsPOI = $returnValues[1];
+            // Add the messages to the errors array (poi errors)
+            foreach ($errorsPOI as $i) {
+                array_push($errors, $i);
+            }
+                      
+            // Add the po to the list
+            $purchaseOrder = new Model_PurchaseOrder($vf['poNumber'],
+                    $vf['idOrder'], $vf['idSupplier'], $vf['supplierPONumber'], $vf['supplierName'],
+                    $now, '', $vf['subtotal'], $vf['shipping'], $vf['taxes'],
+                    $vf['totalCost'], Constants_PurchaseOrderState::IN_PROGRESS, 
+                    $items);
+            array_push($purchaseOrders, $purchaseOrder);
+            
+            // Sum for the order variables
+            $subtotal += $purchaseOrder->getSubtotal();
+            $shipping += $purchaseOrder->getShipping();
+            $taxes += $purchaseOrder->getTaxes();
+            $total += $purchaseOrder->getTotalCost();
+                
+            $index++;
+        }
+        return array($purchaseOrders, $subtotal, $shipping, $taxes, $total, $errors);
+    }
+    
+    /**
+     * Get the validation object.
+     * @param $_POST The post variable of the request
+     * @param int The index of the current element in the post (fields are in arrays)
+     * @return Validation::factory
+     */
+    private function getPurchaseOrderValidationFactory($post, $index) {
+        $textIdentifyingSupplier = $post['supplierName'][$index] . ': ';
+        return Validation::factory(
+                array('poNumber' => $post['poNumber'][$index],
+                    'idOrder' => $post['idOrder'][$index],
+                    'idSupplier' => $post['idSupplier'][$index],
+                    'supplierName' => $post['supplierName'][$index],
+                    'supplierPONumber' => $post['supplierPONumber'][$index],
+                    'subtotal' => $post['subtotal'][$index],
+                    'shipping' => $post['shipping'][$index],
+                    'taxes' => $post['taxes'][$index],
+                    'totalCost' => $post['totalCost'][$index]))
+                ->rule('poNumber', 'not_empty')
+                ->label('poNumber',  $textIdentifyingSupplier . 'Purchase Order Id')
+                ->rule('idSupplier', 'not_empty')
+                ->label('idSupplier',  $textIdentifyingSupplier . 'Supplier Id')
+                ->rule('supplierPONumber', 'not_empty')
+                ->rule('supplierPONumber', 'max_length', array(':value', 20))
+                ->label('supplierPONumber',  $textIdentifyingSupplier . 'PO#')        
+                ->rule('subtotal', 'numeric')
+                ->rule('subtotal', 'ValidationExtension::positive_number')
+                ->label('subtotal',  $textIdentifyingSupplier . 'Subtotal')
+                ->rule('shipping', 'numeric')
+                ->rule('shipping', 'ValidationExtension::positive_number')
+                ->label('shipping', $textIdentifyingSupplier . 'Shipping')      
+                ->rule('taxes', 'numeric')
+                ->rule('taxes', 'ValidationExtension::positive_number')
+                ->label('taxes',  $textIdentifyingSupplier . 'Taxes')       
+                ->rule('totalCost', 'numeric')
+                ->rule('totalCost', 'ValidationExtension::positive_number')
+                ->label('totalCost',  $textIdentifyingSupplier . 'Total');
+    }
+    
+     /**
+     * Get the purchase orders items from the post. It also validate the fields.
+     * @param $_POST $post
+     * @return [0] : purchase order items
+     *         [1] : array containing errors if some fields are not valid
+     */
+    private function getPurchaseOrderItems($post, $poIndex) {
+        $index = 0;
+        
+        $items = array();
+        $errors = array();
+        while (isset($post['poItemPOID'][$poIndex][$index])) {
+            // Validate a purchase order item
+            $vf = $this->getPurchaseOrderItemValidationFactory($post, $poIndex, $index);
+            if (!$vf->check()) {
+                // Add the messages to the errors array
+                foreach ($vf->errors('poi') as $i) {
+                    array_push($errors, $i);
+                }
+            }
+            
+            // Add the poi to the list
+            $item = new Model_PurchaseOrderItem($vf['poItemPOID'], 
+                    $vf['poItemProductID'], '', $vf['poItemCostPerUnit'], 
+                    $vf['poItemQty'], '', '', '');
+            array_push($items, $item);
+            
+            $index++;
+        }
+        return array($items, $errors);
+    }
+    
+    /**
+     * Get the validation object.
+     * @param $_POST The post variable of the request
+     * @param int The index of the current po in the post (fields are in arrays)
+     * @param int The index of the current element in the post (fields are in arrays)
+     * @return Validation::factory
+     */
+    private function getPurchaseOrderItemValidationFactory($post, $poIndex, $index) {
+        return Validation::factory(
+                array('poItemPOID' => $post['poItemPOID'][$poIndex][$index], 
+                      'poItemProductID' => $post['poItemProductID'][$poIndex][$index], 
+                      'poItemCostPerUnit' => $post['poItemCostPerUnit'][$poIndex][$index],
+                      'poItemQty' => $post['poItemQty'][$poIndex][$index]))
+                ->rule('poItemPOID', 'not_empty')
+                ->label('poItemPOID', 'Purchase Order Id')
+                ->rule('poItemProductID', 'not_empty')
+                ->label('poItemProductID', 'Product Id')
+                ->rule('poItemCostPerUnit', 'not_empty')
+                ->label('poItemCostPerUnit', 'Cost/Unit')
+                ->rule('poItemQty', 'not_empty')
+                ->label('poItemQty', 'Quantity');
     }
 }
 
