@@ -53,6 +53,7 @@ if (!isset($orderId)) {
         <form id="orderForm" action="" method="post" accept-charset="utf-8">
             <?php
                 echo Form::hidden('orderId', $orderId);
+                echo Form::hidden('locationName', '', array('id' => 'locationName'));
                 echo Form::Label('Restaurant', 'Restaurant: '); 
             ?>
             <select id="locationId" name="locationId">
@@ -83,6 +84,12 @@ if (!isset($orderId)) {
     var order = [];
     
     $(document).ready(function() {
+        // Put the location name in an hidden field to manipulate in other steps
+        $('#locationName').val($('#locationId').find(":selected").text());
+        $('#locationId').change(function() {
+            $('#locationName').val($('#locationId').find(":selected").text());
+        });
+        
         // Hide the locations to avoid changing the selection while the creation
         // of an order.
         $('#locations').hide();
@@ -146,7 +153,7 @@ if (!isset($orderId)) {
         var index = 0;
         order.forEach(function(e) { 
             // If it's not a valid number than put 0
-            var productTotal = ((isNaN(e.costPerUnit)) ? 0 : e.costPerUnit) * ((isNaN(e.qty)) ? 0 : e.qty);
+            var productTotal = e.costPerUnit * e.qty;
             subtotal += productTotal;
             var indexStr = '['+index+']';
             
@@ -203,10 +210,14 @@ if (!isset($orderId)) {
         var index = findItem(p_productId, p_supplierId);
         if (index !== -1) {
             if (p_costPerUnit !== -1) {
-                order[index].costPerUnit = p_costPerUnit;
+                var cost = isNaN(p_costPerUnit) ? 0 : Number(p_costPerUnit);
+                $('#cost_' + p_productId + '_' + p_supplierId).val(cost);
+                order[index].costPerUnit = cost;
             }
             if (p_qty !== -1) {
-                order[index].qty = p_qty;
+                var qty = isNaN(p_qty) ? 0 : Number(p_qty);
+                $('#qty_' + p_productId + '_' + p_supplierId).val(qty);
+                order[index].qty = qty;
             }
         }
     }

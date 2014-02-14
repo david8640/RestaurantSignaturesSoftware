@@ -156,9 +156,9 @@ class Controller_Order extends Controller_Template_Generic {
             if (count($errors) == 0) {
                 // Get the current date
                 $now = date(Constants_Constants::dateFormat); 
-                // Get the location id an validate it.
-                $returnValues = $this->getLocationId($_POST);
-                $restaurantId = $returnValues[0];
+                // Get the restaurant id an validate it.
+                $returnValues = $this->getRestaurant($_POST);
+                $restaurant = $returnValues[0];
                 $errors = $returnValues[1];
                 
                 // if the location id is invalid a feedback message is send 
@@ -214,7 +214,7 @@ class Controller_Order extends Controller_Template_Generic {
                         ->set('productsOrdered', $productsOrdered)
                         ->set('orderId', $orderSavedId)
                         ->set('restaurants', $this->template->locations)
-                        ->set('global_selected_location', $restaurantId);
+                        ->set('global_selected_location', $restaurant->getId());
 
             $this->template->feedbackMessage = $feedbackMessage;
             $this->template->title = __('');
@@ -247,9 +247,9 @@ class Controller_Order extends Controller_Template_Generic {
             if (count($errors) == 0) {
                 // Get the current date
                 $now = date(Constants_Constants::dateFormat); 
-                // Get the location id an validate it.
-                $returnValues = $this->getLocationId($_POST);
-                $restaurantId = $returnValues[0];
+                // Get the restaurant id an validate it.
+                $returnValues = $this->getRestaurant($_POST);
+                $restaurant = $returnValues[0];
                 $errors = $returnValues[1];
                 
                 // if the location id is invalid a feedback message is send 
@@ -259,7 +259,7 @@ class Controller_Order extends Controller_Template_Generic {
                     $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
 
                     // Create an order from the first step
-                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
+                    $order = new Model_Order($orderId, $restaurant->getId(), $restaurant->getName(), $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
                     
                     // Create the list of purchase order from the first step
                     $purchaseOrders = $this->createPurchaseOrders($orderId, $now, $productsOrdered);
@@ -283,7 +283,7 @@ class Controller_Order extends Controller_Template_Generic {
                            ->set('productsOrdered', $productsOrdered)
                            ->set('orderId', $orderId)
                            ->set('restaurants', $this->template->locations)
-                           ->set('global_selected_location', $restaurantId);
+                           ->set('global_selected_location', $restaurant->getId());
                $this->template->feedbackMessage = $feedbackMessage;
             } else {
                  $view = View::factory('order/step2')
@@ -383,19 +383,21 @@ class Controller_Order extends Controller_Template_Generic {
     }
     
     /**
-     * Get the location id from the post. It also validate it.
+     * Get the restaurant from the post. It also validate it.
      * @param $_POST $post
-     * @return [0] : LocationId
+     * @return [0] : Restaurant
      *         [1] : array containing errors if the field is not valid
      */
-    private function getLocationId($post) {
-        $vf = $this->getLocationValidationFactory($post);
+    private function getRestaurant($post) {
+        $vf = $this->getRestaurantValidationFactory($post);
         $errors = array();
         
         if(!$vf->check()) {
-            $errors = $vf->errors('location');
+            $errors = $vf->errors('restaurant');
         }
-        return array($vf['locationId'], $errors);
+        $restaurant = new Model_Restaurant($vf['locationId'], $vf['locationName'], '');
+        
+        return array($restaurant, $errors);
     }
     
     /**
@@ -414,9 +416,9 @@ class Controller_Order extends Controller_Template_Generic {
                 $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, NULL, $supplierName, $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS, array());
             }
             
-            $purchaseOrderItem = new Model_PurchaseOrderItem(-1, $p->getProductID(), '', 
+            $purchaseOrderItem = new Model_PurchaseOrderItem(-1, $p->getProductID(), $p->getProductName(), 
                                                             $p->getCostPerUnit(), $p->getQty(), 
-                                                            '', -1, '');
+                                                            $p->getUnitOfMeasurement(), -1, '');
             $purchaseOrders[$supplierId]->addToSubtotal($purchaseOrderItem->getSubtotal());
             $purchaseOrders[$supplierId]->addItem($purchaseOrderItem);
         }
@@ -458,10 +460,12 @@ class Controller_Order extends Controller_Template_Generic {
      * @param $_POST The post variable of the request
      * @return Validation::factory
      */
-    private function getLocationValidationFactory($post) {
+    private function getRestaurantValidationFactory($post) {
         return Validation::factory($post)
                 ->rule('locationId', 'not_empty')
-                ->label('locationId', 'Location Id');
+                ->label('locationId', 'Location Id')
+                ->rule('locationName', 'not_empty')
+                ->label('locationName', 'Location Name');
     }
     
     /*****************************************************************************/
@@ -548,6 +552,61 @@ class Controller_Order extends Controller_Template_Generic {
     }
     
     /**
+     * Next step 2 of the order wizards.
+     */
+    public function action_nextStep2() {
+        if (isset($_POST) && Valid::not_empty($_POST)) {
+            // Get the order
+            $returnValues = $this->getOrder($_POST);
+            $order = $returnValues[0];
+            $errors = $returnValues[1];
+            
+            $feedbackMessage = array();
+            if (count($errors) == 0) {
+                // Get the products ordered and validate it.
+                $returnValues = $this->getPurchaseOrders($_POST);
+                $purchaseOrders = $returnValues[0];
+                $subtotal = $returnValues[1];
+                $shipping = $returnValues[2];
+                $taxes = $returnValues[3];
+                $total = $returnValues[4];
+                $errors = $returnValues[5];
+                
+                $feedbackMessage = array();
+                if (count($errors) == 0) {
+                    // Update the order variables accordint to the purchase orders
+                    $order->setSubtotal($subtotal);
+                    $order->setShippingCost($shipping);
+                    $order->setTaxes($taxes);
+                    $order->setTotalCost($total);                  
+                } else {
+                    $feedbackMessage = $errors;
+                } 
+            } else {
+                $feedbackMessage = $errors;
+            }
+            
+            $nextPage = 'order/step3';
+            // Transfer the information to the view.
+            if (!empty($feedbackMessage)) {
+                $nextPage = 'order/step2';
+            }       
+                
+            $view = View::factory($nextPage)
+                        ->set('order', $order)    
+                        ->set('purchaseOrders', $purchaseOrders);
+
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->title = __('');
+            $this->template->content = $view;
+        } else {
+            // Empty POST
+            Session::instance()->set('feedbackMessage', array('An error occured.'));
+            $this->redirect ('index/index');
+        }
+    }
+   
+    /**
      * Get the order from the post. It also validate the fields.
      * @param $_POST $post
      * @return [0] : order
@@ -559,7 +618,7 @@ class Controller_Order extends Controller_Template_Generic {
         
         // Get the current date
         $now = date(Constants_Constants::dateFormat);
-        $order = new Model_Order($vf['orderId'], $vf['restaurantId'], '', 
+        $order = new Model_Order($vf['orderId'], $vf['restaurantId'], $vf['restaurantName'], 
                                 $now, 0, 0, 0, $vf['total'], 
                                 Constants_OrderState::IN_PROGRESS);
         
@@ -716,8 +775,8 @@ class Controller_Order extends Controller_Template_Generic {
             
             // Add the poi to the list
             $item = new Model_PurchaseOrderItem($vf['poItemPOID'], 
-                    $vf['poItemProductID'], '', $vf['poItemCostPerUnit'], 
-                    $vf['poItemQty'], '', '', '');
+                    $vf['poItemProductID'], $vf['poItemProductName'], $vf['poItemCostPerUnit'], 
+                    $vf['poItemQty'], $vf['poItemProductUnitOfMeasurement'], '', '');
             array_push($items, $item);
             
             $index++;
@@ -736,8 +795,10 @@ class Controller_Order extends Controller_Template_Generic {
         return Validation::factory(
                 array('poItemPOID' => $post['poItemPOID'][$poIndex][$index], 
                       'poItemProductID' => $post['poItemProductID'][$poIndex][$index], 
+                      'poItemProductName' => $post['poItemProductName'][$poIndex][$index],
                       'poItemCostPerUnit' => $post['poItemCostPerUnit'][$poIndex][$index],
-                      'poItemQty' => $post['poItemQty'][$poIndex][$index]))
+                      'poItemQty' => $post['poItemQty'][$poIndex][$index], 
+                      'poItemProductUnitOfMeasurement' => $post['poItemProductUnitOfMeasurement'][$poIndex][$index]))
                 ->rule('poItemPOID', 'not_empty')
                 ->label('poItemPOID', 'Purchase Order Id')
                 ->rule('poItemProductID', 'not_empty')
@@ -747,6 +808,13 @@ class Controller_Order extends Controller_Template_Generic {
                 ->rule('poItemQty', 'not_empty')
                 ->label('poItemQty', 'Quantity');
     }
+    
+    /*****************************************************************************/
+    /*/ Step 3
+    /*****************************************************************************/
+    /**
+     * Save step 3 of the order wizards.
+     */
 }
 
 ?>

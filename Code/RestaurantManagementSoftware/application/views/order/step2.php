@@ -22,6 +22,7 @@ if (!isset($purchaseOrders)) {
             // Order
             echo Form::hidden('orderId', $order->getOrderID());
             echo Form::hidden('restaurantId', $order->getRestaurantID());
+            echo Form::hidden('restaurantName', $order->getRestaurantName());
             ?>
         </div>
         <table border="1">
@@ -49,8 +50,10 @@ if (!isset($purchaseOrders)) {
                         foreach ($p->getItems() as $item) {
                             echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
                             echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID());
+                            echo Form::hidden('poItemProductName[' . $index . '][' . $itemIndex . ']', $item->getProductName());
                             echo Form::hidden('poItemCostPerUnit[' . $index . '][' . $itemIndex . ']', $item->getCostPerUnit());
                             echo Form::hidden('poItemQty[' . $index . '][' . $itemIndex . ']', $item->getQty());
+                            echo Form::hidden('poItemProductUnitOfMeasurement[' . $index . '][' . $itemIndex . ']', $item->getUnitOfMeasurement());
                             $itemIndex++;
                         }
                         // [END]
@@ -61,10 +64,10 @@ if (!isset($purchaseOrders)) {
                         echo Form::input('supplierName[' . $index . ']', $p->getSupplierName(), array('readonly' => 'readonly'));
                     ?></td>
                     <td><?php echo Form::input('supplierPONumber[' . $index . ']', $p->getSupplierPONumber()); ?></td>
-                    <td><?php echo Form::input('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getPOID(), 'readonly' => 'readonly')); ?></td>
-                    <td><?php echo Form::input('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getPOID())); ?></td>
-                    <td><?php echo Form::input('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getPOID())); ?></td>
-                    <td><?php echo Form::input('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getPOID(), 'readonly' => 'readonly')); ?></td>
+                    <td><?php echo Form::input('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getSupplierID(), 'readonly' => 'readonly')); ?></td>
+                    <td><?php echo Form::input('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getSupplierID())); ?></td>
+                    <td><?php echo Form::input('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getSupplierID())); ?></td>
+                    <td><?php echo Form::input('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getSupplierID(), 'readonly' => 'readonly')); ?></td>
                 </tr>
             <?php 
                 $index++;
@@ -98,23 +101,22 @@ if (!isset($purchaseOrders)) {
         $('input[id*=shipping_], input[id*=taxes_]').each(function() {
           var id = $(this).attr('id');
           var partOfId = id.split('_');
-          var poNumber = partOfId[1];
-          $('#'+id).focusout(function() { update(poNumber); });
-       });
-
-        /*order.forEach(function(e) {
-            $('#shipping_' + e.productId + '_' + e.supplierId).focusout(function() { updateCost(e.productId, e.supplierId); });
-            $('#taxes_' + e.productId + '_' + e.supplierId).focusout(function() { updateQty(e.productId, e.supplierId); });
-        });*/     
+          var supplierId = partOfId[1];
+          $('#'+id).focusout(function() { update(supplierId); });
+       });    
     }
    
-    function update(poNumber) {
+    function update(supplierId) {
         // Update total for current po
-        var subtotal = parseFloat($('#subtotal_' + poNumber).val());
-        var shipping = parseFloat($('#shipping_' + poNumber).val());
-        var taxes = parseFloat($('#taxes_' + poNumber).val());        
+        var subtotal = parseFloat($('#subtotal_' + supplierId).val());
         
-         $('#totalCost_' + poNumber).val(
+        var shipping = isNaN($('#shipping_' + supplierId).val()) ? 0 : Number($('#shipping_' + supplierId).val());
+        $('#shipping_' + supplierId).val(shipping);
+        
+        var taxes = isNaN($('#taxes_' + supplierId).val()) ? 0 : Number($('#taxes_' + supplierId).val());
+        $('#taxes_' + supplierId).val(taxes);    
+        
+         $('#totalCost_' + supplierId).val(
                 ((isNaN(subtotal)) ? 0 : subtotal) + 
                 ((isNaN(shipping)) ? 0 : shipping) + 
                 ((isNaN(taxes)) ? 0 : taxes));
@@ -122,7 +124,7 @@ if (!isset($purchaseOrders)) {
         // Update global total
         var total = 0;
         $('input[id*=totalCost_]').each(function() {
-             total += parseInt($(this).val());
+             total += parseFloat($(this).val());
         });
         $('#total').val(total);
     }

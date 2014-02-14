@@ -193,7 +193,7 @@ div.menu li
      margin-top: 15px;
  }
  
- .content #orderStep1SubmitBt input, .content #orderStep2SubmitBt input {
+ .content #orderStep1SubmitBt input, .content #orderStep2SubmitBt input, .content #orderStep3SubmitBt input {
      float: right;
      margin-top: 15px;
      margin-left: 5px;
@@ -211,5 +211,43 @@ div.menu li
 .content h3 {
      margin-top: 0px;
      margin-bottom: 5px;
+ }
+ 
+ .content #review input {
+     //border: 0px solid;
+ }
+ 
+ .content #review .restaurant {
+     padding-bottom: 5px;
+ }
+ 
+ .content #review .poTotal input {
+     text-align: right;
+     float: right;
+ }
+ 
+ .content .poTotal {
+     width: auto;
+     float: right;
+     padding-top: 5px;
+ }
+ 
+ .content .poTotal tr {
+     line-height: 5px;
+ }
+ 
+ .content .poTotal td {
+     text-align: right;
+     width: 100px;
+ }
+ 
+  .content .poTotal .label {
+     text-align: left;
+     width: 75px;
+ }
+ 
+ .content .orderTotal {
+     float: right;
+     padding-top: 20px;
  }
  
