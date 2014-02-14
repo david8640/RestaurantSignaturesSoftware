@@ -189,7 +189,7 @@ class Controller_Order extends Controller_Template_Generic {
                             array_push($feedbackMessage, 'The purchases orders cannot be created.');
 
                             // Delete the order save earlier to avoid problem
-                            $removeSuccess = $orderRepo->deleteAllPurchaseOrdersOfOrder($orderSavedId);
+                            $removeSuccess = $poRepo->deleteAllPurchaseOrdersOfOrder($orderSavedId);
                             if (!$removeSuccess) {
                                 array_push($feedbackMessage, 'The order cannot be deleted successfully.');
                             }
@@ -258,8 +258,14 @@ class Controller_Order extends Controller_Template_Generic {
                     // Get the order id if exists
                     $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
 
+                    // Create an order from the first step
                     $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
+                    
+                    // Create the list of purchase order from the first step
                     $purchaseOrders = $this->createPurchaseOrders($orderId, $now, $productsOrdered);
+                    
+                    // Update the information of all the purchase orders from the existing one
+                    $this->updatePurchaseOrderInformations($orderId, $purchaseOrders);
                 } else {
                     $feedbackMessage = $errors;
                 }
@@ -291,6 +297,25 @@ class Controller_Order extends Controller_Template_Generic {
             // Empty POST
             Session::instance()->set('feedbackMessage', array('An error occured.'));
             $this->redirect ('index/index');
+        }
+    }
+    
+    /**
+     * Get the existing purchase order from the database. Compare the existing one 
+     * with the new one and update the new according to the existing one.
+     * @param int $orderId
+     * @param list Purchase Orders $purchaseOrders
+     */
+    private function updatePurchaseOrderInformations($orderId, $purchaseOrders) {
+        $repo = new Repository_PurchaseOrder();
+        $existingPOs = $repo->getAllByOrderId($orderId);
+        
+        foreach ($purchaseOrders as $po) {
+            foreach ($existingPOs as $epo) {
+                if ($po->getOrderID() == $epo->getOrderID() && $po->getSupplierID() == $epo->getSupplierID()) {
+                    $po->setSupplierPONumber($epo->getSupplierPONumber());
+                }
+            }   
         }
     }
     
@@ -492,7 +517,7 @@ class Controller_Order extends Controller_Template_Generic {
                             array_push($feedbackMessage, 'The purchases orders cannot be created.');
 
                             // Delete the order save earlier to avoid problem
-                            $removeSuccess = $orderRepo->deleteAllPurchaseOrdersOfOrder($orderSavedId);
+                            $removeSuccess = $poRepo->deleteAllPurchaseOrdersOfOrder($orderSavedId);
                             if (!$removeSuccess) {
                                 array_push($feedbackMessage, 'The order cannot be deleted successfully.');
                             }
@@ -597,7 +622,7 @@ class Controller_Order extends Controller_Template_Generic {
             }
             
             // Check if PO# is unique
-            if (!$repo->isSupplierPONumberUnique($vf['supplierPONumber'])) {
+            if (!$repo->isSupplierPONumberUnique($vf['idOrder'], $vf['idSupplier'], $vf['supplierPONumber'])) {
                 array_push($errors, $vf['supplierName'] . ': PO# must be unique.');
             }
             

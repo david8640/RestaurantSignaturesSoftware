@@ -22,6 +22,19 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
     }
     
     /**
+    * Get all the purchase orders by order id.
+    * @param int order id
+    * @return array of purchase orders
+    */ 
+    public function getAllByOrderId($orderId) {
+        $params = array (
+            new Database_StatementParameter(':orderId', $orderId, PDO::PARAM_INT, 11)
+        );
+        
+        return $this->fetchNConstruct('CALL sp_getPurchaseOrdersByOrderId(:orderId)', $params);
+    }
+    
+    /**
      * Save a list of purchase orders of an order.
      * @param int $orderId
      * @param list $purchaseOrders
@@ -64,16 +77,20 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
     }
     
     /**
-     * Checks if the poNumber is unique. 
+     * Checks if the poNumber is unique.
+     * @param int $orderId
+     * @param int $supplierId 
      * @param string $poNumber
      * @return boolean true = po number is unique
      */
-    public function isSupplierPONumberUnique($poNumber) {
+    public function isSupplierPONumberUnique($orderId, $supplierId, $poNumber) {
         $params = array (
+            new Database_StatementParameter(':poOrderId', $orderId, PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':poSupplierId', $supplierId, PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poNumber', $poNumber, PDO::PARAM_STR, 20)
         );
         
-        return $this->execute('CALL sp_isSupplierPONumberUnique(:poNumber)', $params);
+        return $this->execute('CALL sp_isSupplierPONumberUnique(:poOrderId, :poSupplierId, :poNumber)', $params);
     }
     
     /**

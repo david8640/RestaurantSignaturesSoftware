@@ -884,10 +884,18 @@ GO
 DROP PROCEDURE IF EXISTS `sp_isSupplierPONumberUnique`
 GO
 CREATE PROCEDURE sp_isSupplierPONumberUnique (
+	IN po_order_id INT,
+	IN po_supplier_id INT,
 	IN po_supplierPONumber VARCHAR(20)
 )
 BEGIN
-	IF EXISTS(SELECT * FROM purchase_orders WHERE po_NumberSupplier = po_supplierPONumber) THEN
+	IF ((SELECT COUNT(*) FROM purchase_orders WHERE po_NumberSupplier = po_supplierPONumber) = 1) THEN
+	BEGIN
+		IF NOT EXISTS (SELECT * FROM purchase_orders WHERE id_order = po_order_id AND id_supplier = po_supplier_id AND po_NumberSupplier = po_supplierPONumber) THEN
+			CALL raise_error; -- ERREUR
+		END IF;
+	END;
+	ELSEIF ((SELECT COUNT(*) FROM purchase_orders WHERE po_NumberSupplier = po_supplierPONumber) > 1) THEN
 		CALL raise_error; -- ERREUR
 	END IF;
 END
@@ -909,21 +917,20 @@ END
 GO
 
 -- -----------------------------------------------------
--- Stored Procedure `sp_getPurchaseOrderItemsByOrderId`
+-- Stored Procedure `sp_getPurchaseOrdersByOrderId`
 -- -----------------------------------------------------
-DROP PROCEDURE IF EXISTS `sp_getPurchaseOrderItemsByOrderId`
+DROP PROCEDURE IF EXISTS `sp_getPurchaseOrdersByOrderId`
 GO
-CREATE PROCEDURE sp_getPurchaseOrderItemsByOrderId(
-  IN poi_order_id INT
+CREATE PROCEDURE sp_getPurchaseOrdersByOrderId(
+  IN po_order_id INT
 )
 BEGIN
-	SELECT POI.id_po, POI.id_product, P.name AS productName, POI.costPerUnit, POI.qty, 
-			SP.unitOfMeasurement, PO.id_supplier, S.name as supplierName
-	FROM PO_item POI LEFT JOIN purchase_orders PO ON POI.id_po = PO.id_po
-					LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
-					LEFT JOIN supplier_product SP ON PO.id_supplier = SP.id_supplier AND POI.id_product = SP.id_product 
-					LEFT JOIN product P ON POI.id_product = P.id_product
-	WHERE PO.id_order = poi_order_id;     		 
+	SELECT PO.id_po, PO.po_NumberSupplier, PO.id_order, PO.id_supplier, S.name as supplierName, 
+			PO.dateOrdered, PO.dateDelivered, PO.subtotal, PO.taxes, PO.shippingCost, PO.totalCost,
+			PO.state
+	FROM purchase_orders PO
+		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
+	WHERE PO.id_order = po_order_id;     		 
 END
 GO
 
