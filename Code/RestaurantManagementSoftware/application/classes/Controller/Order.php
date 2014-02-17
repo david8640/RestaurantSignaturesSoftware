@@ -314,6 +314,8 @@ class Controller_Order extends Controller_Template_Generic {
             foreach ($existingPOs as $epo) {
                 if ($po->getOrderID() == $epo->getOrderID() && $po->getSupplierID() == $epo->getSupplierID()) {
                     $po->setSupplierPONumber($epo->getSupplierPONumber());
+                    $po->setShipping($epo->getShipping());
+                    $po->setTaxes($epo->getTaxes());
                 }
             }   
         }
@@ -815,6 +817,96 @@ class Controller_Order extends Controller_Template_Generic {
     /**
      * Save step 3 of the order wizards.
      */
+    public function action_saveStep3() {
+        if (isset($_POST) && Valid::not_empty($_POST)) {
+            // Get the order
+            $returnValues = $this->getOrder($_POST);
+            $order = $returnValues[0];
+            $errors = $returnValues[1];
+            
+            if (count($errors) == 0) {
+                // Get the products ordered and validate it.
+                $returnValues = $this->getPurchaseOrders($_POST);
+                $purchaseOrders = $returnValues[0];
+                $subtotal = $returnValues[1];
+                $shipping = $returnValues[2];
+                $taxes = $returnValues[3];
+                $total = $returnValues[4];
+                $errors = $returnValues[5];
+                
+                $feedbackMessage = array();
+                if (count($errors) == 0) {
+                    // Update the order variables accordint to the purchase orders
+                    $order->setSubtotal($subtotal);
+                    $order->setShippingCost($shipping);
+                    $order->setTaxes($taxes);
+                    $order->setTotalCost($total);
+                    $order->setState(Constants_OrderState:: SUBMITTED);
+                    
+                    // Save the order to the database.
+                    $orderRepo = new Repository_Order();
+                    $orderSavedId = $orderRepo->save($order);
+                    
+                    // Check that the order was insert properly.
+                    if ($orderSavedId == -1) {
+                        // if the order as not been create add an error message.
+                        array_push($feedbackMessage, 'An error occured.');
+                    } else {
+                        // Set the order id
+                        $order->setOrderID($orderSavedId);
+                        // Set the PO state to Ordered
+                        $this->setPOAsOrdered($purchaseOrders);
+                        
+                        // Save the purchase orders and purchase order items to the database.
+                        $poRepo = new Repository_PurchaseOrder();
+                        $success = $poRepo->save($orderSavedId, $purchaseOrders);    
+
+                        // If there was a problem remove the order from the database
+                        // and add a feedback message.
+                        if (!$success) {
+                            array_push($feedbackMessage, 'The purchases orders cannot be created.');
+
+                            // Delete the order save earlier to avoid problem
+                            $removeSuccess = $poRepo->deleteAllPurchaseOrdersOfOrder($orderSavedId);
+                            if (!$removeSuccess) {
+                                array_push($feedbackMessage, 'The order cannot be deleted successfully.');
+                            }
+                        } else {
+                            Session::instance()->set('feedbackMessage', array('The order has been submitted.'));
+                            $this->redirect ('order/findAll');
+                        }
+                    } 
+                } else {
+                    $feedbackMessage = $errors;
+                } 
+            } else {
+                $feedbackMessage = $errors;
+            }
+
+            // Transfer the information to the view.
+            $view = View::factory('order/step3')
+                                ->set('order', $order)    
+                                ->set('purchaseOrders', $purchaseOrders);
+
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->title = __('');
+            $this->template->content = $view;
+        } else {
+            // Empty POST
+            Session::instance()->set('feedbackMessage', array('An error occured.'));
+            $this->redirect ('index/index');
+        }
+    }
+    
+    /**
+     * Set the Purchase Order state to Ordered
+     * @param PurchaseOrder List $purchaseOrders
+     */
+    private function setPOAsOrdered($purchaseOrders) {
+        foreach ($purchaseOrders as $po) {
+            $po->setState(Constants_PurchaseOrderState::ORDERED);
+        }
+    }
 }
 
 ?>

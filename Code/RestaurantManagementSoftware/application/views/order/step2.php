@@ -61,13 +61,16 @@ if (!isset($purchaseOrders)) {
                         echo Form::hidden('poNumber[' . $index . ']', $p->getPOID());
                         echo Form::hidden('idOrder[' . $index . ']', $p->getOrderID());
                         echo Form::hidden('idSupplier[' . $index . ']', $p->getSupplierID());
-                        echo Form::input('supplierName[' . $index . ']', $p->getSupplierName(), array('readonly' => 'readonly'));
+                        echo Form::hidden('supplierName[' . $index . ']', $p->getSupplierName());
+                        echo Form::hidden('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getSupplierID()));
+                        echo Form::hidden('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getSupplierID()));
+                        echo $p->getSupplierName();
                     ?></td>
                     <td><?php echo Form::input('supplierPONumber[' . $index . ']', $p->getSupplierPONumber()); ?></td>
-                    <td><?php echo Form::input('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getSupplierID(), 'readonly' => 'readonly')); ?></td>
+                    <td><?php echo number_format($p->getSubtotal(), 2); ?></td>
                     <td><?php echo Form::input('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getSupplierID())); ?></td>
                     <td><?php echo Form::input('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getSupplierID())); ?></td>
-                    <td><?php echo Form::input('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getSupplierID(), 'readonly' => 'readonly')); ?></td>
+                    <td><?php echo number_format($poTotal, 2); ?></td>
                 </tr>
             <?php 
                 $index++;
@@ -75,8 +78,8 @@ if (!isset($purchaseOrders)) {
         </table>
         <?php
             echo Form::label('total', 'Total: ');
-            echo Form::input('total', $total, array('id' => 'total', 'readonly' => 'readonly'));
-        ?>
+            echo Form::hidden('total', $total, array('id' => 'total'));
+        ?><span id="totalVal"><?php echo number_format($total, 2); ?></span>
         <span id="orderStep2SubmitBt">
             <input type="button" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep2'); ?>')"/>
             <input type="button" value="Save" onclick="submitForm('<?php echo URL::site('order/saveStep2'); ?>')"/>
@@ -111,10 +114,10 @@ if (!isset($purchaseOrders)) {
         var subtotal = parseFloat($('#subtotal_' + supplierId).val());
         
         var shipping = isNaN($('#shipping_' + supplierId).val()) ? 0 : Number($('#shipping_' + supplierId).val());
-        $('#shipping_' + supplierId).val(shipping);
+        $('#shipping_' + supplierId).val(shipping.toFixed(2));
         
         var taxes = isNaN($('#taxes_' + supplierId).val()) ? 0 : Number($('#taxes_' + supplierId).val());
-        $('#taxes_' + supplierId).val(taxes);    
+        $('#taxes_' + supplierId).val(taxes.toFixed(2));    
         
          $('#totalCost_' + supplierId).val(
                 ((isNaN(subtotal)) ? 0 : subtotal) + 
@@ -127,6 +130,7 @@ if (!isset($purchaseOrders)) {
              total += parseFloat($(this).val());
         });
         $('#total').val(total);
+        $('#totalVal').text(Number(total).toFixed(2));
     }
     
 </script>

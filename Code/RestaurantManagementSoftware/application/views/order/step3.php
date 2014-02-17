@@ -15,12 +15,13 @@ if (!isset($purchaseOrders)) {
 ?>
 <div>
     <h2>Step 3 : Review</h2>
-    <form id="review" action="" method="post" accept-charset="utf-8">
+    <?php echo Form::open("order/saveStep3"); ?>
         <div>
             <?php
             // Order Informations
             echo Form::hidden('orderId', $order->getOrderID());
             echo Form::hidden('restaurantId', $order->getRestaurantID());
+            echo Form::hidden('restaurantName', $order->getRestaurantName());
             ?>
             <div class="restaurant">
                 <?php echo 'Restaurant :' . $order->getRestaurantName(); ?>
@@ -53,20 +54,24 @@ if (!isset($purchaseOrders)) {
                 foreach ($p->getItems() as $item) { ?>
                     <tr>
                         <td>
-                            <?php echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID()); ?>
-                            <?php echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID()); ?>
-                            <?php echo $item->getProductName(); ?>
+                            <?php 
+                                echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
+                                echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID());
+                                echo Form::hidden('poItemProductName[' . $index . '][' . $itemIndex . ']', $item->getProductName());
+                                echo Form::hidden('poItemProductUnitOfMeasurement[' . $index . '][' . $itemIndex . ']', $item->getUnitOfMeasurement());
+                                echo $item->getProductName(); 
+                            ?>
                         </td>
                         <td><?php echo $item->getUnitOfMeasurement(); ?></td>
                         <td><?php 
                             echo Form::hidden('poItemCostPerUnit[' . $index . '][' . $itemIndex . ']', $item->getCostPerUnit());
-                            echo $item->getCostPerUnit();
+                            echo number_format($item->getCostPerUnit(), 2);
                          ?></td>
                         <td><?php 
                             echo Form::hidden('poItemQty[' . $index . '][' . $itemIndex . ']', $item->getQty()); 
-                            echo $item->getQty(); 
+                            echo number_format($item->getQty(), 0); 
                         ?></td> 
-                        <td><?php echo $item->getSubtotal(); ?></td> 
+                        <td><?php echo number_format($item->getSubtotal(), 2); ?></td> 
                     </tr>
                     <?php
                     $itemIndex++;
@@ -78,28 +83,28 @@ if (!isset($purchaseOrders)) {
                     <td class="label"><?php echo Form::label('subtotal[' . $index . ']', 'Subtotal :'); ?></td>
                     <td><?php
                         echo Form::hidden('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getPOID()));
-                        echo $p->getSubtotal();
+                        echo number_format($p->getSubtotal(), 2);
                     ?></td>
                 </tr>
                 <tr> 
                     <td class="label"><?php echo Form::label('shipping[' . $index . ']', 'Shipping :'); ?></td>
                     <td><?php
                         echo Form::hidden('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getPOID())); 
-                        echo $p->getShipping();
+                        echo number_format($p->getShipping(), 2);
                     ?></td>
                 </tr>
                 <tr>
                     <td class="label"><?php echo Form::label('taxes[' . $index . ']', 'Taxes :'); ?></td>
                     <td><?php
                         echo Form::hidden('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getPOID()));
-                        echo $p->getTaxes();
+                        echo number_format($p->getTaxes(), 2);
                     ?></td>
                 </tr>
                 <tr>
                     <td class="label"><?php echo Form::label('totalCost[' . $index . ']', 'Total :'); ?></td>
                     <td><?php
                         echo Form::hidden('totalCost[' . $index . ']', $p->getTotalCost(), array('id' => 'totalCost_' . $p->getPOID()));
-                        echo $p->getTotalCost();
+                        echo number_format($p->getTotalCost(), 2);
                     ?></td>
                 </tr>
             </table>
@@ -112,12 +117,12 @@ if (!isset($purchaseOrders)) {
             <?php
                 echo Form::label('total', 'Total: ');
                 echo Form::hidden('total', $order->getTotalCost(), array('id' => 'total'));
-                echo $order->getTotalCost();
+                echo number_format($order->getTotalCost(), 2);
             ?>    
         </div>
         <div class="clear"></div>
         <span id="orderStep3SubmitBt">
-            <input type="button" value="Submit" onclick="submitForm('<?php echo URL::site('order/saveStep2'); ?>')"/>
+            <?php echo Form::submit(NULL, 'Save & Submit'); ?>
         </span>
     <?php echo Form::close(); ?>
 </div>

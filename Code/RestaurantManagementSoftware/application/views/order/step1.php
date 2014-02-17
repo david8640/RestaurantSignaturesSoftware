@@ -42,7 +42,7 @@ if (!isset($orderId)) {
                     <td><?php echo $p->getProductName(); ?></td>
                     <td><?php echo $p->getSupplierName(); ?></td>
                     <td><?php echo $p->getUnitOfMeasurement(); ?></td>
-                    <td><?php echo $p->getCostPerUnit(); ?></td>
+                    <td><?php echo number_format($p->getCostPerUnit(), 2); ?></td>
                     <td><input type='button' value='Add' onclick="add(<?php echo $p->getProductID(); ?>, '<?php echo $p->getProductName(); ?>', <?php echo $p->getSupplierID(); ?>, '<?php echo $p->getSupplierName(); ?>', '<?php echo $p->getUnitOfMeasurement(); ?>', <?php echo $p->getCostPerUnit(); ?>, <?php echo $p->getQty(); ?>);"/></td>
                 </tr>
             <?php } ?>
@@ -67,8 +67,10 @@ if (!isset($orderId)) {
             </table>
         <?php
             echo Form::label('Subtotal', 'Subtotal: ');
-            echo Form::input('subtotal', 0, array('id' => 'subtotal', 'disabled' => 'disabled'));
-            ?><span id="orderStep1SubmitBt">
+            echo Form::hidden('subtotal', 0, array('id' => 'subtotal'));
+        ?>
+            <span id="subtotalVal"></span>
+            <span id="orderStep1SubmitBt">
                 <input type="button" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep1'); ?>')"/>
                 <input type="button" value="Save" onclick="submitForm('<?php echo URL::site('order/saveStep1'); ?>')"/>
             </span>
@@ -153,7 +155,7 @@ if (!isset($orderId)) {
         var index = 0;
         order.forEach(function(e) { 
             // If it's not a valid number than put 0
-            var productTotal = e.costPerUnit * e.qty;
+            var productTotal = Number(e.costPerUnit * e.qty);
             subtotal += productTotal;
             var indexStr = '['+index+']';
             
@@ -170,9 +172,9 @@ if (!isset($orderId)) {
                 +       e.supplierName
                 +   '</td>'
                 +   '<td>' + e.unit + '</td>'
-                +   '<td><input type="text" value="' + e.costPerUnit + '" name="costPerUnit'+indexStr+'" id="cost_' + e.productId + '_' + e.supplierId + '"/></td>'
-                +   '<td><input type="text" value="' + e.qty + '" name="qty'+indexStr+'" id="qty_' + e.productId + '_' + e.supplierId + '"/></td>'
-                +   '<td><input type="text" value="' + productTotal + '" disabled="disabled"/></td>'
+                +   '<td><input type="text" value="' + Number(e.costPerUnit).toFixed(2) + '" name="costPerUnit'+indexStr+'" id="cost_' + e.productId + '_' + e.supplierId + '"/></td>'
+                +   '<td><input type="text" value="' + Number(e.qty).toFixed(2) + '" name="qty'+indexStr+'" id="qty_' + e.productId + '_' + e.supplierId + '"/></td>'
+                +   '<td>' + productTotal.toFixed(2) + '</td>'
                 +   '<td><input type="button" onclick="removeIt(' + e.productId + ',' + e.supplierId + ')" value="Remove" /></td>'
                 +'</tr>';
         
@@ -182,6 +184,7 @@ if (!isset($orderId)) {
         $('#order').html(tableRows);
         bindEvents();
         $('#subtotal').val(subtotal);
+        $('#subtotalVal').text(Number(subtotal).toFixed(2));
     }
     
     function displayTableHeader() {
