@@ -133,7 +133,7 @@ div.menu li
  }
  
  .content .button_delete, .content .button_edit, .content .button_add, .content .button_delete_disabled, 
- .content .button_edit_disabled {
+ .content .button_edit_disabled, .content .button_view {
      display:block; 
      height:20px;
      background-size: auto 100%;
@@ -163,16 +163,29 @@ div.menu li
      background-position: right;
  }
  
+ .content .button_view {     
+     background-image: url('images/view-icon.png');
+ }
+ 
+ .content .button_back {
+    float: right;
+    padding-top: 5px;
+ }
+ 
  .content table tr .id {
     width: 20px; 
  }
  
  .content table tr .edit {
-    width: 40px; 
+    width: 45px; 
  }
  
  .content table tr .remove {
     width: 60px; 
+ }
+ 
+ .content table tr .view {
+    width: 45px; 
  }
  
  .content .leftcolumn {
@@ -249,5 +262,10 @@ div.menu li
  .content .orderTotal {
      float: right;
      padding-top: 20px;
+ }
+ 
+ .content .total {
+     float: right;
+     padding-top: 5px;
  }
  

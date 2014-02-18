@@ -910,8 +910,10 @@ CREATE PROCEDURE sp_getPurchaseOrderItems(
   IN poi_po_id INT
 )
 BEGIN
-	SELECT POI.id_product, POI.id_po, POI.qty, POI.costPerUnit
-	FROM PO_item POI
+	SELECT POI.id_product, POI.id_po, POI.qty, POI.costPerUnit, P.name AS productName, P.unitOfMeasurement
+	FROM PO_item POI LEFT JOIN purchase_orders PO ON POI.id_po = PO.id_po
+					LEFT JOIN supplier_product SP ON PO.id_supplier = SP.id_supplier AND POI.id_product = SP.id_product
+					LEFT JOIN product P ON SP.id_product = P.id_product
 	WHERE POI.id_po = poi_po_id;     		 
 END
 GO

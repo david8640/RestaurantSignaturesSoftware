@@ -18,6 +18,7 @@ if (!isset($purchaseOrders)) {
     <?php echo Form::open("order/saveStep3"); ?>
         <div>
             <?php
+            echo Form::hidden('originAction', $originAction);
             // Order Informations
             echo Form::hidden('orderId', $order->getOrderID());
             echo Form::hidden('restaurantId', $order->getRestaurantID());

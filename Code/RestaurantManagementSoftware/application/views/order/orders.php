@@ -19,6 +19,7 @@
         <th>Taxes</th>
         <th>Total</th>
         <th>State</th>
+        <th class="view">View</th>
         <th class="edit">Edit</th>
         <th class="remove">Remove</th>
     </tr>
@@ -32,6 +33,7 @@
             <td><?php echo $o->getTaxes(); ?></td>
             <td><?php echo $o->getTotalCost(); ?></td>
             <td><?php echo $o->getStateName(); ?></td>
+            <td><?php echo HTML::anchor('order/view/'.$o->getOrderID().'/findAll', '', array('class' => 'button_view', 'name' => 'View')); ?></td>
             <td><?php 
                 if ($o->getState() == Constants_OrderState::IN_PROGRESS) {
                     echo HTML::anchor('order/edit/'.$o->getOrderID().'/findAll', '', array('class' => 'button_edit', 'name' => 'Edit'));
@@ -50,5 +52,5 @@
     <?php } ?>
 </table>
 <div class="button">
-    <?php echo HTML::anchor('order/getStep1', '', array('class' => 'button_add', 'name' => 'Add')); ?>
+    <?php echo HTML::anchor('order/getStep1/-1/findAll', '', array('class' => 'button_add', 'name' => 'Add')); ?>
 </div>

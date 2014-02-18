@@ -52,6 +52,7 @@ if (!isset($orderId)) {
         <h3>Order</h3>
         <form id="orderForm" action="" method="post" accept-charset="utf-8">
             <?php
+                echo Form::hidden('originAction', $originAction);
                 echo Form::hidden('orderId', $orderId);
                 echo Form::hidden('locationName', '', array('id' => 'locationName'));
                 echo Form::Label('Restaurant', 'Restaurant: '); 
@@ -65,11 +66,14 @@ if (!isset($orderId)) {
             </select>
             <table id="order" border="1">
             </table>
-        <?php
-            echo Form::label('Subtotal', 'Subtotal: ');
-            echo Form::hidden('subtotal', 0, array('id' => 'subtotal'));
-        ?>
-            <span id="subtotalVal"></span>
+            <div class="total">
+                <?php
+                    echo Form::label('Subtotal', 'Subtotal: ');
+                    echo Form::hidden('subtotal', 0, array('id' => 'subtotal'));
+                ?>
+                <span id="subtotalVal"></span>
+            </div>
+            <div class="clear"></div>
             <span id="orderStep1SubmitBt">
                 <input type="button" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep1'); ?>')"/>
                 <input type="button" value="Save" onclick="submitForm('<?php echo URL::site('order/saveStep1'); ?>')"/>

@@ -48,11 +48,11 @@ class Controller_Order extends Controller_Template_Generic {
      */
     public function action_edit() {
         $id = $this->request->param('id');
-        $lastAction = $this->request->param('lastAction');
+        $originAction = $this->request->param('lastAction');
         // Validate id
         if (!(Valid::not_empty($id) && Valid::numeric($id))) {
             Session::instance()->set('feedbackMessage', array('Invalid product id.'));
-            $this->redirect ('order/' . $lastAction);
+            $this->redirect ('order/' . $originAction);
         }
         
         // Get the order to edit
@@ -62,7 +62,7 @@ class Controller_Order extends Controller_Template_Generic {
         // The id do not refer to a valid order
         if (!is_object($order)) {
             Session::instance()->set('feedbackMessage', array('Invalid order id.'));
-            $this->redirect ('order/' . $lastAction);
+            $this->redirect ('order/' . $originAction);
         }
         
         // Get all the products
@@ -78,7 +78,8 @@ class Controller_Order extends Controller_Template_Generic {
                 ->set('productsOrdered', $productsOrdered)
                 ->set('orderId', $order->getOrderID())
                 ->set('restaurants', $this->template->locations)
-                ->set('global_selected_location', $order->getRestaurantID());
+                ->set('global_selected_location', $order->getRestaurantID())
+                ->set('originAction', $originAction);
         
         $this->template->title = __('');
         $this->template->content = $view;
@@ -89,12 +90,12 @@ class Controller_Order extends Controller_Template_Generic {
      */
     public function action_delete() {
         $id = $this->request->param('id');
-        $lastAction = $this->request->param('lastAction');
+        $originAction = $this->request->param('lastAction');
         
         // Validate id
         if (!(Valid::not_empty($id) && Valid::numeric($id))) {
             Session::instance()->set('feedbackMessage', array('Invalid order id.'));
-            $this->redirect ('order/' . $lastAction);
+            $this->redirect ('order/' . $originAction);
         }
         
         // Delete the product
@@ -104,12 +105,43 @@ class Controller_Order extends Controller_Template_Generic {
         // Delete failed
         if (!$success) {
             Session::instance()->set('feedbackMessage', array('An error occuring while deleting the order.'));
-            $this->redirect ('order/' . $lastAction);
+            $this->redirect ('order/' . $originAction);
         }
         
         // Delete succeed
         Session::instance()->set('feedbackMessage', array('The order was deleted.'));
-        $this->redirect ('order/' . $lastAction);
+        $this->redirect ('order/' . $originAction);
+    }
+    
+    /**
+     * View an order.
+     */
+    public function action_view() {
+        $id = $this->request->param('id');
+        $originAction = $this->request->param('lastAction');
+        
+        // Validate id
+        if (!(Valid::not_empty($id) && Valid::numeric($id))) {
+            Session::instance()->set('feedbackMessage', array('Invalid order id.'));
+            $this->redirect ('order/' . $originAction);
+        }
+        
+        // Get the order informations
+        $repoOrder = new Repository_Order();
+        $order = $repoOrder->get($id);
+        
+        // Get the purchaseOrders
+        $repoPO = new Repository_PurchaseOrder();
+        $purchaseOrders = $repoPO->getAllByOrderId($id);
+        
+        // Transfer the information to the view.
+        $view = View::factory('order/view')
+                            ->set('order', $order)    
+                            ->set('purchaseOrders', $purchaseOrders)
+                            ->set('originAction', $originAction);
+
+        $this->template->title = __('');
+        $this->template->content = $view;
     }
     
     /*****************************************************************************/
@@ -119,6 +151,7 @@ class Controller_Order extends Controller_Template_Generic {
      * Setup step 1 of the order wizards.
      */
     public function action_getStep1() {
+        $originAction = $this->request->param('lastAction');
         $selectedLocation = $this->template->global_selected_location;
         $this->RedirectIfInvalidSelectedLocation($selectedLocation, 'create an order');
         
@@ -130,7 +163,8 @@ class Controller_Order extends Controller_Template_Generic {
         $view = View::factory('order/step1')
                     ->set('products', $products)
                     ->set('restaurants', $this->template->locations)
-                    ->set('global_selected_location', $selectedLocation);
+                    ->set('global_selected_location', $selectedLocation)
+                    ->set('originAction', $originAction);
         
         $this->template->title = __('');
         $this->template->content = $view;
@@ -142,6 +176,7 @@ class Controller_Order extends Controller_Template_Generic {
     public function action_saveStep1() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             // Get the products ordered and validate it.
+            $originAction = $_POST['originAction'];
             $returnValues = $this->getProductsOrdered($_POST);
             $productsOrdered = $returnValues[0];
             $total = $returnValues[1];
@@ -214,7 +249,8 @@ class Controller_Order extends Controller_Template_Generic {
                         ->set('productsOrdered', $productsOrdered)
                         ->set('orderId', $orderSavedId)
                         ->set('restaurants', $this->template->locations)
-                        ->set('global_selected_location', $restaurant->getId());
+                        ->set('global_selected_location', $restaurantId)
+                        ->set('originAction', $originAction);
 
             $this->template->feedbackMessage = $feedbackMessage;
             $this->template->title = __('');
@@ -232,6 +268,7 @@ class Controller_Order extends Controller_Template_Generic {
     public function action_nextStep1() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             // Get the products ordered and validate it.
+            $originAction = $_POST['originAction'];
             $returnValues = $this->getProductsOrdered($_POST);
             $productsOrdered = $returnValues[0];
             $total = $returnValues[1];
@@ -283,12 +320,14 @@ class Controller_Order extends Controller_Template_Generic {
                            ->set('productsOrdered', $productsOrdered)
                            ->set('orderId', $orderId)
                            ->set('restaurants', $this->template->locations)
-                           ->set('global_selected_location', $restaurant->getId());
+                           ->set('global_selected_location', $restaurantId)
+                           ->set('originAction', $originAction);
                $this->template->feedbackMessage = $feedbackMessage;
             } else {
                  $view = View::factory('order/step2')
                                     ->set('order', $order)    
-                                    ->set('purchaseOrders', $purchaseOrders);
+                                    ->set('purchaseOrders', $purchaseOrders)
+                                    ->set('originAction', $originAction);
             }
 
             $this->template->title = __('');
@@ -479,6 +518,7 @@ class Controller_Order extends Controller_Template_Generic {
     public function action_saveStep2() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
             // Get the order
+            $originAction = $_POST['originAction'];
             $returnValues = $this->getOrder($_POST);
             $order = $returnValues[0];
             $errors = $returnValues[1];
@@ -541,7 +581,8 @@ class Controller_Order extends Controller_Template_Generic {
             // Transfer the information to the view.
             $view = View::factory('order/step2')
                                 ->set('order', $order)    
-                                ->set('purchaseOrders', $purchaseOrders);
+                                ->set('purchaseOrders', $purchaseOrders)
+                                ->set('originAction', $originAction);
 
             $this->template->feedbackMessage = $feedbackMessage;
             $this->template->title = __('');
@@ -558,12 +599,14 @@ class Controller_Order extends Controller_Template_Generic {
      */
     public function action_nextStep2() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
+            $originAction = $_POST['originAction'];
             // Get the order
             $returnValues = $this->getOrder($_POST);
             $order = $returnValues[0];
             $errors = $returnValues[1];
             
             $feedbackMessage = array();
+            $purchaseOrders = array();
             if (count($errors) == 0) {
                 // Get the products ordered and validate it.
                 $returnValues = $this->getPurchaseOrders($_POST);
@@ -596,7 +639,8 @@ class Controller_Order extends Controller_Template_Generic {
                 
             $view = View::factory($nextPage)
                         ->set('order', $order)    
-                        ->set('purchaseOrders', $purchaseOrders);
+                        ->set('purchaseOrders', $purchaseOrders)
+                        ->set('originAction', $originAction);
 
             $this->template->feedbackMessage = $feedbackMessage;
             $this->template->title = __('');
@@ -641,7 +685,8 @@ class Controller_Order extends Controller_Template_Generic {
                 ->label('orderId', 'Order Id')
                 ->rule('restaurantId', 'not_empty')
                 ->label('restaurantId', 'Restaurant Id')
-                ->rule('total', 'not_empty')
+                ->rule('total', 'numeric')
+                ->rule('total', 'ValidationExtension::positive_number')
                 ->label('total', 'Total');
     }
     
@@ -819,6 +864,7 @@ class Controller_Order extends Controller_Template_Generic {
      */
     public function action_saveStep3() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
+            $originAction = $_POST['originAction'];
             // Get the order
             $returnValues = $this->getOrder($_POST);
             $order = $returnValues[0];
@@ -873,7 +919,7 @@ class Controller_Order extends Controller_Template_Generic {
                             }
                         } else {
                             Session::instance()->set('feedbackMessage', array('The order has been submitted.'));
-                            $this->redirect ('order/findAll');
+                            $this->redirect ('order/'.$originAction);
                         }
                     } 
                 } else {

@@ -19,6 +19,7 @@ if (!isset($purchaseOrders)) {
         <div>
             <?php
             // Step 1 - Informations
+            echo Form::hidden('originAction', $originAction);
             // Order
             echo Form::hidden('orderId', $order->getOrderID());
             echo Form::hidden('restaurantId', $order->getRestaurantID());
@@ -76,10 +77,14 @@ if (!isset($purchaseOrders)) {
                 $index++;
             } ?>
         </table>
-        <?php
-            echo Form::label('total', 'Total: ');
-            echo Form::hidden('total', $total, array('id' => 'total'));
-        ?><span id="totalVal"><?php echo number_format($total, 2); ?></span>
+        <div class="total">
+            <?php
+                echo Form::label('total', 'Total: ');
+                echo Form::hidden('total', $total, array('id' => 'total'));
+            ?>
+            <span id="totalVal"><?php echo number_format($total, 2); ?></span>
+        </div>
+        <div class="clear"></div>
         <span id="orderStep2SubmitBt">
             <input type="button" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep2'); ?>')"/>
             <input type="button" value="Save" onclick="submitForm('<?php echo URL::site('order/saveStep2'); ?>')"/>
