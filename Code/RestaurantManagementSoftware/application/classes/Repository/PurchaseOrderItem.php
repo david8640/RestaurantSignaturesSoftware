@@ -66,10 +66,11 @@ class Repository_PurchaseOrderItem extends Repository_AbstractRepository {
             new Database_StatementParameter(':poiPoId', $poId, PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poiIdProduct', $poItem->getProductID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poiQty', $poItem->getQty(), PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':poiCostPerUnit', $poItem->getCostPerUnit(), PDO::PARAM_STR, 20)
+            new Database_StatementParameter(':poiCostPerUnit', $poItem->getCostPerUnit(), PDO::PARAM_STR, 20),
+            new Database_StatementParameter(':poiUnitOfMeasurement', $poItem->getUnitOfMeasurement(), PDO::PARAM_STR, 30)
         );
         
-        return $this->execute('CALL sp_addPurchaseOrderItem(:poiPoId, :poiIdProduct, :poiQty, :poiCostPerUnit)', $params);
+        return $this->execute('CALL sp_addPurchaseOrderItem(:poiPoId, :poiIdProduct, :poiQty, :poiCostPerUnit, :poiUnitOfMeasurement)', $params);
     }
     
     /**

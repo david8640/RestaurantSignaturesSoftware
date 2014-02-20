@@ -55,7 +55,7 @@ if (!isset($purchaseOrders)) {
                         if ($p->getState() == 3) {
                             echo $p->getStateName();
                         } else { 
-                            echo Form::hidden('poId[' . $index . ']', $p->getPOID());?>
+                            echo Form::hidden('poId[' . $index . ']', $p->getPOID());
                             ?>
                             <select name="state[<?php echo $index; ?>]">
                                 <option value="1"<?php echo (($p->getState() == 1) ? "selected" : ""); ?> >Ordered</option>    

@@ -200,6 +200,7 @@
     `id_po` INT(11) NOT NULL,
     `qty` INT(11) NOT NULL,
     `costPerUnit` DECIMAL(10,2) NOT NULL,
+    `unitOfMeasurement` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`id_product`, `id_po`),
     CONSTRAINT `PO_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
     CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`id_po`) REFERENCES `purchase_orders` (`id_po`) ON DELETE CASCADE

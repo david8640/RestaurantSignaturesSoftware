@@ -878,11 +878,12 @@ CREATE PROCEDURE sp_addPurchaseOrderItem(
 	IN poi_id_po INT(11),
 	IN poi_id_product INT(11),
 	IN poi_qty INT(11),
-	IN poi_cost_per_unit DECIMAL(10,2)
+	IN poi_cost_per_unit DECIMAL(10,2),
+	IN poi_unit_of_measurement VARCHAR(30)
 )
 BEGIN
-	INSERT INTO `PO_item` (`id_product`, `id_po`, `qty`, `costPerUnit`) 
-	VALUES (poi_id_product, poi_id_po, poi_qty, poi_cost_per_unit);
+	INSERT INTO `PO_item` (`id_product`, `id_po`, `qty`, `costPerUnit`, `unitOfMeasurement`) 
+	VALUES (poi_id_product, poi_id_po, poi_qty, poi_cost_per_unit, poi_unit_of_measurement);
 END
 GO
 
@@ -932,7 +933,7 @@ CREATE PROCEDURE sp_getPurchaseOrderItems(
   IN poi_po_id INT
 )
 BEGIN
-	SELECT POI.id_product, POI.id_po, POI.qty, POI.costPerUnit, P.name AS productName, P.unitOfMeasurement
+	SELECT POI.id_product, POI.id_po, POI.qty, POI.costPerUnit, P.name AS productName, POI.unitOfMeasurement
 	FROM PO_item POI LEFT JOIN purchase_orders PO ON POI.id_po = PO.id_po
 					LEFT JOIN supplier_product SP ON PO.id_supplier = SP.id_supplier AND POI.id_product = SP.id_product
 					LEFT JOIN product P ON SP.id_product = P.id_product
@@ -955,6 +956,24 @@ BEGIN
 	FROM purchase_orders PO
 		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 	WHERE PO.id_order = po_order_id;     		 
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getPurchaseOrderItemsByOrderId`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getPurchaseOrderItemsByOrderId`
+GO
+CREATE PROCEDURE sp_getPurchaseOrderItemsByOrderId(
+  IN po_order_id INT
+)
+BEGIN
+	SELECT POI.id_product, POI.id_po, POI.qty, POI.costPerUnit, P.name AS productName, POI.unitOfMeasurement, PO.id_supplier, S.name as supplierName
+	FROM PO_item POI LEFT JOIN purchase_orders PO ON POI.id_po = PO.id_po
+					LEFT JOIN supplier_product SP ON PO.id_supplier = SP.id_supplier AND POI.id_product = SP.id_product
+					LEFT JOIN product P ON SP.id_product = P.id_product
+					LEFT JOIN supplier S ON SP.id_supplier = S.id_supplier
+	WHERE PO.id_order = po_order_id; 	 
 END
 GO
 

@@ -103,12 +103,12 @@ GO
 -- ---------------------------------------------------------------------------
 -- Insert table PO_item
 -- ---------------------------------------------------------------------------
-INSERT INTO `PO_item` (`id_product`, `id_po`,`qty`, `costPerUnit`)
+INSERT INTO `PO_item` (`id_product`, `id_po`,`qty`, `costPerUnit`, `unitOfMeasurement`)
 VALUES
-	(1, 1, 10, 50),
-	(1, 2, 10, 50),
-	(2, 3, 10, 25),
-	(2, 4, 10, 25);
+	(1, 1, 10, 50, 'kg'),
+	(1, 2, 10, 50, 'kg'),
+	(2, 3, 10, 25, 'kg'),
+	(2, 4, 10, 25, 'kg');
 GO
 
 DELIMITER ;
