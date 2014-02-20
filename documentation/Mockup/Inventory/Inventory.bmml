@@ -1,0 +1,64 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="1404" measuredH="749" mockupW="1225" mockupH="656">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Image" x="179" y="93" w="-1" h="-1" measuredW="1225" measuredH="656" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./users_restaurants/assets/restaurants.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::TextArea" x="190" y="210" w="707" h="298" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>16777215</borderColor>
+        <color>16777215</color>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="411" y="171" w="-1" h="-1" measuredW="51" measuredH="20" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>255</color>
+        <size>12</size>
+        <text>Inventory</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="197" y="219" w="-1" h="-1" measuredW="212" measuredH="26" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Inventory%20Of%20Restaurant%201</text>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::DataGrid" x="197" y="254" w="836" h="478" measuredW="321" measuredH="198" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Product%2C%20Supplier%2C%20Unit%2C%20Cost/Unit%2C%20Quantity%20%0AProduct%201%2C%20Supplier%201%2C%20kg%2C%2010.25%20%24%2C%202%20%0AProduct%202%2C%20Supplier%201%2C%20kg%2C%208%20%24%2C%202%0AProduct%203%2C%20Supplier%201%2C%20kg%2C%2015%20%24%2C%204%0AProduct%204%2C%20Supplier%201%2C%20kg%2C%2025%20%24%2C%206%0AProduct%201%2C%20Supplier%202%2C%20kg%2C%205%20%24%2C%201%0AProduct%202%2C%20Supplier%202%2C%20kg%2C%200.25%20%24%2C%203</text>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::NumericStepper" x="855" y="273" w="72" h="-1" measuredW="42" measuredH="24" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>2</text>
+      </controlProperties>
+    </control>
+    <control controlID="34" controlTypeID="com.balsamiq.mockups::NumericStepper" x="855" y="304" w="72" h="-1" measuredW="42" measuredH="24" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>2</text>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::NumericStepper" x="855" y="335" w="72" h="-1" measuredW="42" measuredH="24" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>4</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::NumericStepper" x="855" y="363" w="72" h="-1" measuredW="42" measuredH="24" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>6</text>
+      </controlProperties>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::NumericStepper" x="855" y="393" w="72" h="-1" measuredW="39" measuredH="24" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::NumericStepper" x="855" y="423" w="72" h="-1" measuredW="41" measuredH="24" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>3</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
