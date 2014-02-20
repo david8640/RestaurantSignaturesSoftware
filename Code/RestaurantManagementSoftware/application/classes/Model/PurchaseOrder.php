@@ -23,6 +23,7 @@ class Model_PurchaseOrder extends Model {
     private $totalCost;
     private $state;
     private $items;
+    private $stateName;
      
     /**
      * Constructor of a Purchase Order model
@@ -236,7 +237,7 @@ class Model_PurchaseOrder extends Model {
     }
     
     /**
-     * get the state of the order
+     * get the state of the purchase order
      * @return int
      */
     public function getState() {
@@ -244,11 +245,12 @@ class Model_PurchaseOrder extends Model {
     }
     
     /**
-     * Set the state of the order
+     * Set the state of the purchase order
      * @param int $state
      */
     public function setState($state) {
         $this->state = $state;
+        $this->setStateName($state);
     }
     
     /**
@@ -273,6 +275,30 @@ class Model_PurchaseOrder extends Model {
      */
     public function addToSubtotal($amount) {
         $this->subtotal += $amount;
+    }
+    
+    /**
+     * Set the name of the state of the purchase order
+     * @param int $state
+     */
+    public function setStateName($state) {
+        if ($state == 0) {
+            $this->stateName = "In Progress";
+        } else if ($state == 1) { 
+            $this->stateName = "Ordered";
+        } else if ($state == 2) { 
+            $this->stateName = "Shipped";
+        } else if ($state == 3) { 
+            $this->stateName = "Received";
+        }
+    }
+    
+    /**
+     * Get the name of the state of the purchase order
+     * @return string
+     */
+    public function getStateName() {
+        return $this->stateName;
     }
 }
 

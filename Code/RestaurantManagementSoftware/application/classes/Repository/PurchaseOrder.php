@@ -94,6 +94,34 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
     }
     
     /**
+     * Update the state of a list of purchases orders.
+     * @param \Model_PurchaseOrder $po
+     * @return boolean success
+     */
+    public function updateStates($poStates) {
+        foreach ($poStates as $po) {
+            if (!$this->updateState($po)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Update the state of a purchase order.
+     * @param \Model_PurchaseOrder $po
+     * @return boolean success
+     */
+    public function updateState($poState) {
+        $params = array (
+            new Database_StatementParameter(':poId', $poState->getPOID(), PDO::PARAM_INT, 11),
+            new Database_StatementParameter(':poState', $poState->getState(), PDO::PARAM_INT, 3)
+        );
+        
+        return $this->execute('CALL sp_updatePurchaseOrderState(:poId, :poState)', $params);
+    }
+    
+    /**
      * Add a purchase order element in database and return the id.
      * @param int $orderId
      * @param \Model_PurchaseOrder $po
@@ -118,7 +146,7 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
                                 . ':poSubtotal, :poTaxes, :poTotalCost, :poShippingCost,'
                                 . ':poState)', $params);
     }
-        
+            
     /**
      * Constructs an purchase order from an anonymous object.
      * @param object $obj

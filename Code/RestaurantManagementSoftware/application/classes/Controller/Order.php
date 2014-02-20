@@ -392,6 +392,7 @@ class Controller_Order extends Controller_Template_Generic {
     /**
      * Get the products ordered from the post. It also validate the fields.
      * @param $_POST $post
+     * @param int The index of the current element in the post (fields are in arrays)
      * @return [0] : products ordered list
      *         [1] : total cost of all products ordered
      *         [2] : array containing errors if some fields are not valid
@@ -952,6 +953,140 @@ class Controller_Order extends Controller_Template_Generic {
         foreach ($purchaseOrders as $po) {
             $po->setState(Constants_PurchaseOrderState::ORDERED);
         }
+    }
+    
+    /*****************************************************************************/
+    /*/ Edit PO state
+    /*****************************************************************************/
+    /**
+     * Initiate the edition of an order.
+     */
+    public function action_editPO() {
+        $id = $this->request->param('id');
+        $originAction = $this->request->param('lastAction');
+        
+        // Validate id
+        if (!(Valid::not_empty($id) && Valid::numeric($id))) {
+            Session::instance()->set('feedbackMessage', array('Invalid order id.'));
+            $this->redirect ('order/' . $originAction);
+        }
+        
+        // Get the order informations
+        $repoOrder = new Repository_Order();
+        $order = $repoOrder->get($id);
+        
+        // Get the purchaseOrders
+        $repoPO = new Repository_PurchaseOrder();
+        $purchaseOrders = $repoPO->getAllByOrderId($id);
+        
+        // Transfer the information to the view.
+        $view = View::factory('order/edit')  
+                            ->set('order', $order)
+                            ->set('purchaseOrders', $purchaseOrders)
+                            ->set('originAction', $originAction);
+
+        $this->template->title = __('');
+        $this->template->content = $view;
+    }
+    
+    /**
+     * Update PO state.
+     */
+    public function action_UpdateState() {
+        if (isset($_POST) && Valid::not_empty($_POST)) {
+            // Get the products ordered and validate it.
+            $id = $_POST['orderId'];
+            $originAction = $_POST['originAction'];
+            $returnValues = $this->getProductOrdersStates($_POST);
+            $productOrdersStates = $returnValues[0];
+            $errors = $returnValues[1];
+            
+            $feedbackMessage = array();
+            
+            // if there is any errors in the product orders state a feedback message
+            // is send and the elements are not save in the database.
+            if (count($errors) == 0) {
+                $poRepo = new Repository_PurchaseOrder();
+                $success = $poRepo->updateStates($productOrdersStates);    
+                
+                if ($success) {
+                    Session::instance()->set('feedbackMessage', array('The purchases orders states has been updated.'));
+                    $this->redirect ('order/' . $originAction);
+                } else {
+                    array_push($feedbackMessage, 'The purchase orders cannot be updated successfully.');
+                }
+            } else {
+                $feedbackMessage = $errors;
+            }
+
+            // Get the order informations
+            $repoOrder = new Repository_Order();
+            $order = $repoOrder->get($id);
+            
+            // Get the purchaseOrders
+            $repoPO = new Repository_PurchaseOrder();
+            $purchaseOrders = $repoPO->getAllByOrderId($id);
+
+            // Transfer the information to the view.
+            $view = View::factory('order/edit')
+                                ->set('order', $order)
+                                ->set('purchaseOrders', $purchaseOrders)
+                                ->set('originAction', $originAction);
+
+            $this->template->feedbackMessage = $feedbackMessage;
+            $this->template->title = __('');
+            $this->template->content = $view;
+        } else {
+            // Empty POST
+            Session::instance()->set('feedbackMessage', array('An error occured.'));
+            $this->redirect ('index/index');
+        }
+    }
+    
+    /**
+     * Get the products orders states from the post. It also validate the fields.
+     * @param $_POST $post
+     * @return [0] : products orders states
+     *         [1] : array containing errors if some fields are not valid
+     */
+    private function getProductOrdersStates($post) {
+        $index = 0;
+        $productsOrdersState = array();
+        $errors = array();
+        while (isset($post['poId'][$index])) {
+            $vf = $this->getPOStateValidationFactory($post, $index);
+            
+            $po = new Model_PurchaseOrder($vf['poId'], -1, -1, '',
+                                               '', '', '', -1, -1, -1, -1, 
+                                                $vf['state'], array());
+            array_push($productsOrdersState, $po);
+                
+            if (!$vf->check()) {
+                // Add the messages to the errors array
+                foreach ($vf->errors('po') as $i) {
+                    array_push($errors, $i);
+                }
+            }
+            $index++;
+        
+        }
+        return array($productsOrdersState, $errors);
+    }
+    
+    /**
+     * Get the validation object.
+     * @param $_POST The post variable of the request
+     * @param int The index of the current element in the post (fields are in arrays)
+     * @return Validation::factory
+     */
+    private function getPOStateValidationFactory($post, $index) {
+       return Validation::factory(
+                array('poId' => $post['poId'][$index],
+                    'state' => $post['state'][$index]))
+                ->rule('poId', 'not_empty')
+                ->label('poId',  'Purchase Order Id')
+                ->rule('state', 'not_empty')
+                ->label('state',  'Purchase Order State');
     }
 }
 

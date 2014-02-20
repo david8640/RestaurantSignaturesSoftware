@@ -1,11 +1,11 @@
 <?php
 /*
- *  <copyright file="step3.php" company="RestaurantManagementSoftware">
+ *  <copyright file="view.php" company="RestaurantManagementSoftware">
  *     Copyright (c) 2013, 2014 All Right Reserved
  *  </copyright>
  *  <author>David Fortin</author>
- *  <date>2014-01-24</date>
- *  <summary>The thrid step to order.</summary>
+ *  <date>2014-02-15</date>
+ *  <summary>The page that show all the informations of an order.</summary>
  */
 
 if (!isset($purchaseOrders)) {
@@ -25,7 +25,8 @@ if (!isset($purchaseOrders)) {
     $index = 0;
     foreach ($purchaseOrders as $p) { ?>
         <div class="clear">
-            <?php echo $p->getSupplierName() . ' : PO# ' . $p->getSupplierPONumber(); ?>
+            <div><?php echo $p->getSupplierName() . ' : PO# ' . $p->getSupplierPONumber(); ?></div>
+            <div><?php echo 'State : ' . $p->getStateName(); ?></div>
         </div>
         <table border="1">
             <tr>

@@ -848,6 +848,28 @@ END
 GO
 
 -- -----------------------------------------------------
+-- Stored Procedure `sp_updatePurchaseOrderState`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_updatePurchaseOrderState`
+GO
+CREATE PROCEDURE sp_updatePurchaseOrderState(
+	IN po_id INT(11),
+	IN po_state INT(3)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM purchase_orders WHERE id_po = po_id) THEN
+	BEGIN
+		UPDATE purchase_orders SET 
+  			state = po_state
+		WHERE id_po = po_id;
+	END;
+	ELSE
+		CALL raise_error; /* ERREUR */
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
 -- Stored Procedure `sp_addPurchaseOrderItem`
 -- -----------------------------------------------------
 DROP PROCEDURE IF EXISTS `sp_addPurchaseOrderItem`
