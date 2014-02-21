@@ -31,6 +31,8 @@
   GO
   DROP TABLE IF EXISTS `supplier_product`
   GO
+  DROP TABLE IF EXISTS `inventory_item`
+  GO
   DROP TABLE IF EXISTS `supplier`
   GO
   -- DROP TABLE IF EXISTS `product_category`;
@@ -46,8 +48,6 @@
   DROP TABLE IF EXISTS `restaurant`
   GO
   DROP TABLE IF EXISTS `product`
-  GO
-  DROP TABLE IF EXISTS `inventory_item`
   GO
   
   -- ---------------------------------------------------------------------------
