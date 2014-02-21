@@ -40,7 +40,7 @@
                 if ($o->getState() == Constants_OrderState::IN_PROGRESS) {
                     echo HTML::anchor('order/edit/'.$o->getOrderID().'/getRestaurantOrders', '', array('class' => 'button_edit', 'name' => 'Edit'));
                 } else {
-                    ?><span class="button_edit_disabled"></span><?php
+                    echo HTML::anchor('order/editPO/'.$o->getOrderID().'/getRestaurantOrders', '', array('class' => 'button_edit', 'name' => 'Edit'));
                 }
             ?></td> 
             <td><?php 
