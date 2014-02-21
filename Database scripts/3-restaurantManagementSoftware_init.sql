@@ -111,4 +111,22 @@ VALUES
 	(2, 4, 10, 25, 'kg');
 GO
 
+-- ---------------------------------------------------------------------------
+-- Insert table inventory
+-- ---------------------------------------------------------------------------
+INSERT INTO `inventory` (`id_inventory`, `id_restaurant`)
+VALUES
+	(1, 5),
+	(2, 6);
+GO
+
+-- ---------------------------------------------------------------------------
+-- Insert table inventory_item
+-- ---------------------------------------------------------------------------
+INSERT INTO `inventory_item` (`id_inventory_item`, `id_inventory`, `id_product`, `id_supplier`,`qty`, `costPerUnit`, `unitOfMeasurement`)
+VALUES
+	(1, 1, 1, 1, 1, 50, 'kg'),
+	(2, 2, 1, 1, 2, 25, 'mg');
+GO
+
 DELIMITER ;

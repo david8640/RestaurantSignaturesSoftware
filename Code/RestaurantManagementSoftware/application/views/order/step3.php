@@ -42,7 +42,7 @@ if (!isset($purchaseOrders)) {
                 echo $p->getSupplierName() . ' : PO# ' . $p->getSupplierPONumber();
                 ?>
             </div>
-            <table border="1">
+            <table>
                 <tr>
                     <th>Product</th>
                     <th>Unit</th>
@@ -52,8 +52,11 @@ if (!isset($purchaseOrders)) {
                 </tr>
                 <?php 
                 $itemIndex = 0;
-                foreach ($p->getItems() as $item) { ?>
-                    <tr>
+                $count = 0;
+                foreach ($p->getItems() as $item) { 
+                    $count++;
+                    ?>
+                    <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
                         <td>
                             <?php 
                                 echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
@@ -91,21 +94,21 @@ if (!isset($purchaseOrders)) {
                     <td class="label"><?php echo Form::label('shipping[' . $index . ']', 'Shipping :'); ?></td>
                     <td><?php
                         echo Form::hidden('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getPOID())); 
-                        echo number_format($p->getShipping(), 2);
+                        echo number_format((double)$p->getShipping(), 2);
                     ?></td>
                 </tr>
                 <tr>
                     <td class="label"><?php echo Form::label('taxes[' . $index . ']', 'Taxes :'); ?></td>
                     <td><?php
                         echo Form::hidden('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getPOID()));
-                        echo number_format($p->getTaxes(), 2);
+                        echo number_format((double)$p->getTaxes(), 2);
                     ?></td>
                 </tr>
                 <tr>
                     <td class="label"><?php echo Form::label('totalCost[' . $index . ']', 'Total :'); ?></td>
                     <td><?php
                         echo Form::hidden('totalCost[' . $index . ']', $p->getTotalCost(), array('id' => 'totalCost_' . $p->getPOID()));
-                        echo number_format($p->getTotalCost(), 2);
+                        echo number_format((double)$p->getTotalCost(), 2);
                     ?></td>
                 </tr>
             </table>

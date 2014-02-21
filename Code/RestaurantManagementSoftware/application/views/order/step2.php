@@ -26,7 +26,7 @@ if (!isset($purchaseOrders)) {
             echo Form::hidden('restaurantName', $order->getRestaurantName());
             ?>
         </div>
-        <table border="1">
+        <table>
             <tr>
                 <th>Supplier</th>
                 <th>PO#</th>
@@ -38,11 +38,13 @@ if (!isset($purchaseOrders)) {
             <?php 
             $index = 0;
             $total = 0;
+            $count = 0;
             foreach ($purchaseOrders as $p) { 
                 $poTotal = $p->getSubtotal() + $p->getShipping() + $p->getTaxes();
                 $total += $poTotal;
+                $count++;
                 ?>
-                <tr>
+                <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
                     <td><?php
                         // Step 1 - Informations
                         // Purchase Order Item

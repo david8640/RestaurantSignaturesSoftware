@@ -206,7 +206,7 @@ div.menu li
      margin-top: 15px;
  }
  
- .content #orderStep1SubmitBt input, .content #orderStep2SubmitBt input, .content #orderStep3SubmitBt input {
+ .content #orderStep1SubmitBt input, .content #orderStep2SubmitBt input, .content #orderStep3SubmitBt input, #SubmitBt input {
      float: right;
      margin-top: 15px;
      margin-left: 5px;

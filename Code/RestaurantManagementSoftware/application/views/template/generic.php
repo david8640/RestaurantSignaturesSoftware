@@ -39,6 +39,8 @@
                     <li><?php echo HTML::anchor('order/findAll', 'Orders'); ?></li>
                     <li><?php echo HTML::anchor('order/getRestaurantOrders', 'Restaurant Orders'); ?></li>
                     <li><?php echo HTML::anchor('supplierProduct/findAll', 'Suppliers\' Products'); ?></li>
+                    <li><?php echo HTML::anchor('inventory/findAll', 'Inventories'); ?></li>
+                    <li><?php echo HTML::anchor('inventory/edit', 'Inventory'); ?></li>
                 </ul>
                 <div class="right">
                     <?php 

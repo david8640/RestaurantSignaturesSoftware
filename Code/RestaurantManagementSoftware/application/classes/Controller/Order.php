@@ -933,7 +933,8 @@ class Controller_Order extends Controller_Template_Generic {
             // Transfer the information to the view.
             $view = View::factory('order/step3')
                                 ->set('order', $order)    
-                                ->set('purchaseOrders', $purchaseOrders);
+                                ->set('purchaseOrders', $purchaseOrders)
+                                ->set('originAction', $originAction);
 
             $this->template->feedbackMessage = $feedbackMessage;
             $this->template->title = __('');
@@ -947,11 +948,37 @@ class Controller_Order extends Controller_Template_Generic {
     
     /**
      * Set the Purchase Order state to Ordered
-     * @param PurchaseOrder List $purchaseOrders
+     * @param \Model_PurchaseOrder List $purchaseOrders
      */
     private function setPOAsOrdered($purchaseOrders) {
         foreach ($purchaseOrders as $po) {
             $po->setState(Constants_PurchaseOrderState::ORDERED);
+        }
+    }
+    
+    /**
+     * Add the item to the inventory.
+     * @param int $restaurantId
+     * @param \Model_PurchaseOrder List $pos
+     */
+    private function addToInventory($restaurantId, $pos) {
+        $repoInv = new Repository_Inventory();
+        $id = $repoInv->add(new Model_Inventory(-1, $restaurantId, '', array()));
+        
+        $repo = new Repository_InventoryItem();
+        foreach ($pos as $po) {
+            if ($po->getState() == Constants_PurchaseOrderState::RECEIVED) {
+                foreach ($po->getItems() as $poi) {   
+                    $repo->saveItem($id, new Model_InventoryItem(-1, $id, 
+                                                        $poi->getProductID(), 
+                                                        $poi->getProductName(), 
+                                                        $poi->getCostPerUnit(), 
+                                                        $poi->getQty(), 
+                                                        $poi->getUnitOfMeasurement(), 
+                                                        $po->getSupplierID(), 
+                                                        $po->getSupplierName()));
+                }
+            }
         }
     }
     
@@ -1010,6 +1037,18 @@ class Controller_Order extends Controller_Template_Generic {
                 $success = $poRepo->updateStates($productOrdersStates);    
                 
                 if ($success) {
+                    // Add to inventory
+                    // Get order
+                    $repoOrder = new Repository_Order();
+                    $order = $repoOrder->get($id);
+                    
+                    // Get Purchase Orders
+                    $repoPO = new Repository_PurchaseOrder();
+                    $pos = $repoPO->getAllByOrderId($id);
+                     
+                    $this->addToInventory($order->getRestaurantID(), $pos);
+                    
+                    // Redirect
                     Session::instance()->set('feedbackMessage', array('The purchases orders states has been updated.'));
                     $this->redirect ('order/' . $originAction);
                 } else {

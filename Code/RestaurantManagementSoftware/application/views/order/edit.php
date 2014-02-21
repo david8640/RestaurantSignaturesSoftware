@@ -26,7 +26,7 @@ if (!isset($purchaseOrders)) {
         <div class="restaurant">
                 <?php echo 'Restaurant :' . $order->getRestaurantName(); ?>
         </div>
-        <table border="1">
+        <table>
             <tr>
                 <th>Supplier</th>
                 <th>PO#</th>
@@ -39,11 +39,13 @@ if (!isset($purchaseOrders)) {
             <?php 
             $index = 0;
             $total = 0;
+            $count = 0;
             foreach ($purchaseOrders as $p) { 
+                $count++;
                 $poTotal = $p->getSubtotal() + $p->getShipping() + $p->getTaxes();
                 $total += $poTotal;
                 ?>
-                <tr>
+                <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
                     <td><?php echo $p->getSupplierName(); ?></td>
                     <td><?php echo $p->getSupplierPONumber(); ?></td>
                     <td><?php echo number_format($p->getSubtotal(), 2); ?></td>

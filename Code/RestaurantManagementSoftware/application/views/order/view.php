@@ -28,7 +28,7 @@ if (!isset($purchaseOrders)) {
             <div><?php echo $p->getSupplierName() . ' : PO# ' . $p->getSupplierPONumber(); ?></div>
             <div><?php echo 'State : ' . $p->getStateName(); ?></div>
         </div>
-        <table border="1">
+        <table>
             <tr>
                 <th>Product</th>
                 <th>Unit</th>
@@ -38,8 +38,11 @@ if (!isset($purchaseOrders)) {
             </tr>
             <?php 
             $itemIndex = 0;
-            foreach ($p->getItems() as $item) { ?>
-                <tr>
+            $count = 0;
+            foreach ($p->getItems() as $item) { 
+                $count++;
+                ?>
+                <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
                     <td><?php echo $item->getProductName(); ?> </td>
                     <td><?php echo $item->getUnitOfMeasurement(); ?></td>
                     <td><?php echo number_format($item->getCostPerUnit(), 2); ?></td>

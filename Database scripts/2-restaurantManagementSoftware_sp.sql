@@ -116,6 +116,17 @@ AS
 		LEFT JOIN supplier S ON PO.id_supplier = S.id_supplier
 GO
 
+-- -----------------------------------------------------
+-- View `v_getRestaurantsInventory`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getRestaurantsInventory`
+GO
+CREATE VIEW v_getRestaurantsInventory
+AS
+	SELECT I.id_inventory, I.id_restaurant, R.name AS restaurantName
+	FROM inventory I LEFT JOIN restaurant R ON I.id_restaurant = R.id_restaurant
+GO
+
 -- ---------------------------------------------------------------------------------------
 -- Stored Procedures
 -- ---------------------------------------------------------------------------------------
@@ -974,6 +985,84 @@ BEGIN
 					LEFT JOIN product P ON SP.id_product = P.id_product
 					LEFT JOIN supplier S ON SP.id_supplier = S.id_supplier
 	WHERE PO.id_order = po_order_id; 	 
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getRestaurantInventory`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getRestaurantInventory`
+GO
+CREATE PROCEDURE sp_getRestaurantInventory(
+  IN i_restaurant_id INT
+)
+BEGIN
+	SELECT I.id_inventory, I.id_restaurant, R.name AS restaurantName
+	FROM inventory I LEFT JOIN restaurant R ON I.id_restaurant = R.id_restaurant
+	WHERE I.id_restaurant = i_restaurant_id;     		 
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_addInventory`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_addInventory`
+GO
+CREATE PROCEDURE sp_addInventory(
+	IN i_restaurant_id INT(11)
+)
+BEGIN
+	IF NOT EXISTS (SELECT * FROM inventory WHERE id_restaurant = i_restaurant_id) THEN
+	BEGIN
+		INSERT INTO `inventory` (`id_restaurant`) 
+		VALUES (i_restaurant_id);
+		SELECT LAST_INSERT_ID() AS id;
+	END;
+	ELSE
+		SELECT id_inventory AS id FROM inventory WHERE id_restaurant = i_restaurant_id; 
+	END IF;
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_getInventoryItems`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_getInventoryItems`
+GO
+CREATE PROCEDURE sp_getInventoryItems(
+  IN i_id INT
+)
+BEGIN
+	SELECT II.id_inventory_item as id_item, II.id_inventory, II.id_product, II.costPerUnit, II.qty, II.unitOfMeasurement, II.id_supplier, P.name AS productName, S.name AS supplierName
+	FROM inventory_item II LEFT JOIN product P ON II.id_product = P.id_product
+							LEFT JOIN supplier S ON II.id_supplier = S.id_supplier
+	WHERE II.id_inventory = i_id;	 		 
+END
+GO
+
+-- -----------------------------------------------------
+-- Stored Procedure `sp_saveInventoryItem`
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `sp_saveInventoryItem`
+GO
+CREATE PROCEDURE sp_saveInventoryItem(
+	IN ii_item_id INT(11),
+	IN ii_inventory_id INT(11),
+	IN ii_product_id INT(11),
+	IN ii_supplier_id INT(11),
+	IN ii_qty INT(11),
+	IN ii_cost_per_unit DECIMAL(10,2),
+	IN ii_unit_of_measurement VARCHAR(30)
+)
+BEGIN
+	IF EXISTS (SELECT * FROM inventory_item WHERE id_inventory_item = ii_item_id) THEN
+		UPDATE inventory_item SET	
+			qty = ii_qty
+		WHERE id_inventory_item = ii_item_id;
+	ELSE
+		INSERT INTO `inventory_item` (`id_inventory`, `id_product`, `id_supplier`, `qty`, `costPerUnit`, `unitOfMeasurement`) 
+		VALUES (ii_inventory_id, ii_product_id, ii_supplier_id, ii_qty, ii_cost_per_unit, ii_unit_of_measurement);
+	END IF;
 END
 GO
 

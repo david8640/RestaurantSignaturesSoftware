@@ -41,12 +41,15 @@
   GO
   DROP TABLE IF EXISTS `users`
   GO
+  DROP TABLE IF EXISTS `inventory`
+  GO
   DROP TABLE IF EXISTS `restaurant`
   GO
   DROP TABLE IF EXISTS `product`
   GO
-
-
+  DROP TABLE IF EXISTS `inventory_item`
+  GO
+  
   -- ---------------------------------------------------------------------------
   -- Table supplier
   -- ---------------------------------------------------------------------------
@@ -206,6 +209,37 @@
     CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`id_po`) REFERENCES `purchase_orders` (`id_po`) ON DELETE CASCADE
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
+  
+  -- ---------------------------------------------------------------------------
+  -- Table inventory
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `inventory` (
+    `id_inventory` INT(11) NOT NULL AUTO_INCREMENT,
+    `id_restaurant` INT(11) NOT NULL,
+    PRIMARY KEY (`id_inventory`),
+    UNIQUE(`id_restaurant`),
+    CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+  
+  -- ---------------------------------------------------------------------------
+  -- Table inventory_item
+  -- ---------------------------------------------------------------------------
+  CREATE TABLE IF NOT EXISTS `inventory_item` (
+  	`id_inventory_item` INT(11) NOT NULL AUTO_INCREMENT,
+    `id_inventory` INT(11) NOT NULL,
+    `id_product` INT(11) NOT NULL,
+    `id_supplier` INT(11) NOT NULL,
+    `qty` INT(11) NOT NULL,
+    `costPerUnit` DECIMAL(10,2) NOT NULL,
+    `unitOfMeasurement` VARCHAR(30) NOT NULL,
+    PRIMARY KEY (`id_inventory_item`),
+    CONSTRAINT `inventory_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+    CONSTRAINT `inventory_item_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`),
+    CONSTRAINT `inventory_item_ibfk_3` FOREIGN KEY (`id_inventory`) REFERENCES `inventory` (`id_inventory`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
+  GO
+  
   DELIMITER ;
 
   /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

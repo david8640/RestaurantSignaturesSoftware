@@ -23,8 +23,12 @@
         <th class="edit">Edit</th>
         <th class="remove">Remove</th>
     </tr>
-    <?php foreach ($orders as $o) { ?>
-        <tr>
+    <?php 
+    $count = 0;
+    foreach ($orders as $o) { 
+        $count++;
+        ?>
+        <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
             <td><?php echo $o->getOrderID(); ?></td>
             <td><?php echo $o->getRestaurantName(); ?></td>
             <td><?php echo $o->getDateCreated(); ?></td>

@@ -29,7 +29,7 @@ if (!isset($orderId)) {
     <h2>Step 1 : Choose Products</h2>
     <div class='leftcolumn'>
         <h3>Products</h3>
-        <table id="suppliers_products" border="1">
+        <table id="suppliers_products">
             <tr>
                 <th>Product</th>
                 <th>Supplier</th>
@@ -37,8 +37,12 @@ if (!isset($orderId)) {
                 <th>Cost/Unit</th>
                 <th>Order</th>
             </tr>
-            <?php foreach ($products as $p) { ?>
-                <tr>
+            <?php
+            $count = 0;
+            foreach ($products as $p) { 
+                $count++;
+                ?>
+                <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
                     <td><?php echo $p->getProductName(); ?></td>
                     <td><?php echo $p->getSupplierName(); ?></td>
                     <td><?php echo $p->getUnitOfMeasurement(); ?></td>
@@ -64,7 +68,7 @@ if (!isset($orderId)) {
                     </option>
                 <?php } ?>
             </select>
-            <table id="order" border="1">
+            <table id="order">
             </table>
             <div class="total">
                 <?php
@@ -157,13 +161,15 @@ if (!isset($orderId)) {
         var tableRows = displayTableHeader();
         var subtotal = 0;
         var index = 0;
+        var count = 0;
         order.forEach(function(e) { 
             // If it's not a valid number than put 0
             var productTotal = Number(e.costPerUnit * e.qty);
             subtotal += productTotal;
             var indexStr = '['+index+']';
+            count++;
             
-            tableRows += '<tr>'
+            tableRows += '<tr ' + ((count % 2) ? 'class="odd"' : '') + '>'
                 +   '<td>'
                 +       '<input type="hidden" value="' + e.productId + '" name="productId'+indexStr+'"/>'
                 +       '<input type="hidden" value="' + e.productName + '" name="productName'+indexStr+'"/>'
