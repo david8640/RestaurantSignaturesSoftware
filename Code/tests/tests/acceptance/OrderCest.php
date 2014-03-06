@@ -2,7 +2,8 @@
 use \WebGuy;
 
 class OrderCest {
-    private $locationInTable = "//table[@id='suppliers_products']//tr[last()]//";
+    private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
+    /*private $locationInTable = "//table[@id='suppliers_products']//tr[last()]//";
 
     public function _before()
     {
@@ -143,12 +144,6 @@ class OrderCest {
         Codeception\Module\logout($I);
     }
 
-
-
-
-
-
-
     public function AddMassiveOrder(\WebGuy $I) {
         Codeception\Module\login($I);
         $I->amOnPage('/index.php/order/findAll');
@@ -161,6 +156,258 @@ class OrderCest {
         //add 2 orders from 2 different suppliers
         //$I->click('Add', $this->locationInTable."td[1]");
         Codeception\Module\logout($I);
-    }
+    }*/
 
+    public function OrderViewOrderInProgress(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('ORD-11: View an order in progress.');
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('#orders tr:nth-child(2) td:nth-child(9) a');
+        $I->see('View Order');
+        $I->see('Restaurant: Restaurant 1');
+        
+        // First PO informations
+        $I->see('Supplier A: PO# ABCC');      
+        $I->see('State: In Progress');
+        // items
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
+        $I->see('50.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
+        $I->see('500.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        // summary table
+        $I->see('500.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
+        $I->see('1,000.00', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(2) tr:nth-child(3) td:nth-child(2)');
+        $I->see('1,525.00', 'table:nth-of-type(2) tr:nth-child(4) td:nth-child(2)');
+        
+        // Second PO informations
+        $I->see('Supplier B: PO# ABCE');
+        $I->see('State: In Progress');
+        // items
+        $I->see('Pork', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
+        $I->see('250.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        // Second summary table
+        $I->see('250.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
+        $I->see('600.00', 'table:nth-of-type(4) tr:nth-child(3) td:nth-child(2)');
+        $I->see('875.00', 'table:nth-of-type(4) tr:nth-child(4) td:nth-child(2)');
+        
+        // Check total
+        $I->see('2,400.00', '.orderTotal');
+        Codeception\Module\logout($I);
+    }
+    
+    public function OrderViewOrderInSubmitted(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('ORD-11: View an order submitted.');
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('#orders tr:nth-child(3) td:nth-child(9) a');
+        $I->see('View Order');
+        $I->see('Restaurant: Restaurant 2');
+        
+        // First PO informations
+        $I->see('Supplier A: PO# ABCD');      
+        $I->see('State: Ordered');
+        // items
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
+        $I->see('50.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
+        $I->see('500.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        // summary table
+        $I->see('500.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
+        $I->see('150.00', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(2) tr:nth-child(3) td:nth-child(2)');
+        $I->see('675.00', 'table:nth-of-type(2) tr:nth-child(4) td:nth-child(2)');
+        
+        // Second PO informations
+        $I->see('Supplier B: PO# ABCF');
+        $I->see('State: Ordered');
+        // items
+        $I->see('Pork', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
+        $I->see('250.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        // Second summary table
+        $I->see('250.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
+        $I->see('50.00', 'table:nth-of-type(4) tr:nth-child(3) td:nth-child(2)');
+        $I->see('325.00', 'table:nth-of-type(4) tr:nth-child(4) td:nth-child(2)');
+        
+        // Check total
+        $I->see('1,000.00', '.orderTotal');
+        Codeception\Module\logout($I);
+    }
+    
+    /******************************************************************************/
+    // With codeception we will not be able to manipulate page with javascript
+    // bcs it's not emulating the javascript. We will create post and look at
+    // what the server give us as feedback message.
+    /******************************************************************************/
+    public function OrderCreateStep1Save(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('ORD-1: Create step 1 + save.');
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('.button_add');
+        $I->see('Step 1 : Choose Products');
+        $I->see('Restaurant: Restaurant 1');
+        
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $this->getStep1PostParams());
+        
+        $I->see('The order has been saved.');
+        
+        // Delete the created order
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('#orders tr:last-child td:nth-child(11) a');
+        $I->see('The order was deleted.');
+        
+        Codeception\Module\logout($I);
+    }
+    
+    public function OrderCreateStep1SaveInvalidParams(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('ORD-1: Create step 1 + next.');
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('.button_add');
+        $I->see('Step 1 : Choose Products');
+        $I->see('Restaurant: Restaurant 1');
+        
+        $params = $this->getStep1PostParams();
+        
+        // Invalid Cost/unit
+        $params['costPerUnit[0]'] = '-1.20';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->see('Beef of Supplier A: Cost/Unit must be a positive value');
+        
+        $params['costPerUnit[0]'] = 'asdasd';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->see('Beef of Supplier A: Cost/Unit must be numeric');
+        
+        $params['costPerUnit[0]'] = '';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->see('Beef of Supplier A: Cost/Unit must not be empty');
+        
+        // Reset to a valid cost/unit
+        $params['costPerUnit[0]'] = '1.25';
+        
+        // Invalid Qty
+        $params['qty[0]'] = '-1.20';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must be a positive value');
+        
+        $params['qty[0]'] = 'asdasd';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must be numeric');
+        
+        $params['qty[0]'] = '';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must not be empty');
+        
+        $params['qty[0]'] = '0.25';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must not an integer');
+       
+        Codeception\Module\logout($I);
+    }
+    
+    public function OrderCreateStep1Next(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('ORD-1: Create step 1 + next.');
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('.button_add');
+        $I->see('Step 1 : Choose Products');
+        $I->see('Restaurant: Restaurant 1');
+        
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $this->getStep1PostParams());
+        
+        $I->see('Step 2 : Purchase Orders');
+       
+        Codeception\Module\logout($I);
+    }
+    
+    public function OrderCreateStep1NextInvalidParams(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('ORD-1: Create step 1 + next.');
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('.button_add');
+        $I->see('Step 1 : Choose Products');
+        $I->see('Restaurant: Restaurant 1');
+        
+        $params = $this->getStep1PostParams();
+        
+        // Invalid Cost/unit
+        $params['costPerUnit[0]'] = '-1.20';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->see('Beef of Supplier A: Cost/Unit must be a positive value');
+        
+        $params['costPerUnit[0]'] = 'asdasd';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->see('Beef of Supplier A: Cost/Unit must be numeric');
+        
+        $params['costPerUnit[0]'] = '';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->see('Beef of Supplier A: Cost/Unit must not be empty');
+        
+        // Reset to a valid cost/unit
+        $params['costPerUnit[0]'] = '1.25';
+        
+        // Invalid Qty
+        $params['qty[0]'] = '-1.20';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must be a positive value');
+        
+        $params['qty[0]'] = 'asdasd';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must be numeric');
+        
+        $params['qty[0]'] = '';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must not be empty');
+        
+        $params['qty[0]'] = '0.25';
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->see('Beef of Supplier A: Quantity must not an integer');
+       
+        Codeception\Module\logout($I);
+    }
+    
+    public function OrderCreateFullOrderValidateView(\WebGuy $I) {
+        Codeception\Module\login($I);
+        $I->wantTo('ORD-1 et 11: Create full order (step 1-3) and validate the information in view page.');
+        // TODO DAVE
+    }
+    
+    private function getStep1PostParams() {
+        return array(
+                'costPerUnit[0]' =>	'2.50',
+                'costPerUnit[1]' =>	'2.40',
+                'locationId' => '5',
+                'locationName' => 'Restaurant 1',
+                'orderId' => '-1',
+                'originAction' => 'findAll',
+                'productId[0]' => '1',
+                'productId[1]' => '1',
+                'productName[0]' =>	'Beef',
+                'productName[1]' =>	'Beef',
+                'qty[0]' =>	'1.00',
+                'qty[1]' =>	'1.00',
+                'subtotal' => '4.9',
+                'supplierId[0]' =>	'1',
+                'supplierId[1]' =>	'2',
+                'supplierName[0]' => 'Supplier A',
+                'supplierName[1]' => 'Supplier B',
+                'unit[0]' => 'Kg',
+                'unit[1]' => 'Kg');
+    }
+    
+    // ANDREW
+    // step 2 : save + verify feedback message
+    // step 2 : enter invalid values + verify messages
+    // step 2 -> 3 : next -> check if everything is ok
+    // step 3 -> submit + save (verify that order has been add and save in order list)
 }

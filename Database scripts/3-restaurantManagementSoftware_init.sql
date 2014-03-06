@@ -85,19 +85,19 @@ GO
 INSERT INTO `order_list` (`id_order`, `id_restaurant`, `dateCreated`,
 	`subtotal`, `taxes`, `totalCost`, `shippingCost`, `state`)
 VALUES
-	(1, 5, '2014-01-19 18:55:55', 1000, 50, 100, 1150, 0),
-	(2, 6, '2014-01-22 12:07:55', 550, 50, 50, 650, 1);
+	(1, 5, '2014-01-19 18:55:55', 750, 625, 2400, 1025, 0),
+	(2, 6, '2014-01-22 12:07:55', 750, 175, 1000, 75, 1);
 GO
 
 -- ---------------------------------------------------------------------------
 -- Insert table purchase_orders
 -- ---------------------------------------------------------------------------
-INSERT INTO `purchase_orders` (`id_po`, `po_NumberSupplier`, `id_order`, `id_supplier`)
+INSERT INTO `purchase_orders` (`id_po`, `po_NumberSupplier`, `id_order`, `id_supplier`, `subtotal`, `taxes`, `shippingCost`, `totalCost`, `state`)
 VALUES
-	(1, 'ABCC', 1, 1),
-	(2, 'ABCD', 2, 1),
-	(3, 'ABCE', 1, 2),
-	(4, 'ABCF', 2, 2);
+	(1, 'ABCC', 1, 1, 500, 25, 1000, 1525, 0),
+	(2, 'ABCD', 2, 1, 500, 25, 150, 675, 1),
+	(3, 'ABCE', 1, 2, 250, 600, 25, 875, 0),
+	(4, 'ABCF', 2, 2, 250, 50, 25, 325, 1);
 GO
 
 -- ---------------------------------------------------------------------------

@@ -27,6 +27,7 @@ if (!isset($orderId)) {
 ?>
 <div>
     <h2>Step 1 : Choose Products</h2>
+    <form id="orderForm" action="" method="post" accept-charset="utf-8">
     <div class='leftcolumn'>
         <h3>Products</h3>
         <table id="suppliers_products">
@@ -54,7 +55,6 @@ if (!isset($orderId)) {
     </div>
     <div class='rightcolumn'>
         <h3>Order</h3>
-        <form id="orderForm" action="" method="post" accept-charset="utf-8">
             <?php
                 echo Form::hidden('originAction', $originAction);
                 echo Form::hidden('orderId', $orderId);
@@ -79,11 +79,11 @@ if (!isset($orderId)) {
             </div>
             <div class="clear"></div>
             <span id="orderStep1SubmitBt">
-                <input type="button" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep1'); ?>')"/>
-                <input type="button" value="Save" onclick="submitForm('<?php echo URL::site('order/saveStep1'); ?>')"/>
+                <input type="submit" value="Next" onclick="submitForm('<?php echo URL::site('order/nextStep1'); ?>')"/>
+                <input type="submit" value="Save" onclick="submitForm('<?php echo URL::site('order/saveStep1'); ?>')"/>
             </span>
-        <?php echo Form::close(); ?>
-    </div>
+        </div>
+    <?php echo Form::close(); ?>
 </div>
 <script>
     function submitForm(actionUrl) {

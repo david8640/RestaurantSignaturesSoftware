@@ -67,9 +67,11 @@ class Controller_Inventory extends Controller_Template_Generic {
      */
     public function action_update() {
         if (isset($_POST) && Valid::not_empty($_POST)) {
+            $orginAction = '';
             if (isset($_POST['originAction']) && isset($_POST['restaurantId'])) {
                 $id = $_POST['restaurantId'];
-                $redirect = 'inventory/edit/' . $id . '/' . $_POST['originAction'];
+                $orginAction = $_POST['originAction'];
+                $redirect = 'inventory/edit/' . $id . '/' . $orginAction;
             } else {
                 $redirect = 'inventory/edit'; 
             }
@@ -94,7 +96,8 @@ class Controller_Inventory extends Controller_Template_Generic {
             }
             
             $view = View::factory('inventory/inventory')
-                            ->set('inventory', $inventory);
+                            ->set('inventory', $inventory)
+                            ->set('originAction', $orginAction);
         
             $this->template->title = __('Inventory of ' . $inventory->getRestaurantName());
             $this->template->feedbackMessage = $feedbackMessage;

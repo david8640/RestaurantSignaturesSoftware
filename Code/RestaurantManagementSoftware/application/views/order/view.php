@@ -18,15 +18,15 @@ if (!isset($purchaseOrders)) {
     <div>
         <?php echo Form::hidden('originAction', $originAction); ?>
         <div class="restaurant">
-            <?php echo 'Restaurant :' . $order->getRestaurantName(); ?>
+            <?php echo 'Restaurant: ' . $order->getRestaurantName(); ?>
         </div>
     </div>
     <?php 
     $index = 0;
     foreach ($purchaseOrders as $p) { ?>
         <div class="clear">
-            <div><?php echo $p->getSupplierName() . ' : PO# ' . $p->getSupplierPONumber(); ?></div>
-            <div><?php echo 'State : ' . $p->getStateName(); ?></div>
+            <div><?php echo $p->getSupplierName() . ': PO# ' . $p->getSupplierPONumber(); ?></div>
+            <div><?php echo 'State: ' . $p->getStateName(); ?></div>
         </div>
         <table>
             <tr>

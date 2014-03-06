@@ -39,6 +39,7 @@ if (!isset($submitAction)) {
         </option>
         <?php } ?>
     </select> </br>
+    <div class="clear"></div>
     <?php
     echo Form::label('unit_of_measurement', 'Unit Of Measurement :');
     echo Form::input('unit_of_measurement', $product->getUnitOfMeasurement()). "<br/>";
