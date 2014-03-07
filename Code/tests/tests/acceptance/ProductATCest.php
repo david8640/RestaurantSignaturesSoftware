@@ -38,7 +38,8 @@ class ProductATCest {
         $I->see('Meats', $this->locationInTable."td[3]");
         $I->see('Kg', $this->locationInTable."td[4]");
         Codeception\Module\logout($I);
-} 
+    } 
+
     public function edit(\WebGuy $I) {
         Codeception\Module\login($I);
         $I->wantTo('PRD-2: Edit the first default product (Beef)');
@@ -71,6 +72,7 @@ class ProductATCest {
         $I->cantSee('Beef', $this->locationInTable."td[2]");
         Codeception\Module\logout($I);
     }
+    
     public function invalidField(\WebGuy $I) {
         Codeception\Module\login($I);
         $I->wantTo('PRD-2: Verify the fields validations');

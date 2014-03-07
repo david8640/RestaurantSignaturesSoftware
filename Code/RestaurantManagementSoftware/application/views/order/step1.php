@@ -148,7 +148,7 @@ if (!isset($orderId)) {
     }
     
     function updateQty(productId, supplierId) {
-        var qty = $('#qty_' + productId + '_' + supplierId).val();
+        var qty = parseInt($('#qty_' + productId + '_' + supplierId).val());
         if (qty == 0) {
             removeItem(productId, supplierId);
         } else {
@@ -164,7 +164,8 @@ if (!isset($orderId)) {
         var count = 0;
         order.forEach(function(e) { 
             // If it's not a valid number than put 0
-            var productTotal = Number(e.costPerUnit * e.qty);
+            var qty = parseInt(e.qty);
+            var productTotal = Number(e.costPerUnit * qty);
             subtotal += productTotal;
             var indexStr = '['+index+']';
             count++;
@@ -183,7 +184,7 @@ if (!isset($orderId)) {
                 +   '</td>'
                 +   '<td>' + e.unit + '</td>'
                 +   '<td><input type="text" value="' + Number(e.costPerUnit).toFixed(2) + '" name="costPerUnit'+indexStr+'" id="cost_' + e.productId + '_' + e.supplierId + '"/></td>'
-                +   '<td><input type="text" value="' + Number(e.qty).toFixed(2) + '" name="qty'+indexStr+'" id="qty_' + e.productId + '_' + e.supplierId + '"/></td>'
+                +   '<td><input type="text" value="' + qty + '" name="qty'+indexStr+'" id="qty_' + e.productId + '_' + e.supplierId + '"/></td>'
                 +   '<td>' + productTotal.toFixed(2) + '</td>'
                 +   '<td><input type="button" onclick="removeIt(' + e.productId + ',' + e.supplierId + ')" value="Remove" /></td>'
                 +'</tr>';
@@ -204,9 +205,10 @@ if (!isset($orderId)) {
     function addItem(p_productId, p_productName, p_supplierId, p_supplierName, 
                     p_unit, p_costPerUnit, p_qty) {
         var index = findItem(p_productId, p_supplierId);
+        var qty = parseInt(p_qty);
         if (index === -1) {
             var obj = createItem(p_productId, p_productName, p_supplierId, p_supplierName, 
-                                p_unit, p_costPerUnit, (p_qty === 0) ? 1 : p_qty);
+                                p_unit, p_costPerUnit, (qty === 0) ? 1 : qty);
             order.push(obj);
         } else {
             order[index].qty = parseInt(order[index].qty) + 1;
@@ -228,7 +230,7 @@ if (!isset($orderId)) {
                 order[index].costPerUnit = cost;
             }
             if (p_qty !== -1) {
-                var qty = isNaN(p_qty) ? 0 : Number(p_qty);
+                var qty = isNaN(p_qty) ? 0 : Number(parseInt(p_qty));
                 $('#qty_' + p_productId + '_' + p_supplierId).val(qty);
                 order[index].qty = qty;
             }

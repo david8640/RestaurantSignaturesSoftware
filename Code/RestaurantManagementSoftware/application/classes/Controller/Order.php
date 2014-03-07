@@ -203,7 +203,7 @@ class Controller_Order extends Controller_Template_Generic {
                     $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
                     
                     // Save the order to the database.
-                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, 0, Constants_OrderState::IN_PROGRESS, '');
+                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, $total, Constants_OrderState::IN_PROGRESS, '');
                     $orderRepo = new Repository_Order();
                     $orderSavedId = $orderRepo->save($order);
 
@@ -494,6 +494,7 @@ class Controller_Order extends Controller_Template_Generic {
                 ->rule('qty', 'not_empty')
                 ->rule('qty', 'numeric')
                 ->rule('qty', 'ValidationExtension::positive_number')
+                ->rule('qty', 'digit')
                 ->label('qty', $textIdentifyingSupplierProduct . 'Quantity');
     }
     
@@ -854,6 +855,7 @@ class Controller_Order extends Controller_Template_Generic {
                 ->rule('poItemCostPerUnit', 'not_empty')
                 ->label('poItemCostPerUnit', 'Cost/Unit')
                 ->rule('poItemQty', 'not_empty')
+                ->rule('poItemQty', 'digit')
                 ->label('poItemQty', 'Quantity');
     }
     

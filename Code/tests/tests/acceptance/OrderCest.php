@@ -5,7 +5,7 @@ class OrderCest {
     private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
     private $locationInTable = "//table[@id='suppliers_products']//tr[last()]//";
 
-    public function _before()
+    /*public function _before()
     {
     }
 
@@ -131,7 +131,7 @@ class OrderCest {
         // verify it was removed
         $I->see('The order was deleted.');
         Codeception\Module\logout($I);
-    }
+    }*/
 
     public function OrderViewOrderInProgress(\WebGuy $I) {
         Codeception\Module\login($I);
@@ -285,7 +285,7 @@ class OrderCest {
         
         $params['qty[0]'] = '0.25';
         $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
-        $I->see('Beef of Supplier A: Quantity must not an integer');
+        $I->see('Beef of Supplier A: Quantity must be a digit');
        
         Codeception\Module\logout($I);
     }
@@ -346,38 +346,199 @@ class OrderCest {
         
         $params['qty[0]'] = '0.25';
         $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
-        $I->see('Beef of Supplier A: Quantity must not an integer');
+        $I->see('Beef of Supplier A: Quantity must be a digit');
        
         Codeception\Module\logout($I);
     }
     
-    public function OrderCreateFullOrderValidateView(\WebGuy $I) {
+    public function OrderCreateFullOrderValidateViewDeleteEdit(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('ORD-1 et 11: Create full order (step 1-3) and validate the information in view page.');
-        // TODO DAVE
+        $I->wantTo('ORD-1, 4, 6, 7, 8, 11 & 15: Create full order (step 1-3) and validate the information in view and edit page.');
+        
+        $I->amOnPage('/index.php/order/findAll');
+        $I->click('.button_add');
+        
+        // Next Step 1
+        $I->see('Step 1 : Choose Products');
+        $I->see('Restaurant: Restaurant 1');
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $this->getStep1PostParams());
+        
+        // Next Step 2
+        $I->see('Step 2 : Purchase Orders');
+        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep2', $this->getStep2PostParams());
+        
+        // Check step 3 content before submitting
+        //////////////////////////////////////////
+        $I->see('Restaurant: Restaurant 1');
+        // First PO informations
+        $I->see('Supplier A: PO#');      
+        // items
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
+        $I->see('2.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
+        $I->see('6', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
+        $I->see('12.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        // summary table
+        $I->see('12.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
+        $I->see('4.60', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
+        $I->see('1.00', 'table:nth-of-type(2) tr:nth-child(3) td:nth-child(2)');
+        $I->see('17.60', 'table:nth-of-type(2) tr:nth-child(4) td:nth-child(2)');
+        
+        // Second PO informations
+        $I->see('Supplier B: PO#');
+        // items
+        $I->see('Beef', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
+        $I->see('3.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
+        $I->see('8', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
+        $I->see('24.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        // Second summary table
+        $I->see('24.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
+        $I->see('6.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
+        $I->see('3.00', 'table:nth-of-type(4) tr:nth-child(3) td:nth-child(2)');
+        $I->see('33.00', 'table:nth-of-type(4) tr:nth-child(4) td:nth-child(2)');
+        
+        // Check total
+        $I->see('50.60', '.orderTotal');
+        //////////////////////////////////////////
+        
+        // Save & Submit
+        $I->click('Save & Submit');
+        $I->see('The order has been submitted.');
+        
+        // check if information is correct on orders page
+        $I->see('Restaurant 1', '#orders tr:last-child td:nth-child(2)');
+        $I->see('36.00', '#orders tr:last-child td:nth-child(4)');
+        $I->see('10.60', '#orders tr:last-child td:nth-child(5)');
+        $I->see('4.00', '#orders tr:last-child td:nth-child(6)');
+        $I->see('50.60', '#orders tr:last-child td:nth-child(7)');
+        $I->see('Submitted', '#orders tr:last-child td:nth-child(8)');
+        
+        // Go to view page
+        $I->click('#orders tr:last-child td:nth-child(9) a');
+       
+        // Check view content after submitting
+        //////////////////////////////////////////
+        $I->see('Restaurant: Restaurant 1');
+        // First PO informations
+        $I->see('Supplier A: PO#');   
+        $I->see('State: Ordered');   
+        // items
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
+        $I->see('2.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
+        $I->see('6', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
+        $I->see('12.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        // summary table
+        $I->see('12.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
+        $I->see('4.60', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
+        $I->see('1.00', 'table:nth-of-type(2) tr:nth-child(3) td:nth-child(2)');
+        $I->see('17.60', 'table:nth-of-type(2) tr:nth-child(4) td:nth-child(2)');
+        
+        // Second PO informations
+        $I->see('Supplier B: PO#'); 
+        $I->see('State: Ordered');   
+        // items
+        $I->see('Beef', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
+        $I->see('3.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
+        $I->see('8', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
+        $I->see('24.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        // Second summary table
+        $I->see('24.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
+        $I->see('6.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
+        $I->see('3.00', 'table:nth-of-type(4) tr:nth-child(3) td:nth-child(2)');
+        $I->see('33.00', 'table:nth-of-type(4) tr:nth-child(4) td:nth-child(2)');
+        
+        // Check total
+        $I->see('50.60', '.orderTotal');
+        //////////////////////////////////////////
+        
+        // Impossible to delete this order
+        $I->amOnPage('/index.php/order/findAll');
+        $I->cantSeeElement('#orders tr:last-child td:nth-child(11) a');
+        
+        // Go to edit page
+        $I->click('#orders tr:last-child td:nth-child(10) a');
+        
+        // check if information is correct on the edit page
+        $I->see('Restaurant: Restaurant 1 ');
+        // First row
+        $I->see('Supplier A', 'table tr:nth-child(2) td:nth-child(1)');
+        $I->see('12.00', 'table tr:nth-child(2) td:nth-child(3)');
+        $I->see('4.60', 'table tr:nth-child(2) td:nth-child(4)');
+        $I->see('1.00', 'table tr:nth-child(2) td:nth-child(5)');
+        $I->see('17.60', 'table tr:nth-child(2) td:nth-child(6)');
+        // Second row
+        $I->see('Supplier B', 'table tr:nth-child(3) td:nth-child(1)');
+        $I->see('24.00', 'table tr:nth-child(3) td:nth-child(3)');
+        $I->see('6.00', 'table tr:nth-child(3) td:nth-child(4)');
+        $I->see('3.00', 'table tr:nth-child(3) td:nth-child(5)');
+        $I->see('33.00', 'table tr:nth-child(3) td:nth-child(6)');
+        
+        Codeception\Module\logout($I);
     }
     
     private function getStep1PostParams() {
         return array(
-                'costPerUnit[0]' =>	'2.50',
-                'costPerUnit[1]' =>	'2.40',
+                'costPerUnit[0]' => '2',
+                'costPerUnit[1]' => '3',
                 'locationId' => '5',
                 'locationName' => 'Restaurant 1',
                 'orderId' => '-1',
                 'originAction' => 'findAll',
                 'productId[0]' => '1',
                 'productId[1]' => '1',
-                'productName[0]' =>	'Beef',
-                'productName[1]' =>	'Beef',
-                'qty[0]' =>	'1.00',
-                'qty[1]' =>	'1.00',
-                'subtotal' => '4.9',
-                'supplierId[0]' =>	'1',
-                'supplierId[1]' =>	'2',
+                'productName[0]' => 'Beef',
+                'productName[1]' => 'Beef',
+                'qty[0]' => '6',
+                'qty[1]' => '8',
+                'subtotal' => '36.00',
+                'supplierId[0]' => '1',
+                'supplierId[1]' => '2',
                 'supplierName[0]' => 'Supplier A',
                 'supplierName[1]' => 'Supplier B',
                 'unit[0]' => 'Kg',
                 'unit[1]' => 'Kg');
+    }
+    
+    private function getStep2PostParams() {
+        return array(
+                'poItemCostPerUnit[0]' => '2',
+                'poItemCostPerUnit[1]' => '3',
+                'restaurantId' => '5',
+                'restaurantName' => 'Restaurant 1',
+                'orderId' => '-1',
+                'originAction' => 'findAll',
+                'idOrder[0]' => '-1',
+                'idOrder[1]' => '-1',
+                'idSupplier[0]' => '1',
+                'idSupplier[1]' => '2',
+                'poItemPOID[0][0]' => '-1',
+                'poItemPOID[1][0]' => '-1',
+                'poItemProductID[0][0]' => '1',
+                'poItemProductID[1][0]' => '1',
+                'poItemProductName[0][0]' => 'Beef',
+                'poItemProductName[1][0]' => 'Beef',
+                'poItemProductUnitOfMeasurement[0][0]' => 'Kg',
+                'poItemProductUnitOfMeasurement[1][0]' => 'Kg',
+                'poItemQty[0][0]' => '6',
+                'poItemQty[1][0]' => '8',
+                'poNumber[0]' => '-1',
+                'poNumber[1]' => '-1',
+                'shipping[0]' => '4.60',
+                'shipping[1]' => '6.00',
+                'subtotal[0]' => '12',
+                'subtotal[1]' => '24',
+                'supplierName[0]' => 'Supplier A',
+                'supplierName[1]' => 'Supplier B',
+                'supplierPONumber[0]' => date("Y-m-dH:i:s"),
+                'supplierPONumber[1]' => date("Y-m-dH:i:s") . ' 1',
+                'taxes[0]' => '1.00',
+                'taxes[1]' => '3.00',
+                'total' => '50.60',
+                'totalCost[0]' => '17.6',
+                'totalCost[1]' => '33.0');
     }
     
     // ANDREW

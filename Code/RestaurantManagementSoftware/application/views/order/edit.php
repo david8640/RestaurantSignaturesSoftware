@@ -24,7 +24,7 @@ if (!isset($purchaseOrders)) {
             ?>
         </div>
         <div class="restaurant">
-                <?php echo 'Restaurant :' . $order->getRestaurantName(); ?>
+                <?php echo 'Restaurant: ' . $order->getRestaurantName(); ?>
         </div>
         <table>
             <tr>

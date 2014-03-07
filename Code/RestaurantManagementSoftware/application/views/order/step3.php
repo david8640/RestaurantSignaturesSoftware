@@ -25,7 +25,7 @@ if (!isset($purchaseOrders)) {
             echo Form::hidden('restaurantName', $order->getRestaurantName());
             ?>
             <div class="restaurant">
-                <?php echo 'Restaurant :' . $order->getRestaurantName(); ?>
+                <?php echo 'Restaurant: ' . $order->getRestaurantName(); ?>
             </div>
         </div>
         <?php 
@@ -39,7 +39,7 @@ if (!isset($purchaseOrders)) {
                 echo Form::hidden('supplierName[' . $index . ']', $p->getSupplierName());
                 echo Form::hidden('supplierPONumber[' . $index . ']', $p->getSupplierPONumber());
                 
-                echo $p->getSupplierName() . ' : PO# ' . $p->getSupplierPONumber();
+                echo $p->getSupplierName() . ':  PO# ' . $p->getSupplierPONumber();
                 ?>
             </div>
             <table>
