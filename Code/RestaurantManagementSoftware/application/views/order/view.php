@@ -28,30 +28,31 @@ if (!isset($purchaseOrders)) {
             <div><?php echo $p->getSupplierName() . ': PO# ' . $p->getSupplierPONumber(); ?></div>
             <div><?php echo 'State: ' . $p->getStateName(); ?></div>
         </div>
-        <table>
-            <tr>
-                <th>Product</th>
-                <th>Unit</th>
-                <th>Cost/Unit</th>
-                <th>Quantity</th>
-                <th>Cost</th>
-            </tr>
-            <?php 
-            $itemIndex = 0;
-            $count = 0;
-            foreach ($p->getItems() as $item) { 
-                $count++;
-                ?>
-                <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
-                    <td><?php echo $item->getProductName(); ?> </td>
-                    <td><?php echo $item->getUnitOfMeasurement(); ?></td>
-                    <td><?php echo number_format($item->getCostPerUnit(), 2); ?></td>
-                    <td><?php echo number_format($item->getQty(), 0); ?></td> 
-                    <td><?php echo number_format($item->getSubtotal(), 2); ?></td> 
+        <table class="tableItems">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Unit</th>
+                    <th>Cost/Unit</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
                 </tr>
-                <?php
-                $itemIndex++;
-            } ?>
+            </thead>
+            <tbody>
+                <?php 
+                $itemIndex = 0;
+                foreach ($p->getItems() as $item) { ?>
+                    <tr>
+                        <td><?php echo $item->getProductName(); ?> </td>
+                        <td><?php echo $item->getUnitOfMeasurement(); ?></td>
+                        <td><?php echo number_format($item->getCostPerUnit(), 2); ?></td>
+                        <td><?php echo number_format($item->getQty(), 0); ?></td> 
+                        <td><?php echo number_format($item->getSubtotal(), 2); ?></td> 
+                    </tr>
+                    <?php
+                    $itemIndex++;
+                } ?>
+            </tbody>
         </table>
         <div class="clear"></div>
         <table class="poTotal">
@@ -88,3 +89,14 @@ if (!isset($purchaseOrders)) {
         <input type="button" value="Back" onClick="document.location.href='<?php echo URL::site('order/'.$originAction); ?>';">
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        var oTable = $('.tableItems').dataTable( {
+                "bFilter": false,
+                "bPaginate": false,
+                "bSearchable": false,
+                "bAutoWidth": false,
+                "bInfo": false
+        });
+    });
+</script>

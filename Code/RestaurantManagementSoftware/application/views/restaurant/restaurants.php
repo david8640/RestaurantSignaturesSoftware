@@ -7,29 +7,59 @@
  *  <date>2014-01-13</date>
  *  <summary>The view that print all the restaurants.</summary>
  */
-$count = 0;
 ?>
-<h2>Restaurants</h2>
+<h2>
+    <div class="left">Restaurants</div>
+    <div class="button">
+        <?php echo HTML::anchor('restaurant/create', '', array('class' => 'button_add', 'name' => 'Add')); ?>
+    </div>
+</h2>
 <table id="restaurants">
-    <tr>
-        <th class="id">Id</th>
-        <th>Name</th>
-        <th>Address</th>
-        <th class="edit">Edit</th>
-        <th class="remove">Remove</th>
-    </tr>
-    <?php foreach ($restaurants as $r) { 
-        $count++;
-        ?>
-        <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
-            <td><?php echo $r->getId(); ?></td>
-            <td><?php echo $r->getName(); ?></td>
-            <td><?php echo $r->getAddress(); ?></td>
-            <td><?php echo HTML::anchor('restaurant/edit/'.$r->getId(), '', array('class' => 'button_edit', 'name' => 'Edit')); ?></td>
-            <td><?php echo HTML::anchor('restaurant/delete/'.$r->getId(), '', array('class' => 'button_delete', 'name' => 'Delete')); ?></td>
+    <thead>
+        <tr>
+            <th class="id">Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th class="edit">Edit</th>
+            <th class="remove">Remove</th>
         </tr>
-    <?php } ?>
+    </thead>
+    <tfoot>
+        <tr>
+            <th><input class="search_init" type="text" value="Search id" name="search_id"></th>
+            <th><input class="search_init" type="text" value="Search name" name="search_name"></th>
+            <th><input class="search_init" type="text" value="Search address" name="search_address"></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody>
+        <?php foreach ($restaurants as $r) { ?>
+            <tr>
+                <td><?php echo $r->getId(); ?></td>
+                <td><?php echo $r->getName(); ?></td>
+                <td><?php echo $r->getAddress(); ?></td>
+                <td><?php echo HTML::anchor('restaurant/edit/'.$r->getId(), '', array('class' => 'button_edit', 'name' => 'Edit')); ?></td>
+                <td><?php echo HTML::anchor('restaurant/delete/'.$r->getId(), '', array('class' => 'button_delete', 'name' => 'Delete')); ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
 </table>
-<div class="button">
-    <?php echo HTML::anchor('restaurant/create', '', array('class' => 'button_add', 'name' => 'Add')); ?>
-</div>
+<script>
+    var nbOfHiddenColumn = 1;
+    
+    $(document).ready(function() {
+        var oTable = $('#restaurants').dataTable( {
+                "bStateSave": true,
+                "bAutoWidth": false,
+                "aoColumnDefs": [
+                    { "bSortable": false, "bSearchable": false, "bVisible": false, "aTargets": [0] },
+                    { "bSortable": false, "bSearchable": false, "aTargets": [3] },
+                    { "bSortable": false, "bSearchable": false, "aTargets": [4] }
+                ]});
+            
+        $("tfoot input").keyup( function () {
+            oTable.fnFilter( this.value, $("tfoot input").index(this) + nbOfHiddenColumn );
+        });
+    });
+</script>

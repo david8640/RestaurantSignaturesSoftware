@@ -7,31 +7,62 @@
  *  <date>2013-11-17</date>
  *  <summary>The view that print all the product categories.</summary>
  */
-$count = 0;
 ?>
-<h2>Product Categories</h2>
+<h2>
+    <div class="left">Product Categories</div>
+    <div class="button">
+        <?php echo HTML::anchor('productCategory/create', '', array('class' => 'button_add')); ?>
+    </div>
+</h2>
 <table id="productCategories">
-    <tr>
-        <th class="id">Id</th>
-        <th>Name</th>
-        <th>Parent</th>
-        <th>Order</th>
-        <th class="edit">Edit</th>
-        <th class="remove">Remove</th>
-    </tr>
-    <?php foreach ($categories as $c) {
-        $count++;
-        ?>    
-        <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
-            <td><?php echo $c->getId(); ?></td>
-            <td><?php echo $c->getName(); ?></td>
-            <td><?php echo ($c->getParentName() == NULL) ? 'none' :  $c->getParentName(); ?></td>
-            <td><?php echo $c->getOrder(); ?></td>
-            <td><?php echo HTML::anchor('productCategory/edit/'.$c->getId(), '', array('class' => 'button_edit')); ?></td>
-            <td><?php echo HTML::anchor('productCategory/delete/'.$c->getId(), '', array('class' => 'button_delete')); ?></td>
+    <thead>
+        <tr>
+            <th class="id">Id</th>
+            <th>Name</th>
+            <th>Parent</th>
+            <th>Order</th>
+            <th class="edit">Edit</th>
+            <th class="remove">Remove</th>
         </tr>
-    <?php } ?>
+    </thead>
+    <tfoot>
+        <tr>
+            <th><input class="search_init" type="text" value="Search id" name="search_id"></th>
+            <th><input class="search_init" type="text" value="Search name" name="search_name"></th>
+            <th><input class="search_init" type="text" value="Search parent" name="search_parent"></th>
+            <th><input class="search_init" type="text" value="Search order" name="search_order"></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody>
+        <?php foreach ($categories as $c) { ?>    
+            <tr>
+                <td><?php echo $c->getId(); ?></td>
+                <td><?php echo $c->getName(); ?></td>
+                <td><?php echo ($c->getParentName() == NULL) ? 'none' :  $c->getParentName(); ?></td>
+                <td><?php echo $c->getOrder(); ?></td>
+                <td><?php echo HTML::anchor('productCategory/edit/'.$c->getId(), '', array('class' => 'button_edit')); ?></td>
+                <td><?php echo HTML::anchor('productCategory/delete/'.$c->getId(), '', array('class' => 'button_delete')); ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
 </table>
-<div class="button">
-    <?php echo HTML::anchor('productCategory/create', '', array('class' => 'button_add')); ?>
-</div>
+<script>
+    var nbOfHiddenColumn = 1;
+    
+    $(document).ready(function() {
+        var oTable = $('#productCategories').dataTable( {
+                "bStateSave": true,
+                "bAutoWidth": false,
+                "aoColumnDefs": [
+                    { "bSortable": false, "bSearchable": false, "bVisible": false, "aTargets": [0] },
+                    { "bSortable": false, "bSearchable": false, "aTargets": [4] },
+                    { "bSortable": false, "bSearchable": false, "aTargets": [5] }
+                ]});
+            
+        $("tfoot input").keyup( function () {
+            oTable.fnFilter(this.value, $("tfoot input").index(this) + nbOfHiddenColumn);
+        });
+    });
+</script>

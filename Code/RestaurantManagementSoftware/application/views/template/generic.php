@@ -15,7 +15,9 @@
     <title><?php echo $title ?></title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <?php echo HTML::style('application/style/style.css'); ?>
+    <?php echo HTML::style('application/style/jquery.dataTables.css'); ?>
     <?php echo HTML::script('application/scripts/jquery-1.10.2.min.js'); ?>
+    <?php echo HTML::script('application/scripts/jquery.dataTables.min.js'); ?>
 </head>
     <body>
         <?php
@@ -92,6 +94,34 @@
                var locationId = $('#locations :selected').val();
                $.post('<?php echo URL::site('Login/selectLocation'); ?>', { id_user: userId , id_location: locationId }); 
                location.reload();
+            });
+            
+            var asInitVals = new Array();
+            
+            $(document).ready(function() {
+               /*
+                * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
+                * the footer
+                */
+               $("tfoot input").each( function (i) {
+                   asInitVals[i] = this.value;
+               });
+
+               $("tfoot input").focus( function () {
+                   if (this.className == "search_init")
+                   {
+                       this.className = "";
+                       this.value = "";
+                   }
+               });
+
+               $("tfoot input").blur( function (i) {
+                   if (this.value == "")
+                   {
+                       this.className = "search_init";
+                       this.value = asInitVals[$("tfoot input").index(this)];
+                   }
+               }); 
             });
         </script>
     </body>

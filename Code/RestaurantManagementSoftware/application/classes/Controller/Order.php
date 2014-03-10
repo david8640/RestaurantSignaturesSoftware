@@ -410,7 +410,7 @@ class Controller_Order extends Controller_Template_Generic {
                     $vf['supplierName'], $vf['unit'], 
                     $vf['costPerUnit'], $vf['qty']);
             array_push($productsOrdered, $product);
-            $total = $product->getQty() * $product->getCostPerUnit();
+            $total += $product->getQty() * $product->getCostPerUnit();
                 
             if (!$vf->check()) {
                 // Add the messages to the errors array
@@ -462,6 +462,7 @@ class Controller_Order extends Controller_Template_Generic {
                                                             $p->getCostPerUnit(), $p->getQty(), 
                                                             $p->getUnitOfMeasurement(), -1, '');
             $purchaseOrders[$supplierId]->addToSubtotal($purchaseOrderItem->getSubtotal());
+            $purchaseOrders[$supplierId]->setTotalCost($purchaseOrderItem->getSubtotal());
             $purchaseOrders[$supplierId]->addItem($purchaseOrderItem);
         }
         return $purchaseOrders;

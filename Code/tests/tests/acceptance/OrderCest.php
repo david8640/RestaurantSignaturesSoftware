@@ -137,7 +137,7 @@ class OrderCest {
         Codeception\Module\login($I);
         $I->wantTo('ORD-11: View an order in progress.');
         $I->amOnPage('/index.php/order/findAll');
-        $I->click('#orders tr:nth-child(2) td:nth-child(9) a');
+        $I->click('#orders tr:nth-child(1) td:nth-child(9) a');
         $I->see('View Order');
         $I->see('Restaurant: Restaurant 1');
         
@@ -145,11 +145,11 @@ class OrderCest {
         $I->see('Supplier A: PO# ABCC');      
         $I->see('State: In Progress');
         // items
-        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
-        $I->see('50.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
-        $I->see('10', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
-        $I->see('500.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(2)');
+        $I->see('50.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(4)');
+        $I->see('500.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(5)');
         // summary table
         $I->see('500.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
         $I->see('1,000.00', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
@@ -160,11 +160,11 @@ class OrderCest {
         $I->see('Supplier B: PO# ABCE');
         $I->see('State: In Progress');
         // items
-        $I->see('Pork', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
-        $I->see('25.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
-        $I->see('10', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
-        $I->see('250.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Pork', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(4)');
+        $I->see('250.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(5)');
         // Second summary table
         $I->see('250.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
         $I->see('25.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
@@ -180,7 +180,7 @@ class OrderCest {
         Codeception\Module\login($I);
         $I->wantTo('ORD-11: View an order submitted.');
         $I->amOnPage('/index.php/order/findAll');
-        $I->click('#orders tr:nth-child(3) td:nth-child(9) a');
+        $I->click('#orders tr:nth-child(2) td:nth-child(9) a');
         $I->see('View Order');
         $I->see('Restaurant: Restaurant 2');
         
@@ -188,11 +188,11 @@ class OrderCest {
         $I->see('Supplier A: PO# ABCD');      
         $I->see('State: Ordered');
         // items
-        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
-        $I->see('50.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
-        $I->see('10', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
-        $I->see('500.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(2)');
+        $I->see('50.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(4)');
+        $I->see('500.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(5)');
         // summary table
         $I->see('500.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
         $I->see('150.00', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
@@ -203,11 +203,11 @@ class OrderCest {
         $I->see('Supplier B: PO# ABCF');
         $I->see('State: Ordered');
         // items
-        $I->see('Pork', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
-        $I->see('25.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
-        $I->see('10', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
-        $I->see('250.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Pork', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(2)');
+        $I->see('25.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(3)');
+        $I->see('10', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(4)');
+        $I->see('250.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(5)');
         // Second summary table
         $I->see('250.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
         $I->see('25.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
@@ -373,11 +373,11 @@ class OrderCest {
         // First PO informations
         $I->see('Supplier A: PO#');      
         // items
-        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
-        $I->see('2.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
-        $I->see('6', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
-        $I->see('12.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(2)');
+        $I->see('2.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(3)');
+        $I->see('6', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(4)');
+        $I->see('12.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(5)');
         // summary table
         $I->see('12.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
         $I->see('4.60', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
@@ -387,11 +387,11 @@ class OrderCest {
         // Second PO informations
         $I->see('Supplier B: PO#');
         // items
-        $I->see('Beef', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
-        $I->see('3.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
-        $I->see('8', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
-        $I->see('24.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Beef', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(2)');
+        $I->see('3.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(3)');
+        $I->see('8', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(4)');
+        $I->see('24.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(5)');
         // Second summary table
         $I->see('24.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
         $I->see('6.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
@@ -424,11 +424,11 @@ class OrderCest {
         $I->see('Supplier A: PO#');   
         $I->see('State: Ordered');   
         // items
-        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(2)');
-        $I->see('2.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(3)');
-        $I->see('6', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(4)');
-        $I->see('12.00', 'table:nth-of-type(1) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Beef', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(2)');
+        $I->see('2.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(3)');
+        $I->see('6', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(4)');
+        $I->see('12.00', 'table:nth-of-type(1) tr:nth-child(1) td:nth-child(5)');
         // summary table
         $I->see('12.00', 'table:nth-of-type(2) tr:nth-child(1) td:nth-child(2)');
         $I->see('4.60', 'table:nth-of-type(2) tr:nth-child(2) td:nth-child(2)');
@@ -439,11 +439,11 @@ class OrderCest {
         $I->see('Supplier B: PO#'); 
         $I->see('State: Ordered');   
         // items
-        $I->see('Beef', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(1)');
-        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(2)');
-        $I->see('3.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(3)');
-        $I->see('8', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(4)');
-        $I->see('24.00', 'table:nth-of-type(3) tr:nth-child(2) td:nth-child(5)');
+        $I->see('Beef', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(1)');
+        $I->see('kg', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(2)');
+        $I->see('3.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(3)');
+        $I->see('8', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(4)');
+        $I->see('24.00', 'table:nth-of-type(3) tr:nth-child(1) td:nth-child(5)');
         // Second summary table
         $I->see('24.00', 'table:nth-of-type(4) tr:nth-child(1) td:nth-child(2)');
         $I->see('6.00', 'table:nth-of-type(4) tr:nth-child(2) td:nth-child(2)');
@@ -464,17 +464,17 @@ class OrderCest {
         // check if information is correct on the edit page
         $I->see('Restaurant: Restaurant 1 ');
         // First row
-        $I->see('Supplier A', 'table tr:nth-child(2) td:nth-child(1)');
-        $I->see('12.00', 'table tr:nth-child(2) td:nth-child(3)');
-        $I->see('4.60', 'table tr:nth-child(2) td:nth-child(4)');
-        $I->see('1.00', 'table tr:nth-child(2) td:nth-child(5)');
-        $I->see('17.60', 'table tr:nth-child(2) td:nth-child(6)');
+        $I->see('Supplier A', 'table tr:nth-child(1) td:nth-child(1)');
+        $I->see('12.00', 'table tr:nth-child(1) td:nth-child(3)');
+        $I->see('4.60', 'table tr:nth-child(1) td:nth-child(4)');
+        $I->see('1.00', 'table tr:nth-child(1) td:nth-child(5)');
+        $I->see('17.60', 'table tr:nth-child(1) td:nth-child(6)');
         // Second row
-        $I->see('Supplier B', 'table tr:nth-child(3) td:nth-child(1)');
-        $I->see('24.00', 'table tr:nth-child(3) td:nth-child(3)');
-        $I->see('6.00', 'table tr:nth-child(3) td:nth-child(4)');
-        $I->see('3.00', 'table tr:nth-child(3) td:nth-child(5)');
-        $I->see('33.00', 'table tr:nth-child(3) td:nth-child(6)');
+        $I->see('Supplier B', 'table tr:nth-child(2) td:nth-child(1)');
+        $I->see('24.00', 'table tr:nth-child(2) td:nth-child(3)');
+        $I->see('6.00', 'table tr:nth-child(2) td:nth-child(4)');
+        $I->see('3.00', 'table tr:nth-child(2) td:nth-child(5)');
+        $I->see('33.00', 'table tr:nth-child(2) td:nth-child(6)');
         
         Codeception\Module\logout($I);
     }

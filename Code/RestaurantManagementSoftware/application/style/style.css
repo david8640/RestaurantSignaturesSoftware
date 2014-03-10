@@ -128,8 +128,10 @@ div.menu li
  }
  
  .content .button {
-     padding-top: 10px;
-     padding-right: 10px;
+     float: left;
+     width: 20px;
+     height: 20px;
+     margin-left: 10px;
  }
  
  .content .button_delete, .content .button_edit, .content .button_add, .content .button_delete_disabled, 
@@ -269,3 +271,10 @@ div.menu li
      padding-top: 5px;
  }
  
+ .content .left {
+     float: left;
+ }
+ 
+ tfoot input.search_init {
+    color: #999999;
+}

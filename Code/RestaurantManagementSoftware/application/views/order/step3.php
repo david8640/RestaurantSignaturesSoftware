@@ -42,44 +42,45 @@ if (!isset($purchaseOrders)) {
                 echo $p->getSupplierName() . ':  PO# ' . $p->getSupplierPONumber();
                 ?>
             </div>
-            <table>
-                <tr>
-                    <th>Product</th>
-                    <th>Unit</th>
-                    <th>Cost/Unit</th>
-                    <th>Quantity</th>
-                    <th>Cost</th>
-                </tr>
-                <?php 
-                $itemIndex = 0;
-                $count = 0;
-                foreach ($p->getItems() as $item) { 
-                    $count++;
-                    ?>
-                    <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
-                        <td>
-                            <?php 
-                                echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
-                                echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID());
-                                echo Form::hidden('poItemProductName[' . $index . '][' . $itemIndex . ']', $item->getProductName());
-                                echo Form::hidden('poItemProductUnitOfMeasurement[' . $index . '][' . $itemIndex . ']', $item->getUnitOfMeasurement());
-                                echo $item->getProductName(); 
-                            ?>
-                        </td>
-                        <td><?php echo $item->getUnitOfMeasurement(); ?></td>
-                        <td><?php 
-                            echo Form::hidden('poItemCostPerUnit[' . $index . '][' . $itemIndex . ']', $item->getCostPerUnit());
-                            echo number_format($item->getCostPerUnit(), 2);
-                         ?></td>
-                        <td><?php 
-                            echo Form::hidden('poItemQty[' . $index . '][' . $itemIndex . ']', $item->getQty()); 
-                            echo number_format($item->getQty(), 0); 
-                        ?></td> 
-                        <td><?php echo number_format($item->getSubtotal(), 2); ?></td> 
+            <table class="tableItems">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Unit</th>
+                        <th>Cost/Unit</th>
+                        <th>Quantity</th>
+                        <th>Cost</th>
                     </tr>
-                    <?php
-                    $itemIndex++;
-                } ?>
+                </thead>
+                <tbody>
+                    <?php 
+                    $itemIndex = 0;
+                    foreach ($p->getItems() as $item) { ?>
+                        <tr>
+                            <td>
+                                <?php 
+                                    echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
+                                    echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID());
+                                    echo Form::hidden('poItemProductName[' . $index . '][' . $itemIndex . ']', $item->getProductName());
+                                    echo Form::hidden('poItemProductUnitOfMeasurement[' . $index . '][' . $itemIndex . ']', $item->getUnitOfMeasurement());
+                                    echo $item->getProductName(); 
+                                ?>
+                            </td>
+                            <td><?php echo $item->getUnitOfMeasurement(); ?></td>
+                            <td><?php 
+                                echo Form::hidden('poItemCostPerUnit[' . $index . '][' . $itemIndex . ']', $item->getCostPerUnit());
+                                echo number_format($item->getCostPerUnit(), 2);
+                             ?></td>
+                            <td><?php 
+                                echo Form::hidden('poItemQty[' . $index . '][' . $itemIndex . ']', $item->getQty()); 
+                                echo number_format($item->getQty(), 0); 
+                            ?></td> 
+                            <td><?php echo number_format($item->getSubtotal(), 2); ?></td> 
+                        </tr>
+                        <?php
+                        $itemIndex++;
+                    } ?>
+                </tbody>
             </table>
             <div class="clear"></div>
             <table class="poTotal">
@@ -130,3 +131,14 @@ if (!isset($purchaseOrders)) {
         </span>
     <?php echo Form::close(); ?>
 </div>
+<script>
+    $(document).ready(function() {
+        var oTable = $('.tableItems').dataTable( {
+                "bFilter": false,
+                "bPaginate": false,
+                "bSearchable": false,
+                "bAutoWidth": false,
+                "bInfo": false
+        });
+    });
+</script>
