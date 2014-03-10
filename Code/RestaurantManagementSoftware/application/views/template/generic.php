@@ -103,11 +103,11 @@
                 * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
                 * the footer
                 */
-               $("tfoot input").each( function (i) {
+               $("thead tr.filter input").each( function (i) {
                    asInitVals[i] = this.value;
                });
 
-               $("tfoot input").focus( function () {
+               $("thead tr.filter input").focus( function () {
                    if (this.className == "search_init")
                    {
                        this.className = "";
@@ -115,11 +115,11 @@
                    }
                });
 
-               $("tfoot input").blur( function (i) {
+               $("thead tr.filter input").blur( function (i) {
                    if (this.value == "")
                    {
                        this.className = "search_init";
-                       this.value = asInitVals[$("tfoot input").index(this)];
+                       this.value = asInitVals[$("thead tr.filter input").index(this)];
                    }
                }); 
             });

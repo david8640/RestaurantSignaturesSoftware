@@ -20,8 +20,8 @@
     </thead>
     <tfoot>
         <tr>
-            <th><input class="search_init" type="text" value="Search restaurant name" name="search_restaurant_name"></th>
-            <th></th>
+            <th>Restaurant</th>
+            <th class="edit">Edit</th>
         </tr>
     </tfoot>
     <tbody>
@@ -37,14 +37,11 @@
 <script>
     $(document).ready(function() {
         var oTable = $('#inventories').dataTable( {
-                "bStateSave": true,
-                "bAutoWidth": false,
-                "aoColumnDefs": [
-                    { "bSortable": false, "bSearchable": false, "aTargets": [1] }
-                ]});
-            
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter(this.value, $("tfoot input").index(this));
-        });
+            "bSortCellsTop": true,
+            "bStateSave": true,
+            "bAutoWidth": false,
+            "aoColumnDefs": [
+                { "bSortable": false, "bSearchable": false, "aTargets": [1] }
+            ]});
     });
 </script>

@@ -28,19 +28,31 @@
             <th class="edit">Edit</th>
             <th class="remove">Remove</th>
         </tr>
+        <tr class="filter">
+            <td><input class="search_init" type="text" value="Search id" name="search_id"></td>
+            <td><input class="search_init" type="text" value="Search date created" name="search_date_created"></td>
+            <td><input class="search_init" type="text" value="Search subtotal" name="search_subtotal"></td>
+            <td><input class="search_init" type="text" value="Search shipping cost" name="search_shipping_cost"></td>
+            <td><input class="search_init" type="text" value="Search taxes" name="search_taxes"></td>
+            <td><input class="search_init" type="text" value="Search total cost" name="search_total_cost"></td>
+            <td><input class="search_init" type="text" value="Search state" name="search_state_name"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
     </thead>
     <tfoot>
         <tr>
-            <th><input class="search_init" type="text" value="Search id" name="search_id"></th>
-            <th><input class="search_init" type="text" value="Search date created" name="search_date_created"></th>
-            <th><input class="search_init" type="text" value="Search subtotal" name="search_subtotal"></th>
-            <th><input class="search_init" type="text" value="Search shipping cost" name="search_shipping_cost"></th>
-            <th><input class="search_init" type="text" value="Search taxes" name="search_taxes"></th>
-            <th><input class="search_init" type="text" value="Search total cost" name="search_total_cost"></th>
-            <th><input class="search_init" type="text" value="Search state" name="search_state_name"></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th class="id">Id</th>
+            <th>Ordered Date</th>
+            <th>Subtotal</th>
+            <th>Shipping</th>
+            <th>Taxes</th>
+            <th>Total</th>
+            <th>State</th>
+            <th class="view">View</th>
+            <th class="edit">Edit</th>
+            <th class="remove">Remove</th>
         </tr>
     </tfoot>
     <tbody>
@@ -78,6 +90,7 @@
     
     $(document).ready(function() {
         var oTable = $('#orders').dataTable( {
+                "bSortCellsTop": true,
                 "bStateSave": true,
                 "bAutoWidth": false,
                 "aoColumnDefs": [
@@ -87,8 +100,8 @@
                     { "bSortable": false, "bSearchable": false, "aTargets": [9] }
                 ]});
             
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter(this.value, $("tfoot input").index(this) + nbOfHiddenColumn);
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter(this.value, $("thead tr.filter input").index(this) + nbOfHiddenColumn);
         });
     });
 </script>

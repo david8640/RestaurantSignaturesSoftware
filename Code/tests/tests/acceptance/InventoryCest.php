@@ -2,7 +2,8 @@
 use \WebGuy;
 
 class InventoryCest {
-    private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
+    //private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
+    private $postUrl = "/current/Code/RestaurantManagementSoftware/";
     
     // tests
     public function InventoryGetOnToPageSpecificRestaurant(\WebGuy $I) {
@@ -61,7 +62,6 @@ class InventoryCest {
         
         Codeception\Module\logout($I);
     }
-    // TODO fix this test
     
     public function InventoryTryToEditWithInvalidValue(\WebGuy $I) {
         Codeception\Module\login($I);
@@ -89,6 +89,7 @@ class InventoryCest {
         $params['qty[0]'] = '';
         $I->sendAjaxPostRequest($this->postUrl . 'inventory/update', $params);
         $I->see('Quantity of Beef of Supplier A must not be empty');
+        Codeception\Module\logout($I);
     }
     
     private function getInventoryItem() {

@@ -26,16 +26,25 @@
             <th class="edit">Edit</th>
             <th class="remove">Remove</th>
         </tr>
+        <tr class="filter">
+            <td><input class="search_init" type="text" value="Search names" name="search_id"></td>
+            <td><input class="search_init" type="text" value="Search names" name="search_name"></td>
+            <td><input class="search_init" type="text" value="Search contact name" name="search_contact_name"></td>
+            <td><input class="search_init" type="text" value="Search phone number" name="search_phone_number"></td>
+            <td><input class="search_init" type="text" value="Search fax number" name="search_fax_number"></td>
+            <td></td>
+            <td></td>
+        </tr>
     </thead>
     <tfoot
-        <tr>
-            <th><input class="search_init" type="text" value="Search names" name="search_id"></th>
-            <th><input class="search_init" type="text" value="Search names" name="search_name"></th>
-            <th><input class="search_init" type="text" value="Search contact name" name="search_contact_name"></th>
-            <th><input class="search_init" type="text" value="Search phone number" name="search_phone_number"></th>
-            <th><input class="search_init" type="text" value="Search fax number" name="search_fax_number"></th>
-            <th></th>
-            <th></th>
+        <tr role="row">
+            <th class="id">Id</th>
+            <th>Name</th>
+            <th>Contact Name</th>
+            <th>Phone Number</th>
+            <th>Fax Number</th>
+            <th class="edit">Edit</th>
+            <th class="remove">Remove</th>
         </tr>
     </tfoot>
     <tbody>
@@ -57,6 +66,7 @@
     
     $(document).ready(function() {
         var oTable = $('#suppliers').dataTable( {
+                "bSortCellsTop": true,
                 "bStateSave": true,
                 "bAutoWidth": false,
                 "aoColumnDefs": [
@@ -65,8 +75,8 @@
                     { "bSortable": false, "bSearchable": false, "aTargets": [6] }
                 ]});
             
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter( this.value, $("tfoot input").index(this) + nbOfHiddenColumn );
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter( this.value, $("thead tr.filter input").index(this) + nbOfHiddenColumn );
         });
     });
 </script>

@@ -26,17 +26,27 @@
             <th class="edit">Edit</th>
             <th class="remove">Remove</th>
         </tr>
+        <tr class="filter">
+            <td><input class="search_init" type="text" value="Search id" name="search_id"></th>
+            <td><input class="search_init" type="text" value="Search product id" name="search_product_id"></td>
+            <td><input class="search_init" type="text" value="Search supplier" name="search_supplier"></td>
+            <td><input class="search_init" type="text" value="Search product" name="search_product"></td>
+            <td><input class="search_init" type="text" value="Search price" name="search_cost_per_unit"></td>
+            <td><input class="search_init" type="text" value="Search unit of measurement" name="search_unit_of_measurement"></td>
+            <td></td>
+            <td></td>
+        </tr>
     </thead>
     <tfoot>
         <tr>
-            <th><input class="search_init" type="text" value="Search id" name="search_id"></th>
-            <th><input class="search_init" type="text" value="Search product id" name="search_product_id"></th>
-            <th><input class="search_init" type="text" value="Search supplier" name="search_supplier"></th>
-            <th><input class="search_init" type="text" value="Search product" name="search_product"></th>
-            <th><input class="search_init" type="text" value="Search price" name="search_cost_per_unit"></th>
-            <th><input class="search_init" type="text" value="Search unit of measurement" name="search_unit_of_measurement"></th>
-            <th></th>
-            <th></th>
+            <th>Supplier Id</th>
+            <th>Supplier Name</th>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Unit Of Measurement</th>
+            <th class="edit">Edit</th>
+            <th class="remove">Remove</th>
         </tr>
     </tfoot>
     <tbody>
@@ -59,6 +69,7 @@
     
     $(document).ready(function() {
         var oTable = $('#suppliersProducts').dataTable( {
+                "bSortCellsTop": true,
                 "bStateSave": true,
                 "bAutoWidth": false,
                 "aoColumnDefs": [
@@ -68,8 +79,8 @@
                     { "bSortable": false, "bSearchable": false, "aTargets": [7] }
                 ]});
             
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter(this.value, $("tfoot input").index(this) + nbOfHiddenColumn);
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter(this.value, $("thead tr.filter input").index(this) + nbOfHiddenColumn);
         });
     });
 </script>

@@ -30,9 +30,7 @@ if (!isset($purchaseOrders)) {
                     <th>Total</th>
                     <th>State</th>
                 </tr>
-            </thead>
-            <tfoot>
-                <tr>
+                <tr class="filter">
                     <th><input class="search_init" type="text" value="Search supplier" name="search_supplier"></th>
                     <th><input class="search_init" type="text" value="Search po#" name="search_po_number"></th>
                     <th><input class="search_init" type="text" value="Search subtotal" name="search_subtotal"></th>
@@ -47,6 +45,17 @@ if (!isset($purchaseOrders)) {
                             <option value="3">Received</option>    
                         </select>
                     </th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Supplier</th>
+                    <th>PO#</th>
+                    <th>Subtotal</th>
+                    <th>Shipping</th>
+                    <th>Taxes</th>
+                    <th>Total</th>
+                    <th>State</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -102,6 +111,7 @@ if (!isset($purchaseOrders)) {
 <script>
     $(document).ready(function() {
         var oTable = $('#poEdit').dataTable( {
+                "bSortCellsTop": true,
                 "bPaginate": false,
                 "bStateSave": true,
                 "bAutoWidth": false,
@@ -141,8 +151,8 @@ if (!isset($purchaseOrders)) {
         });
 
         // Filter on the according column.
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter(this.value, $("tfoot input").index(this));
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter(this.value, $("thead tr.filter input").index(this));
         });
         
         // Filter the order's state column.
@@ -153,7 +163,7 @@ if (!isset($purchaseOrders)) {
         // Update the quatity cell in the datatable datas.
         $("tbody .custom").change(function () {
             var column = 6;
-            var row = oTable.fnGetPosition($(this).closest('tr')[0]);
+            var row = oTable.fnGetPosition($(this).closest('tr.filter')[0]);
             var html = "";
             html += "<select name=\""+this.name+"\" class=\"custom\">" +
                 "<option value=\"1\" "+((this.value == 1) ? "selected=\"\"" : "")+">Ordered</option>" +

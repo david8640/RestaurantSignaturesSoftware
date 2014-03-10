@@ -24,15 +24,23 @@
             <th class="edit">Edit</th>
             <th class="remove">Remove</th>
         </tr>
+        <tr class="filter">
+            <td><input class="search_init" type="text" value="Search id" name="search_id"></td>
+            <td><input class="search_init" type="text" value="Search name" name="search_name"></td>
+            <td><input class="search_init" type="text" value="Search category name" name="search_category_name"></td>
+            <td><input class="search_init" type="text" value="Search unit of measurement" name="search_unit_of_measurement"></td>
+            <td></td>
+            <td></td>
+        </tr>
     </thead>
     <tfoot>
         <tr>
-            <th><input class="search_init" type="text" value="Search id" name="search_id"></th>
-            <th><input class="search_init" type="text" value="Search name" name="search_name"></th>
-            <th><input class="search_init" type="text" value="Search category name" name="search_category_name"></th>
-            <th><input class="search_init" type="text" value="Search unit of measurement" name="search_unit_of_measurement"></th>
-            <th></th>
-            <th></th>
+            <th class="id">Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Unit Of Measurement</th>
+            <th class="edit">Edit</th>
+            <th class="remove">Remove</th>
         </tr>
     </tfoot>
     <tbody>
@@ -53,6 +61,7 @@
     
     $(document).ready(function() {
         var oTable = $('#products').dataTable( {
+                "bSortCellsTop": true,
                 "bStateSave": true,
                 "bAutoWidth": false,
                 "aoColumnDefs": [
@@ -61,8 +70,8 @@
                     { "bSortable": false, "bSearchable": false, "aTargets": [5] }
                 ]});
             
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter( this.value, $("tfoot input").index(this) + nbOfHiddenColumn );
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter( this.value, $("thead tr.filter input").index(this) + nbOfHiddenColumn );
         });
     });
 </script>

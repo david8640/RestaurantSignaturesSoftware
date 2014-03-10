@@ -21,14 +21,21 @@
                 <th>Cost/Unit</th>
                 <th>Quantity</th>
             </tr>
+            <tr class="filter">
+                <td><input class="search_init" type="text" value="Search supplier" name="search_supplier"></td>
+                <td><input class="search_init" type="text" value="Search product" name="search_product"></td>
+                <td><input class="search_init" type="text" value="Search unit of measurement" name="search_unit_of_measurement"></td>
+                <td><input class="search_init" type="text" value="Search cost/unit" name="search_cost_per_unit"></td>
+                <td></td>
+            </tr>
         </thead>
         <tfoot>
             <tr>
-                <th><input class="search_init" type="text" value="Search supplier" name="search_supplier"></th>
-                <th><input class="search_init" type="text" value="Search product" name="search_product"></th>
-                <th><input class="search_init" type="text" value="Search unit of measurement" name="search_unit_of_measurement"></th>
-                <th><input class="search_init" type="text" value="Search cost/unit" name="search_cost_per_unit"></th>
-                <th><input class="search_init" type="text" value="Search qty" name="search_qty"></th>
+                <th>Supplier</th>
+                <th>Product</th>
+                <th>Unit of Measurement</th>
+                <th>Cost/Unit</th>
+                <th>Quantity</th>
             </tr>
         </tfoot> 
         <tbody>
@@ -80,26 +87,9 @@
 <script>
     $(document).ready(function() {
         var oTable = $('#items').dataTable( {
+                "bSortCellsTop": true,
                 "bStateSave": true,
                 "bAutoWidth": false,
-                "aoColumnDefs": [
-                    { "bSearchable": false, 
-                      "aTargets": [4], 
-                      "mData": function ( source, type, val ) {
-                            if (type === 'set') {
-                                 source.disp = val
-                                 source.filter = $(val).attr('value');
-                                 return;
-                             }
-                             else if (type === 'filter') {
-                                 return source.filter;
-                             }
-
-                             return source.disp; 
-                          }
-                    }
-                    
-                ],
                 "aoColumns": [
                     null,
                     null, 
@@ -116,16 +106,8 @@
 	} );
 
         // Filter on the according column.
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter(this.value, $("tfoot input").index(this));
-        });
-        
-        // Update the quatity cell in the datatable datas.
-        $("tbody .custom").keyup(function () {
-            var column = 4;
-            var row = oTable.fnGetPosition($(this).closest('tr')[0]);
-            
-            oTable.fnUpdate("<input class=\"custom\" type=\"text\" value=\""+this.value+"\" name=\""+this.name+"\">", row, column);
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter(this.value, $("thead tr.filter input").index(this));
         });
     });
     

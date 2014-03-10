@@ -23,14 +23,21 @@
             <th class="edit">Edit</th>
             <th class="remove">Remove</th>
         </tr>
+        <tr class="filter">
+            <td><input class="search_init" type="text" value="Search id" name="search_id"></td>
+            <td><input class="search_init" type="text" value="Search name" name="search_name"></td>
+            <td><input class="search_init" type="text" value="Search address" name="search_address"></td>
+            <td></td>
+            <td></td>
+        </tr>
     </thead>
     <tfoot>
         <tr>
-            <th><input class="search_init" type="text" value="Search id" name="search_id"></th>
-            <th><input class="search_init" type="text" value="Search name" name="search_name"></th>
-            <th><input class="search_init" type="text" value="Search address" name="search_address"></th>
-            <th></th>
-            <th></th>
+            <th class="id">Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th class="edit">Edit</th>
+            <th class="remove">Remove</th>
         </tr>
     </tfoot>
     <tbody>
@@ -50,6 +57,7 @@
     
     $(document).ready(function() {
         var oTable = $('#restaurants').dataTable( {
+                "bSortCellsTop": true,
                 "bStateSave": true,
                 "bAutoWidth": false,
                 "aoColumnDefs": [
@@ -58,8 +66,8 @@
                     { "bSortable": false, "bSearchable": false, "aTargets": [4] }
                 ]});
             
-        $("tfoot input").keyup( function () {
-            oTable.fnFilter( this.value, $("tfoot input").index(this) + nbOfHiddenColumn );
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter( this.value, $("thead tr.filter input").index(this) + nbOfHiddenColumn );
         });
     });
 </script>

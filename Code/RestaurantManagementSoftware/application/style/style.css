@@ -275,6 +275,10 @@ div.menu li
      float: left;
  }
  
- tfoot input.search_init {
+ thead tr.filter input.search_init {
     color: #999999;
+}
+
+thead tr.filter input.search_init {
+    width: 100%;
 }
