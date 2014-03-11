@@ -14,26 +14,25 @@ class Lib_ConfigurationManager {
      * @return xml database configurations
      */
     public static function getDatabaseConfigurations() {
-        $config = Lib_ConfigurationManager::loadConfigFile('./application/config/config.xml'); 
+        $configs = Kohana::$config->load('config'); 
+        
         return (object) array (
-            'Host' => $config->db->Host,
-            'User' => $config->db->User,
-            'Password' => $config->db->Password,
-            'Database' => $config->db->Database,
-            'Port' => intval($config->db->Port)
+            'Host' => $configs->db['Host'],
+            'User' => $configs->db['User'],
+            'Password' => $configs->db['Password'],
+            'Database' => $configs->db['Database'],
+            'Port' => intval($configs->db['Port'])
         );
     }
     
     /**
-     * Load all the configuration in an object and returns it.
-     * @return xml configurations
+     * Get the taxes configurations.
+     * @return xml database configurations
      */
-    private static function loadConfigFile($filename) {
-        if (!file_exists($filename)) {
-            throw new Exception("Configuration file do not exists.");
-        } else {
-            return $xmlConfig = simplexml_load_file($filename);
-        }
+    public static function getTaxesConfigurations() {
+        $configs = Kohana::$config->load('config'); 
+        
+        return floatval($configs->taxes['default'])/100;
     } 
 }
 

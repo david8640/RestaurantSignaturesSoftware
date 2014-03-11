@@ -201,9 +201,10 @@ class Controller_Order extends Controller_Template_Generic {
                 if (count($errors) == 0) {
                     // Get the order id if exists
                     $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : -1;
+                    $config = new Lib_ConfigurationManager();
                     
                     // Save the order to the database.
-                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, 0, $total, Constants_OrderState::IN_PROGRESS, '');
+                    $order = new Model_Order($orderId, $restaurantId, '', $now, $total, 0, $total * $config->getTaxesConfigurations(), $total, Constants_OrderState::IN_PROGRESS, '');
                     $orderRepo = new Repository_Order();
                     $orderSavedId = $orderRepo->save($order);
 
@@ -354,7 +355,6 @@ class Controller_Order extends Controller_Template_Generic {
                 if ($po->getOrderID() == $epo->getOrderID() && $po->getSupplierID() == $epo->getSupplierID()) {
                     $po->setSupplierPONumber($epo->getSupplierPONumber());
                     $po->setShipping($epo->getShipping());
-                    $po->setTaxes($epo->getTaxes());
                 }
             }   
         }
@@ -451,11 +451,14 @@ class Controller_Order extends Controller_Template_Generic {
      */
     private function createPurchaseOrders($orderId, $now, $productsOrdered) {
         $purchaseOrders = array();
+        $config = new Lib_ConfigurationManager();
         foreach ($productsOrdered as $p) {
             $supplierId = $p->getSupplierID();
             $supplierName = $p->getSupplierName();
             if (!array_key_exists($supplierId, $purchaseOrders)) { 
-                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, $supplierId, NULL, $supplierName, $now, '', 0, 0, 0, 0, Constants_PurchaseOrderState::IN_PROGRESS, array());
+                $purchaseOrders[$supplierId] = new Model_PurchaseOrder(-1, $orderId, 
+                        $supplierId, NULL, $supplierName, $now, '', 0, 0, 
+                        0, 0, Constants_PurchaseOrderState::IN_PROGRESS, array());
             }
             
             $purchaseOrderItem = new Model_PurchaseOrderItem(-1, $p->getProductID(), $p->getProductName(), 
@@ -463,6 +466,7 @@ class Controller_Order extends Controller_Template_Generic {
                                                             $p->getUnitOfMeasurement(), -1, '');
             $purchaseOrders[$supplierId]->addToSubtotal($purchaseOrderItem->getSubtotal());
             $purchaseOrders[$supplierId]->setTotalCost($purchaseOrderItem->getSubtotal());
+            $purchaseOrders[$supplierId]->setTaxes(number_format($purchaseOrderItem->getSubtotal() * $config->getTaxesConfigurations(), 2));
             $purchaseOrders[$supplierId]->addItem($purchaseOrderItem);
         }
         return $purchaseOrders;
