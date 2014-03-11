@@ -2,8 +2,6 @@
 use \WebGuy;
 
 class OrderCest {
-    //private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
-    private $postUrl = "/current/Code/RestaurantManagementSoftware/index.php/";
     private $locationInTable = "//table[@id='suppliers_products']//tr[last()]//";
 
     /*public function _before()
@@ -233,7 +231,7 @@ class OrderCest {
         $I->see('Step 1 : Choose Products');
         $I->see('Restaurant: Restaurant 1');
         
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $this->getStep1PostParams());
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $this->getStep1PostParams());
         
         $I->see('The order has been saved.');
         
@@ -257,15 +255,15 @@ class OrderCest {
         
         // Invalid Cost/unit
         $params['costPerUnit[0]'] = '-1.20';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $params);
         $I->see('Beef of Supplier A: Cost/Unit must be a positive value');
         
         $params['costPerUnit[0]'] = 'asdasd';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $params);
         $I->see('Beef of Supplier A: Cost/Unit must be numeric');
         
         $params['costPerUnit[0]'] = '';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $params);
         $I->see('Beef of Supplier A: Cost/Unit must not be empty');
         
         // Reset to a valid cost/unit
@@ -273,19 +271,19 @@ class OrderCest {
         
         // Invalid Qty
         $params['qty[0]'] = '-1.20';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $params);
         $I->see('Beef of Supplier A: Quantity must be a positive value');
         
         $params['qty[0]'] = 'asdasd';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $params);
         $I->see('Beef of Supplier A: Quantity must be numeric');
         
         $params['qty[0]'] = '';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $params);
         $I->see('Beef of Supplier A: Quantity must not be empty');
         
         $params['qty[0]'] = '0.25';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/saveStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/saveStep1', $params);
         $I->see('Beef of Supplier A: Quantity must be a digit');
        
         Codeception\Module\logout($I);
@@ -299,7 +297,7 @@ class OrderCest {
         $I->see('Step 1 : Choose Products');
         $I->see('Restaurant: Restaurant 1');
         
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $this->getStep1PostParams());
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $this->getStep1PostParams());
         
         $I->see('Step 2 : Purchase Orders');
        
@@ -318,15 +316,15 @@ class OrderCest {
         
         // Invalid Cost/unit
         $params['costPerUnit[0]'] = '-1.20';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $params);
         $I->see('Beef of Supplier A: Cost/Unit must be a positive value');
         
         $params['costPerUnit[0]'] = 'asdasd';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $params);
         $I->see('Beef of Supplier A: Cost/Unit must be numeric');
         
         $params['costPerUnit[0]'] = '';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $params);
         $I->see('Beef of Supplier A: Cost/Unit must not be empty');
         
         // Reset to a valid cost/unit
@@ -334,19 +332,19 @@ class OrderCest {
         
         // Invalid Qty
         $params['qty[0]'] = '-1.20';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $params);
         $I->see('Beef of Supplier A: Quantity must be a positive value');
         
         $params['qty[0]'] = 'asdasd';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $params);
         $I->see('Beef of Supplier A: Quantity must be numeric');
         
         $params['qty[0]'] = '';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $params);
         $I->see('Beef of Supplier A: Quantity must not be empty');
         
         $params['qty[0]'] = '0.25';
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $params);
         $I->see('Beef of Supplier A: Quantity must be a digit');
        
         Codeception\Module\logout($I);
@@ -362,11 +360,11 @@ class OrderCest {
         // Next Step 1
         $I->see('Step 1 : Choose Products');
         $I->see('Restaurant: Restaurant 1');
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep1', $this->getStep1PostParams());
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep1', $this->getStep1PostParams());
         
         // Next Step 2
         $I->see('Step 2 : Purchase Orders');
-        $I->sendAjaxPostRequest($this->postUrl . 'order/nextStep2', $this->getStep2PostParams());
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'order/nextStep2', $this->getStep2PostParams());
         
         // Check step 3 content before submitting
         //////////////////////////////////////////

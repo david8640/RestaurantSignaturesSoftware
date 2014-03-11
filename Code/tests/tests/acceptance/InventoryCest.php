@@ -2,9 +2,6 @@
 use \WebGuy;
 
 class InventoryCest {
-    //private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
-    private $postUrl = "/current/Code/RestaurantManagementSoftware/index.php/";
-    
     // tests
     public function InventoryGetOnToPageSpecificRestaurant(\WebGuy $I) {
         Codeception\Module\login($I);
@@ -46,7 +43,7 @@ class InventoryCest {
         // check the feedback message
         $params = $this->getInventoryItem();
         $params['qty[0]'] = '5';
-        $I->sendAjaxPostRequest($this->postUrl . 'inventory/update', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'inventory/update', $params);
         
         $I->see('The inventory was updated.');
         // we stay on the same page and check the content of the field
@@ -58,7 +55,7 @@ class InventoryCest {
         $I->seeInField('#items tr:nth-child(1) td:nth-child(5) input', 5);
         // change the value back to 1 for the next tests
         // By pass the the modification of a field and save action because it's using some javascript.
-        $I->sendAjaxPostRequest($this->postUrl . 'inventory/update', $this->getInventoryItem());
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'inventory/update', $this->getInventoryItem());
         
         Codeception\Module\logout($I);
     }
@@ -75,19 +72,19 @@ class InventoryCest {
         // By pass the the modification of a field and save action because it's using some javascript.
         $params = $this->getInventoryItem();
         $params['qty[0]'] = -1;
-        $I->sendAjaxPostRequest($this->postUrl . 'inventory/update', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'inventory/update', $params);
         $I->see('Quantity of Beef of Supplier A must be a positive value');
         // change the current value to an invalid value (test) + check error message
         // By pass the the modification of a field and save action because it's using some javascript.
         $params = $this->getInventoryItem();
         $params['qty[0]'] = 'test';
-        $I->sendAjaxPostRequest($this->postUrl . 'inventory/update', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'inventory/update', $params);
         $I->see('Quantity of Beef of Supplier A must be numeric');
         // change the current value to an invalid value ('') + check error message
         // By pass the the modification of a field and save action because it's using some javascript.
         $params = $this->getInventoryItem();
         $params['qty[0]'] = '';
-        $I->sendAjaxPostRequest($this->postUrl . 'inventory/update', $params);
+        $I->sendAjaxPostRequest(Codeception\Module\getUrl() . 'inventory/update', $params);
         $I->see('Quantity of Beef of Supplier A must not be empty');
         Codeception\Module\logout($I);
     }
