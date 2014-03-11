@@ -3,7 +3,7 @@ use \WebGuy;
 
 class OrderCest {
     //private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
-    private $postUrl = "/current/Code/RestaurantManagementSoftware/";
+    private $postUrl = "/current/Code/RestaurantManagementSoftware/index.php/";
     private $locationInTable = "//table[@id='suppliers_products']//tr[last()]//";
 
     /*public function _before()

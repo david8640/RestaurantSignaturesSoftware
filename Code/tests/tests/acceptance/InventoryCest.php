@@ -3,7 +3,7 @@ use \WebGuy;
 
 class InventoryCest {
     //private $postUrl = "/seg4910-project/Code/RestaurantManagementSoftware/index.php/";
-    private $postUrl = "/current/Code/RestaurantManagementSoftware/";
+    private $postUrl = "/current/Code/RestaurantManagementSoftware/index.php/";
     
     // tests
     public function InventoryGetOnToPageSpecificRestaurant(\WebGuy $I) {
