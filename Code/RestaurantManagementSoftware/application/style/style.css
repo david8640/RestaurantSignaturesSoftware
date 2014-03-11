@@ -163,6 +163,7 @@ div.menu li
  .content .button_add {
      background-image: url('images/add-icon.png');
      background-position: right;
+     margin-top: 3px;
  }
  
  .content .button_view {     
