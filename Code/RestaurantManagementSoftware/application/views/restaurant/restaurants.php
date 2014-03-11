@@ -57,14 +57,16 @@
     
     $(document).ready(function() {
         var oTable = $('#restaurants').dataTable( {
-                "bSortCellsTop": true,
-                "bStateSave": true,
-                "bAutoWidth": false,
-                "aoColumnDefs": [
-                    { "bSortable": false, "bSearchable": false, "bVisible": false, "aTargets": [0] },
-                    { "bSortable": false, "bSearchable": false, "aTargets": [3] },
-                    { "bSortable": false, "bSearchable": false, "aTargets": [4] }
-                ]});
+            "bSortCellsTop": true,
+            "bStateSave": true,
+            "bAutoWidth": false,
+            "aoColumnDefs": [
+                { "bSortable": false, "bSearchable": false, "bVisible": false, "aTargets": [0] },
+                { "bSortable": false, "bSearchable": false, "aTargets": [3] },
+                { "bSortable": false, "bSearchable": false, "aTargets": [4] }
+            ],
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+        });
             
         $("thead tr.filter input").keyup( function () {
             oTable.fnFilter( this.value, $("thead tr.filter input").index(this) + nbOfHiddenColumn );

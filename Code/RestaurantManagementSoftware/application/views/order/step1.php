@@ -31,26 +31,46 @@ if (!isset($orderId)) {
     <div class='leftcolumn'>
         <h3>Products</h3>
         <table id="suppliers_products">
-            <tr>
-                <th>Product</th>
-                <th>Supplier</th>
-                <th>Unit</th>
-                <th>Cost/Unit</th>
-                <th>Order</th>
-            </tr>
-            <?php
-            $count = 0;
-            foreach ($products as $p) { 
-                $count++;
-                ?>
-                <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
-                    <td><?php echo $p->getProductName(); ?></td>
-                    <td><?php echo $p->getSupplierName(); ?></td>
-                    <td><?php echo $p->getUnitOfMeasurement(); ?></td>
-                    <td><?php echo number_format($p->getCostPerUnit(), 2); ?></td>
-                    <td><input type='button' value='Add' onclick="add(<?php echo $p->getProductID(); ?>, '<?php echo $p->getProductName(); ?>', <?php echo $p->getSupplierID(); ?>, '<?php echo $p->getSupplierName(); ?>', '<?php echo $p->getUnitOfMeasurement(); ?>', <?php echo $p->getCostPerUnit(); ?>, <?php echo $p->getQty(); ?>);"/></td>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Supplier</th>
+                    <th>Unit</th>
+                    <th>Cost/Unit</th>
+                    <th>Order</th>
                 </tr>
-            <?php } ?>
+                <tr class="filter">
+                    <td><input class="search_init" type="text" value="Search product" name="search_product"></td>
+                    <td><input class="search_init" type="text" value="Search supplier" name="search_supplier"></td>
+                    <td><input class="search_init" type="text" value="Search unit" name="search_unit"></td>
+                    <td><input class="search_init" type="text" value="Search cost/unit" name="search_cost_per_unit"></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Product</th>
+                    <th>Supplier</th>
+                    <th>Unit</th>
+                    <th>Cost/Unit</th>
+                    <th>Order</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                <?php
+                $count = 0;
+                foreach ($products as $p) { 
+                    $count++;
+                    ?>
+                    <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
+                        <td><?php echo $p->getProductName(); ?></td>
+                        <td><?php echo $p->getSupplierName(); ?></td>
+                        <td><?php echo $p->getUnitOfMeasurement(); ?></td>
+                        <td><?php echo number_format($p->getCostPerUnit(), 2); ?></td>
+                        <td><input type='button' value='Add' onclick="add(<?php echo $p->getProductID(); ?>, '<?php echo $p->getProductName(); ?>', <?php echo $p->getSupplierID(); ?>, '<?php echo $p->getSupplierName(); ?>', '<?php echo $p->getUnitOfMeasurement(); ?>', <?php echo $p->getCostPerUnit(); ?>, <?php echo $p->getQty(); ?>);"/></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
         </table>
     </div>
     <div class='rightcolumn'>
@@ -92,6 +112,18 @@ if (!isset($orderId)) {
     }
     
     var order = [];
+    var settings = {
+            "bPaginate": false,
+            "bStateSave": true,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false, 
+            "bDestroy": true,
+            "bRetrieve": true,
+            "aoColumnDefs": [
+                { "bSortable": false, "bSearchable": false, "aTargets": [6] }
+            ]
+        };
     
     $(document).ready(function() {
         // Put the location name in an hidden field to manipulate in other steps
@@ -106,14 +138,30 @@ if (!isset($orderId)) {
         
         addInitValues();
         display();
-    });
         
+        // Datatables
+        var oTable = $('#suppliers_products').dataTable( {
+                "bSortCellsTop": true,
+                "bStateSave": true,
+                "bAutoWidth": false,
+                "aoColumnDefs": [
+                    { "bSortable": false, "bSearchable": false, "aTargets": [4] }
+                ]});
+            
+        $("thead tr.filter input").keyup( function () {
+            oTable.fnFilter( this.value, $("thead tr.filter input").index(this));
+        });
+        
+        
+        $('#order').dataTable(settings);
+    });
+    
     function bindEvents() {
         order.forEach(function(e) {
             $('#cost_' + e.productId + '_' + e.supplierId).focusout(function() { updateCost(e.productId, e.supplierId); });
             $('#qty_' + e.productId + '_' + e.supplierId).focusout(function() { updateQty(e.productId, e.supplierId); });
         });     
-   }
+    }
     
     function addInitValues() {
         <?php 
@@ -161,16 +209,21 @@ if (!isset($orderId)) {
         var tableRows = displayTableHeader();
         var subtotal = 0;
         var index = 0;
-        var count = 0;
+        
+        // Delete the order table if it exits
+        if ($.trim($('#order').html()) !== '') {
+            $('#order').dataTable().fnDestroy();
+        }
+        
+        tableRows += '<tbody>';
         order.forEach(function(e) { 
             // If it's not a valid number than put 0
             var qty = parseInt(e.qty);
             var productTotal = Number(e.costPerUnit * qty);
             subtotal += productTotal;
             var indexStr = '['+index+']';
-            count++;
             
-            tableRows += '<tr ' + ((count % 2) ? 'class="odd"' : '') + '>'
+            tableRows += '<tr>'
                 +   '<td>'
                 +       '<input type="hidden" value="' + e.productId + '" name="productId'+indexStr+'"/>'
                 +       '<input type="hidden" value="' + e.productName + '" name="productName'+indexStr+'"/>'
@@ -191,15 +244,19 @@ if (!isset($orderId)) {
         
             index++;
         });
+        tableRows += '<tbody>';
         
         $('#order').html(tableRows);
         bindEvents();
         $('#subtotal').val(subtotal);
         $('#subtotalVal').text(Number(subtotal).toFixed(2));
+        
+        // Draw the order table
+        $('#order').dataTable(settings);
     }
     
     function displayTableHeader() {
-        return '<tr><th>Product</th><th>Supplier</th><th>Unit</th><th>Cost/Unit</th><th>Quantity</th><th>Cost</th><th>Remove</th></tr>';
+        return '<thead><tr><th>Product</th><th>Supplier</th><th>Unit</th><th>Cost/Unit</th><th>Quantity</th><th>Cost</th><th>Remove</th></tr></thead>';
     }
     
     function addItem(p_productId, p_productName, p_supplierId, p_supplierName, 

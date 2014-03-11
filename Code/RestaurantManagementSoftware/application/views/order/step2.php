@@ -26,58 +26,70 @@ if (!isset($purchaseOrders)) {
             echo Form::hidden('restaurantName', $order->getRestaurantName());
             ?>
         </div>
-        <table>
-            <tr>
-                <th>Supplier</th>
-                <th>PO#</th>
-                <th>Subtotal</th>
-                <th>Shipping</th>
-                <th>Taxes</th>
-                <th>Total</th>
-            </tr>
-            <?php 
-            $index = 0;
-            $total = 0;
-            $count = 0;
-            foreach ($purchaseOrders as $p) { 
-                $poTotal = $p->getSubtotal() + $p->getShipping() + $p->getTaxes();
-                $total += $poTotal;
-                $count++;
-                ?>
-                <tr <?php echo ($count % 2) ? 'class="odd"' : ''; ?> >
-                    <td><?php
-                        // Step 1 - Informations
-                        // Purchase Order Item
-                        // [BEGIN]
-                        $itemIndex = 0;
-                        foreach ($p->getItems() as $item) {
-                            echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
-                            echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID());
-                            echo Form::hidden('poItemProductName[' . $index . '][' . $itemIndex . ']', $item->getProductName());
-                            echo Form::hidden('poItemCostPerUnit[' . $index . '][' . $itemIndex . ']', $item->getCostPerUnit());
-                            echo Form::hidden('poItemQty[' . $index . '][' . $itemIndex . ']', $item->getQty());
-                            echo Form::hidden('poItemProductUnitOfMeasurement[' . $index . '][' . $itemIndex . ']', $item->getUnitOfMeasurement());
-                            $itemIndex++;
-                        }
-                        // [END]
-                        
-                        echo Form::hidden('poNumber[' . $index . ']', $p->getPOID());
-                        echo Form::hidden('idOrder[' . $index . ']', $p->getOrderID());
-                        echo Form::hidden('idSupplier[' . $index . ']', $p->getSupplierID());
-                        echo Form::hidden('supplierName[' . $index . ']', $p->getSupplierName());
-                        echo Form::hidden('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getSupplierID()));
-                        echo Form::hidden('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getSupplierID()));
-                        echo $p->getSupplierName();
-                    ?></td>
-                    <td><?php echo Form::input('supplierPONumber[' . $index . ']', $p->getSupplierPONumber()); ?></td>
-                    <td><?php echo number_format($p->getSubtotal(), 2); ?></td>
-                    <td><?php echo Form::input('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getSupplierID())); ?></td>
-                    <td><?php echo Form::input('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getSupplierID())); ?></td>
-                    <td><?php echo number_format($poTotal, 2); ?></td>
+        <table id="pos">
+            <thead>
+                <tr>
+                    <th>Supplier</th>
+                    <th>PO#</th>
+                    <th>Subtotal</th>
+                    <th>Shipping</th>
+                    <th>Taxes</th>
+                    <th>Total</th>
                 </tr>
-            <?php 
-                $index++;
-            } ?>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Supplier</th>
+                    <th>PO#</th>
+                    <th>Subtotal</th>
+                    <th>Shipping</th>
+                    <th>Taxes</th>
+                    <th>Total</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                <?php 
+                $index = 0;
+                $total = 0;
+                foreach ($purchaseOrders as $p) { 
+                    $poTotal = $p->getSubtotal() + $p->getShipping() + $p->getTaxes();
+                    $total += $poTotal;
+                    ?>
+                    <tr>
+                        <td><?php
+                            // Step 1 - Informations
+                            // Purchase Order Item
+                            // [BEGIN]
+                            $itemIndex = 0;
+                            foreach ($p->getItems() as $item) {
+                                echo Form::hidden('poItemPOID[' . $index . '][' . $itemIndex . ']', $item->getPOID());
+                                echo Form::hidden('poItemProductID[' . $index . '][' . $itemIndex . ']', $item->getProductID());
+                                echo Form::hidden('poItemProductName[' . $index . '][' . $itemIndex . ']', $item->getProductName());
+                                echo Form::hidden('poItemCostPerUnit[' . $index . '][' . $itemIndex . ']', $item->getCostPerUnit());
+                                echo Form::hidden('poItemQty[' . $index . '][' . $itemIndex . ']', $item->getQty());
+                                echo Form::hidden('poItemProductUnitOfMeasurement[' . $index . '][' . $itemIndex . ']', $item->getUnitOfMeasurement());
+                                $itemIndex++;
+                            }
+                            // [END]
+
+                            echo Form::hidden('poNumber[' . $index . ']', $p->getPOID());
+                            echo Form::hidden('idOrder[' . $index . ']', $p->getOrderID());
+                            echo Form::hidden('idSupplier[' . $index . ']', $p->getSupplierID());
+                            echo Form::hidden('supplierName[' . $index . ']', $p->getSupplierName());
+                            echo Form::hidden('subtotal[' . $index . ']', $p->getSubtotal(), array('id' => 'subtotal_' . $p->getSupplierID()));
+                            echo Form::hidden('totalCost[' . $index . ']', $poTotal, array('id' => 'totalCost_' . $p->getSupplierID()));
+                            echo $p->getSupplierName();
+                        ?></td>
+                        <td><?php echo Form::input('supplierPONumber[' . $index . ']', $p->getSupplierPONumber()); ?></td>
+                        <td><?php echo number_format($p->getSubtotal(), 2); ?></td>
+                        <td><?php echo Form::input('shipping[' . $index . ']', $p->getShipping(), array('id' => 'shipping_' . $p->getSupplierID())); ?></td>
+                        <td><?php echo Form::input('taxes[' . $index . ']', $p->getTaxes(), array('id' => 'taxes_' . $p->getSupplierID())); ?></td>
+                        <td><?php echo number_format($poTotal, 2); ?></td>
+                    </tr>
+                <?php 
+                    $index++;
+                } ?>
+            </tbody>
         </table>
         <div class="total">
             <?php
@@ -105,6 +117,22 @@ if (!isset($purchaseOrders)) {
         $('#locations').hide();
         
         bindEvents();
+        
+        var oTable = $('#pos').dataTable( {
+            "bFilter": false,
+            "bPaginate": false,
+            "bSearchable": false,
+            "bAutoWidth": false,
+            "bInfo": false,
+            "aoColumns": [
+                    null,
+                    { "sSortDataType": "dom-text", "sType": "string", "aTargets": [1] }, 
+                    null,
+                    { "sSortDataType": "dom-text", "sType": "numeric", "aTargets": [3] },
+                    { "sSortDataType": "dom-text", "sType": "numeric", "aTargets": [4] },
+                    null
+		]
+        });
     });
         
     function bindEvents() {
@@ -140,4 +168,13 @@ if (!isset($purchaseOrders)) {
         $('#totalVal').text(Number(total).toFixed(2));
     }
     
+    // Enable filtering on input textbox
+    /* Create an array with the values of all the input boxes in a column */
+    // Link : http://www.datatables.net/examples/plug-ins/dom_sort.html
+    $.fn.dataTableExt.afnSortData['dom-text'] = function  ( oSettings, iColumn )
+    {
+        return $.map( oSettings.oApi._fnGetTrNodes(oSettings), function (tr, i) {
+                return $('td:eq('+iColumn+') input', tr).val();
+        } );
+    }
 </script>

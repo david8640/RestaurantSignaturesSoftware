@@ -279,6 +279,6 @@ div.menu li
     color: #999999;
 }
 
-thead tr.filter input.search_init {
+thead tr.filter input {
     width: 100%;
 }

@@ -42,6 +42,8 @@
             "bAutoWidth": false,
             "aoColumnDefs": [
                 { "bSortable": false, "bSearchable": false, "aTargets": [1] }
-            ]});
+            ],
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+        });
     });
 </script>

@@ -30,22 +30,6 @@ if (!isset($purchaseOrders)) {
                     <th>Total</th>
                     <th>State</th>
                 </tr>
-                <tr class="filter">
-                    <th><input class="search_init" type="text" value="Search supplier" name="search_supplier"></th>
-                    <th><input class="search_init" type="text" value="Search po#" name="search_po_number"></th>
-                    <th><input class="search_init" type="text" value="Search subtotal" name="search_subtotal"></th>
-                    <th><input class="search_init" type="text" value="Search shipping" name="search_shipping"></th>
-                    <th><input class="search_init" type="text" value="Search taxes" name="search_taxes"></th>
-                    <th><input class="search_init" type="text" value="Search total" name="search_total"></th>
-                    <th>
-                        <select id="stateFilter">
-                            <option value=""></option>
-                            <option value="1">Ordered</option>    
-                            <option value="2">Shipped</option>    
-                            <option value="3">Received</option>    
-                        </select>
-                    </th>
-                </tr>
             </thead>
             <tfoot>
                 <tr>
@@ -113,6 +97,8 @@ if (!isset($purchaseOrders)) {
         var oTable = $('#poEdit').dataTable( {
                 "bSortCellsTop": true,
                 "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
                 "bStateSave": true,
                 "bAutoWidth": false,
                 "bDeferRender": true,
@@ -121,24 +107,6 @@ if (!isset($purchaseOrders)) {
                     oData.oSearch.sSearch = "";
                     return false;
                 },
-                "aoColumnDefs": [
-                    { "bSearchable": false, 
-                      "aTargets": [6], 
-                      "mData": function ( source, type, val ) {
-                        if (type === 'set') {
-                                source.disp = val
-                                source.filter = $(val).val();
-                                return;
-                             }
-                             else if (type === 'filter') {
-                                 return source.filter;
-                             }
-
-                             return source.disp; 
-                          }
-                    }
-                    
-                ],
                 "aoColumns": [
                     null,
                     null, 
@@ -158,19 +126,6 @@ if (!isset($purchaseOrders)) {
         // Filter the order's state column.
         $('#stateFilter').change(function() {
             oTable.fnFilter(this.value, 6);
-        });
-        
-        // Update the quatity cell in the datatable datas.
-        $("tbody .custom").change(function () {
-            var column = 6;
-            var row = oTable.fnGetPosition($(this).closest('tr.filter')[0]);
-            var html = "";
-            html += "<select name=\""+this.name+"\" class=\"custom\">" +
-                "<option value=\"1\" "+((this.value == 1) ? "selected=\"\"" : "")+">Ordered</option>" +
-                "<option value=\"2\" "+((this.value == 2) ? "selected=\"\"" : "")+">Shipped</option>" +
-                "<option value=\"3\" "+((this.value == 3) ? "selected=\"\"" : "")+">Received</option>" +
-            "</select>";
-            oTable.fnUpdate(html, row, column);
         });
     });
     

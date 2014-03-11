@@ -96,7 +96,8 @@
                     null,
                     null,
                     { "sSortDataType": "dom-text", "sType": "numeric", "aTargets": [4] }
-		]
+		],
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
         });
         
         // Add the nodes that are hidden to the form.

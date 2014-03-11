@@ -102,7 +102,9 @@
                     { "bSortable": false, "bSearchable": false, "aTargets": [8] },
                     { "bSortable": false, "bSearchable": false, "aTargets": [9] },
                     { "bSortable": false, "bSearchable": false, "aTargets": [10] }
-                ]});
+                ],
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+        });
             
         $("thead tr.filter input").keyup( function () {
             oTable.fnFilter(this.value, $("thead tr.filter input").index(this) + nbOfHiddenColumn);
