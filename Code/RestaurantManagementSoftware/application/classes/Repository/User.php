@@ -18,7 +18,7 @@ class Repository_User extends Repository_AbstractRepository {
      * @return array of users
      */
     public function getAll() {
-        return $this->fetchNConstruct('SELECT * FROM v_getusers', array());
+        return $this->fetchNConstruct('SELECT * FROM v_getUsers', array());
         ;
     }
 
