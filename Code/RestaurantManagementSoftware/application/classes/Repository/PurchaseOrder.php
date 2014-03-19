@@ -117,7 +117,6 @@ class Repository_PurchaseOrder extends Repository_AbstractRepository {
             new Database_StatementParameter(':poId', $poState->getPOID(), PDO::PARAM_INT, 11),
             new Database_StatementParameter(':poState', $poState->getState(), PDO::PARAM_INT, 3)
         );
-        
         return $this->execute('CALL sp_updatePurchaseOrderState(:poId, :poState)', $params);
     }
     

@@ -34,19 +34,23 @@ class Repository_RestaurantUser extends Repository_AbstractRepository {
     }
     
     /**
-     * Subscribe or unsubscribe users to a restaurant
-     * @param int $idRestaurant
-     * @param Model_RestaurantUser $restaurantUsers
+     * Subscribe or unsubscribe users to a restaurant for all restaurants
+     * @param array of array of \Model_RestaurantUser $restaurantUsers
      * @return int
      */
-    public function subscribeOrUnsubcribeUsersToRestaurant($idRestaurant, $restaurantUsers) {
-        $users = $this->getRestaurantUsersFormatted($restaurantUsers);
-        $params = array (
-            new Database_StatementParameter(':ruid', $idRestaurant, PDO::PARAM_INT, 11),
-            new Database_StatementParameter(':ruusers', $users, PDO::PARAM_STR, 1000)
-        );
-        
-        return $this->execute('CALL sp_subscribOrUnSubscribUsersToRestaurant(:ruid, :ruusers)', $params);
+    public function subscribeOrUnsubcribeUsersToRestaurants($restaurantsUsers) {
+        foreach ($restaurantsUsers as $rus) {
+            $users = $this->getRestaurantUsersFormatted($rus);
+            $params = array (
+                new Database_StatementParameter(':ruid', $rus[0]->getIdRestaurant(), PDO::PARAM_INT, 11),
+                new Database_StatementParameter(':ruusers', $users, PDO::PARAM_STR, 1000)
+            );
+            $success = $this->execute('CALL sp_subscribOrUnSubscribUsersToRestaurant(:ruid, :ruusers)', $params);
+            if (!$success) {
+                return false;
+            }
+        }
+        return true;
     }
     
    /**
@@ -74,6 +78,7 @@ class Repository_RestaurantUser extends Repository_AbstractRepository {
             $users .= (($isFirst)?'':',').$ru->getIdUser().','.(($ru->getIsCheck()) ? '1' /*subscribe*/ : '0' /*unsubscribe*/);
             if($isFirst) { $isFirst = false; }
         }
+        
         return $users;
     }
 }

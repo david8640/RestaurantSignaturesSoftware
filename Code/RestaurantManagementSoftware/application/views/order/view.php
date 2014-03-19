@@ -92,11 +92,11 @@ if (!isset($purchaseOrders)) {
 <script>
     $(document).ready(function() {
         var oTable = $('.tableItems').dataTable( {
-                "bFilter": false,
-                "bPaginate": false,
-                "bSearchable": false,
-                "bAutoWidth": false,
-                "bInfo": false
+            "bFilter": false,
+            "bPaginate": false,
+            "bSearchable": false,
+            "bAutoWidth": false,
+            "bInfo": false
         });
     });
 </script>

@@ -52,7 +52,9 @@ if (!isset($purchaseOrders)) {
                     ?>
                     <tr>
                         <td><?php 
-                            echo Form::hidden('poId[' . $index . ']', $p->getPOID());
+                            if ($p->getState() != 3) {
+                                echo Form::hidden('poId[' . $index . ']', $p->getPOID());
+                            }
                             echo $p->getSupplierName(); 
                         ?></td>
                         <td><?php echo $p->getSupplierPONumber(); ?></td>
@@ -69,7 +71,9 @@ if (!isset($purchaseOrders)) {
                         </td>
                     </tr>
                 <?php 
-                    $index++;
+                    if ($p->getState() != 3) {
+                        $index++;
+                    }
                 } ?>
             </tbody>
         </table>
@@ -87,7 +91,7 @@ if (!isset($purchaseOrders)) {
             ?>
         </div>
         <div class="clear"></div>
-        <span id="orderStep2SubmitBt">
+        <span class="rightSaveBt">
             <?php echo Form::submit(NULL, 'Save'); ?>
         </span>
     <?php echo Form::close(); ?>

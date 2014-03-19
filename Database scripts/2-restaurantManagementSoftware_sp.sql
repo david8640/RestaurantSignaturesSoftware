@@ -52,6 +52,17 @@ AS
 GO
 
 -- -----------------------------------------------------
+-- View `v_getUsers`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `v_getUsers`
+GO
+CREATE VIEW v_getUsers
+AS
+	SELECT *
+	FROM users U;
+GO
+
+-- -----------------------------------------------------
 -- View `v_getRestaurants`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `v_getRestaurants`
@@ -1055,13 +1066,27 @@ CREATE PROCEDURE sp_saveInventoryItem(
 	IN ii_unit_of_measurement VARCHAR(30)
 )
 BEGIN
+	DECLARE id INT;
+	DECLARE oldQty INT;
 	IF EXISTS (SELECT * FROM inventory_item WHERE id_inventory_item = ii_item_id) THEN
 		UPDATE inventory_item SET	
 			qty = ii_qty
 		WHERE id_inventory_item = ii_item_id;
 	ELSE
-		INSERT INTO `inventory_item` (`id_inventory`, `id_product`, `id_supplier`, `qty`, `costPerUnit`, `unitOfMeasurement`) 
-		VALUES (ii_inventory_id, ii_product_id, ii_supplier_id, ii_qty, ii_cost_per_unit, ii_unit_of_measurement);
+	BEGIN
+		IF EXISTS (SELECT * FROM inventory_item WHERE id_inventory = ii_inventory_id AND id_product = ii_product_id AND id_supplier = ii_supplier_id AND abs(costPerUnit - ii_cost_per_unit) <= 1e-6 AND unitOfMeasurement LIKE ii_unit_of_measurement) THEN
+		BEGIN
+			SELECT @id := id_inventory_item, @oldQty := qty FROM inventory_item WHERE id_inventory = ii_inventory_id AND id_product = ii_product_id AND id_supplier = ii_supplier_id AND abs(costPerUnit - ii_cost_per_unit) <= 1e-6 AND unitOfMeasurement LIKE ii_unit_of_measurement;
+			UPDATE inventory_item SET	
+				qty = ii_qty + @oldQty
+			WHERE id_inventory_item = @id;
+			SELECT @id, @oldQty;
+		END;
+		ELSE		
+			INSERT INTO `inventory_item` (`id_inventory`, `id_product`, `id_supplier`, `qty`, `costPerUnit`, `unitOfMeasurement`) 
+			VALUES (ii_inventory_id, ii_product_id, ii_supplier_id, ii_qty, ii_cost_per_unit, ii_unit_of_measurement);
+		END IF;
+	END;
 	END IF;
 END
 GO
