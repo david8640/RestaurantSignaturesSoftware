@@ -26,7 +26,8 @@ class SupplierProductATCest {
         // Check if we are on the good page
         //$I->CanSee("The Suplier's Product was added.");
         Codeception\Module\logout($I);
-}
+    }
+    
     public function checkPageContent(\WebGuy $I) {
         Codeception\Module\login($I);
         $I->wantTo('SPR-4: Visit the suppliers product page and check content');
@@ -34,12 +35,12 @@ class SupplierProductATCest {
         // check if we are on the good page
         $I->see("Suppliers' Products");
         // check if the last supplier is there
-        $I->canSee("Supplier E", $this->locationInTable."td[3]");
-        $I->canSee('Beef', $this->locationInTable."td[4]");
-        $I->canSee('4.50', $this->locationInTable."td[5]");
-        $I->canSee('Kg', $this->locationInTable."td[6]");
+        $I->canSee("Supplier E", "#suppliersProducts tbody tr:nth-child(3) td:nth-child(3)");
+        $I->canSee('Beef', "#suppliersProducts tbody tr:nth-child(3) td:nth-child(4)");
+        $I->canSee('4.50', "#suppliersProducts tbody tr:nth-child(3) td:nth-child(5)");
+        $I->canSee('Kg', "#suppliersProducts tbody tr:nth-child(3) td:nth-child(6)");
         Codeception\Module\logout($I);
-}
+    }
 
     public function edit(\WebGuy $I) {
         Codeception\Module\login($I);
@@ -61,17 +62,13 @@ class SupplierProductATCest {
 
     public function delete(\WebGuy $I) {
         Codeception\Module\login($I);
-        $I->wantTo('SPR-3: Delete the first default supplier product (Supplier A)');
+        $I->wantTo('SPR-3: Delete the first default supplier product (Supplier E)');
         $I->amOnPage('/index.php/supplierProduct/findAll');
         // Delete first default supplier
-        $I->click($this->locationInTable.'*[contains(@class, "button_delete")]');
+        $I->click("#suppliersProducts tbody tr:nth-child(3) td:nth-child(8) a");
         // Check if this supplier has been deleted
-        $I->cantSee('Supplier E', $this->locationInTable."td[2]");
-        $I->cantSee('Pork', $this->locationInTable."td[4]");
-        $I->cantSee('2.50', $this->locationInTable."td[5]");
+        $I->cantSee('Supplier E', "#suppliersProducts tbody tr:nth-child(3) td:nth-child(3)");
+        $I->cantSee('2.50', "#suppliersProducts tbody tr:nth-child(3) td:nth-child(5)");
         Codeception\Module\logout($I);
     }
-
-  
-
 }
