@@ -1,6 +1,6 @@
 <?php
 class SupplierProductATCest {
-    private $locationInTable = "//table[@id='SupplierProduct']//tr[last()]//";
+    private $locationInTable = "//table[@id='suppliersProducts']//tr[last()]//";
     
     // tests
     public function goToAddPage(\WebGuy $I) {
@@ -24,12 +24,9 @@ class SupplierProductATCest {
         // save the supplier
         $I->click('Save');
         // Check if we are on the good page
-     //   $I->canSee("The Suplier's Product was added.");
+        //$I->CanSee("The Suplier's Product was added.");
         Codeception\Module\logout($I);
 }
-}
-/*
-
     public function checkPageContent(\WebGuy $I) {
         Codeception\Module\login($I);
         $I->wantTo('SPR-4: Visit the suppliers product page and check content');
@@ -37,12 +34,12 @@ class SupplierProductATCest {
         // check if we are on the good page
         $I->see("Suppliers' Products");
         // check if the last supplier is there
-        $I->see("Supplier A", $this->locationInTable."td[2]");
-        $I->see('Beef', $this->locationInTable."td[4]");
-        $I->see('4.50', $this->locationInTable."td[5]");
-        $I->see('Kg', $this->locationInTable."td[6]");
+        $I->canSee("Supplier E", $this->locationInTable."td[3]");
+        $I->canSee('Beef', $this->locationInTable."td[4]");
+        $I->canSee('4.50', $this->locationInTable."td[5]");
+        $I->canSee('Kg', $this->locationInTable."td[6]");
         Codeception\Module\logout($I);
-} 
+}
 
     public function edit(\WebGuy $I) {
         Codeception\Module\login($I);
@@ -52,19 +49,13 @@ class SupplierProductATCest {
         $I->click($this->locationInTable.'*[contains(@class, "button_edit")]');
         // check if we are on the edit page
         $I->see("Edit Supplier's Product");
-        $I->selectOption('#supplier_id', 5);
-        $I->selectOption('#product_id', 1);
-        $I->fillField('price', '2.50');
-        $I->fillField('unit_of_measure', 'Kg');
+        $I->fillField('price', '10.50');
         // save the supplier
         $I->click('Save');
         // Check if we are on the good page
-        $I->canSee('The suppliers product was updated.');
+        $I->canSee("The supplier's product was updated.");
         // Check if this supplier has been edited
-        $I->canSee('Supplier E', $this->locationInTable."td[2]");
-        $I->canSee('Beef', $this->locationInTable."td[4]");
-        $I->canSee('2.50', $this->locationInTable."td[5]");
-        $I->canSee('Kg', $this->locationInTable."td[6]");
+        $I->canSee('10.50', $this->locationInTable."td[5]");
         Codeception\Module\logout($I);
     }
 
@@ -76,12 +67,11 @@ class SupplierProductATCest {
         $I->click($this->locationInTable.'*[contains(@class, "button_delete")]');
         // Check if this supplier has been deleted
         $I->cantSee('Supplier E', $this->locationInTable."td[2]");
-        $I->cantSee('Beef', $this->locationInTable."td[4]");
+        $I->cantSee('Pork', $this->locationInTable."td[4]");
         $I->cantSee('2.50', $this->locationInTable."td[5]");
-        $I->cantSee('Kg', $this->locationInTable."td[6]");
         Codeception\Module\logout($I);
     }
 
   
 
-}*/
+}
