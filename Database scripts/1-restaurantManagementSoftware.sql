@@ -17,7 +17,7 @@
 
   DELIMITER GO
 
-  ALTER DATABASE  `restaurantManagementSoftware` DEFAULT CHARACTER SET latin2 COLLATE latin2_general_ci;
+  ALTER DATABASE `restaurantManagementSoftware` DEFAULT CHARACTER SET latin2 COLLATE latin2_general_ci;
   GO 
 
   -- ---------------------------------------------------------------------------
@@ -102,7 +102,7 @@
     `session_expiry_time` INT(25),
     `location_selected` INT(11),
     PRIMARY KEY (`id_user`),
-    CONSTRAINT `location_selected_users_ibfk_1` FOREIGN KEY (`location_selected`) REFERENCES `restaurant` (`id_restaurant`)
+    CONSTRAINT `location_selected_users_ibfk_1` FOREIGN KEY (`location_selected`) REFERENCES `restaurant` (`id_restaurant`) ON DELETE NO ACTION
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
 
@@ -125,8 +125,8 @@
     `id_restaurant` INT(11) NOT NULL,
     `id_user` INT(11) NOT NULL,
     PRIMARY KEY (`id_restaurant`, `id_user`),
-    CONSTRAINT `users_restaurants_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`),
-    CONSTRAINT `users_restaurants_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`)
+    CONSTRAINT `users_restaurants_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`) ON DELETE CASCADE,
+    CONSTRAINT `users_restaurants_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
 
@@ -139,7 +139,7 @@
     `id_category` INT(11) NOT NULL,
     `unitOfMeasurement` VARCHAR(30) NOT NULL,
    PRIMARY KEY (`id_product`),
-   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `product_category` (`id_category`)
+   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `product_category` (`id_category`) ON DELETE NO ACTION
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
   
@@ -152,8 +152,8 @@
     `price` DECIMAL(10,2) NOT NULL,
     `unitOfMeasurement` VARCHAR(30) NOT NULL,
    PRIMARY KEY (`id_product`, `id_supplier`),
-   CONSTRAINT `supplier_product_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
-   CONSTRAINT `supplier_supplier_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
+   CONSTRAINT `supplier_product_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`) ON DELETE CASCADE,
+   CONSTRAINT `supplier_supplier_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
 
@@ -170,7 +170,7 @@
     `shippingCost` DECIMAL(10,2), -- sum of of shipping of each PO
     `state` INT(3), -- 0: in progress, 1: submitted
    PRIMARY KEY (`id_order`),
-   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
+   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`) ON DELETE NO ACTION
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
 
@@ -191,7 +191,7 @@
     `state` INT(3), -- 0: in progress, 1: ordered, 2: shipped, 3:received
     PRIMARY KEY (`id_po`),
     CONSTRAINT `purchase_orders_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `order_list` (`id_order`) ON DELETE CASCADE,
-    CONSTRAINT `purchase_orders_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`)
+    CONSTRAINT `purchase_orders_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE NO ACTION
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
 
@@ -205,7 +205,7 @@
     `costPerUnit` DECIMAL(10,2) NOT NULL,
     `unitOfMeasurement` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`id_product`, `id_po`),
-    CONSTRAINT `PO_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+    CONSTRAINT `PO_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`) ON DELETE NO ACTION,
     CONSTRAINT `PO_item_ibfk_2` FOREIGN KEY (`id_po`) REFERENCES `purchase_orders` (`id_po`) ON DELETE CASCADE
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
@@ -218,7 +218,7 @@
     `id_restaurant` INT(11) NOT NULL,
     PRIMARY KEY (`id_inventory`),
     UNIQUE(`id_restaurant`),
-    CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`)
+    CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`) ON DELETE CASCADE
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
   
@@ -234,9 +234,9 @@
     `costPerUnit` DECIMAL(10,2) NOT NULL,
     `unitOfMeasurement` VARCHAR(30) NOT NULL,
     PRIMARY KEY (`id_inventory_item`),
-    CONSTRAINT `inventory_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
-    CONSTRAINT `inventory_item_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`),
-    CONSTRAINT `inventory_item_ibfk_3` FOREIGN KEY (`id_inventory`) REFERENCES `inventory` (`id_inventory`)
+    CONSTRAINT `inventory_item_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`) ON DELETE NO ACTION,
+    CONSTRAINT `inventory_item_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE NO ACTION,
+    CONSTRAINT `inventory_item_ibfk_3` FOREIGN KEY (`id_inventory`) REFERENCES `inventory` (`id_inventory`) ON DELETE CASCADE
   ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin2;
   GO
   
