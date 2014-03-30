@@ -12,6 +12,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+  <link href="/seg4910-project/Code/RestaurantManagementSoftware/application/style/flexnav.css" rel="stylesheet" type="text/css" />
     <title><?php echo $title ?></title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <?php echo HTML::style('application/style/style.css'); ?>
@@ -30,20 +31,53 @@
         }
         
         if (!$hide_menu) { ?>
-            <div class="menu">
-                <ul>
+              <div class="menu-button">Menu</div>
+                <ul class="flexnav" data-breakpoint="800">
                     <li><?php echo HTML::anchor('index/index', 'Home'); ?></li>
-                    <li><?php echo HTML::anchor('supplier/findAll', 'Suppliers'); ?></li>
-                    <li><?php echo HTML::anchor('product/findAll', 'Products'); ?></li>
-                    <li><?php echo HTML::anchor('productCategory/findAll', 'Product Categories'); ?></li>
-                    <li><?php echo HTML::anchor('restaurant/findAll', 'Restaurants'); ?></li>
-                    <li><?php echo HTML::anchor('restaurantUser/findAll', 'User Access'); ?></li>
-                    <li><?php echo HTML::anchor('order/findAll', 'Orders'); ?></li>
-                    <li><?php echo HTML::anchor('order/getRestaurantOrders', 'Restaurant Orders'); ?></li>
-                    <li><?php echo HTML::anchor('supplierProduct/findAll', 'Suppliers\' Products'); ?></li>
-                    <li><?php echo HTML::anchor('inventory/findAll', 'Inventories'); ?></li>
-                    <li><?php echo HTML::anchor('inventory/edit', 'Inventory'); ?></li>
+                    <li>
+                      <a>Orders</a>
+                      <ul>
+                        <li><?php echo HTML::anchor('order/findAll', 'View Orders'); ?></li>
+                        <li><a href="/seg4910-project/Code/RestaurantManagementSoftware/index.php/order/getStep1/-1/findAll">New Order</a></li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      <a>Products</a>
+                      <ul>
+                        <li><?php echo HTML::anchor('product/findAll', 'Products'); ?></li>
+                        <li><?php echo HTML::anchor('productCategory/findAll', 'Product Categories'); ?></li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      <a>Suppliers</a>
+                      <ul>
+                        <li><?php echo HTML::anchor('supplier/findAll', 'View Suppliers'); ?></li>
+                        <li><?php echo HTML::anchor('supplierProduct/findAll', 'Suppliers\' Products'); ?></li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      <a>Suppliers</a>
+                      <ul>
+                        <li><?php echo HTML::anchor('inventory/edit', 'Inventory'); ?></li>
+                        <li><?php echo HTML::anchor('inventory/findAll', 'Inventories'); ?></li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      <a>Admin Tools</a>
+                      <ul>
+                        <li><?php echo HTML::anchor('restaurant/findAll', 'Restaurants'); ?></li>
+                        <li><?php echo HTML::anchor('restaurantUser/findAll', 'User Access'); ?></li>
+                        <li><?php echo HTML::anchor('order/getRestaurantOrders', 'Restaurant Orders'); ?></li>
+                      </ul>
+                    </li>
                 </ul>
+
+
+
                 <div class="right">
                     <?php 
                     if (count($locations) > 0) { 
@@ -68,7 +102,7 @@
                         <?php echo HTML::anchor('login/logout', 'Logout'); ?>
                     </span>
                 </div>
-            </div><?php
+            <?php
         }
 
         if (isset($feedbackMessage)) {
@@ -124,5 +158,22 @@
                }); 
             });
         </script>
+
+        <script type="text/javascript" src="/seg4910-project/Code/RestaurantManagementSoftware/application/scripts/jquery.flexnav.js"></script>
+
+        <script>
+          $(".flexnav").flexNav({
+              'animationSpeed':     250,            // default = 250
+              'transitionOpacity':  true,           // default  = True
+              'buttonSelector':     '.menu-button', // default menu button class name = ".menu-button"
+              'hoverIntent':        false,          // Change to true for use with hoverIntent plugin
+              'hoverIntentTimeout': 150,            // hoverIntent default timeout = 150
+              'calcItemWidths':     true,          // dynamically calcs top level nav item widths
+              'hover':              true            // would you like hover support?  
+          } );
+        </script>
+
+
+
     </body>
 </html>
