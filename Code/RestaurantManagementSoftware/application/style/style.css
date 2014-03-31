@@ -37,6 +37,8 @@ div.menu li
     padding-right: 10px;
 }*/
 
+
+
 .login {
     width:250px;
     margin:auto;
@@ -344,4 +346,8 @@ thead tr.filter input {
 
 .menuheader .right .item {
     padding-right: 5px; 
+}
+
+div#orders_wrapper.dataTables_wrapper {
+    z-index: -1;
 }
