@@ -16,19 +16,19 @@
             </a>
         </li>
         <li>
-            <a href="<?php echo URL::site('order/getStep1', array('id' => -1, 'lastAction' => 'findAll')); ?>">
+            <a href="<?php echo URL::site('inventory/findAll'); ?>">
                 <?php echo HTML::image('application/style/images/inventory.png'); ?>
                 <span>Inventory</span>
             </a>
         </li>
         <li>
-            <a href="<?php echo URL::site('order/findAll'); ?>">
+            <a href="<?php echo URL::site('supplier/findAll'); ?>">
                 <?php echo HTML::image('application/style/images/suppliers.png'); ?>
                 <span>Supplier Info</span>
             </a>
         </li>
         <li>
-            <a href="<?php echo URL::site('order/findAll'); ?>">
+            <a href="<?php echo URL::site('restaurantUser/findAll'); ?>">
                 <?php echo HTML::image('application/style/images/user-access.png'); ?>
                 <span>User Access</span>
             </a>
