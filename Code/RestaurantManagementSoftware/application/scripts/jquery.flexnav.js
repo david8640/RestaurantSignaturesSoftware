@@ -37,7 +37,7 @@
     if (settings.calcItemWidths === true) {
       $top_nav_items = $nav.find('>li');
       count = $top_nav_items.length;
-      nav_width = 75 / count;
+      nav_width = 100 / count;
       nav_percent = nav_width + "%";
     }
     if ($nav.data('breakpoint')) {

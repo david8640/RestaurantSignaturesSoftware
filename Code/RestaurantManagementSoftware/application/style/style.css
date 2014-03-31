@@ -10,7 +10,7 @@ body {
     margin: 0px;
 }
 
-div.menu ul
+/*div.menu ul
 {
     list-style-type:none;
     margin:0;
@@ -35,7 +35,7 @@ div.menu li
 {
     display:inline;
     padding-right: 10px;
-}
+}*/
 
 .login {
     width:250px;
@@ -282,4 +282,65 @@ div.menu li
 
 thead tr.filter input {
     width: 100%;
+}
+
+.flexnav {
+    padding-left: 0px;
+}
+
+.flexnav li a {
+    padding: 5px 10px;
+    background-color: #D3D3D3;
+}
+
+.flexnav .touch-button {
+    width: 20px;
+    height: 29px;
+}
+
+.flexnav .touch-button .navicon {
+    top: 5px;
+}
+
+.flexnav li > ul {
+    padding-left: 0px
+}
+
+.menuheader .right {
+    float: right;
+    padding-right: 5px;
+}
+
+.menuheader {
+    width: 100%;    
+    background-color: #b3b3b3;
+    height: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.shortcut ul {
+    padding: 0px;
+    list-style: none;
+}
+
+.shortcut ul li {
+}
+
+.shortcut ul span {
+    vertical-align: middle;
+    display:table-cell
+}
+
+.shortcut ul a {
+    display:table;
+}
+
+.shortcut ul a img {
+    width: 45px;
+    padding-right: 10px;
+}
+
+.menuheader .right .item {
+    padding-right: 5px; 
 }
