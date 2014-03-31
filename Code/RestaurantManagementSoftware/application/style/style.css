@@ -277,6 +277,10 @@ div.menu li
  .content .left {
      float: left;
  }
+
+ div.content {
+    z-index: -1;
+ }
  
  thead tr.filter input.search_init {
     color: #999999;
@@ -348,6 +352,6 @@ thead tr.filter input {
     padding-right: 5px; 
 }
 
-div#orders_wrapper.dataTables_wrapper {
+.dataTables_wrapper {
     z-index: -1;
 }
