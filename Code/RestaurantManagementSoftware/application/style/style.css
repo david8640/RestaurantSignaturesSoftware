@@ -286,6 +286,7 @@ thead tr.filter input {
 
 .flexnav {
     padding-left: 0px;
+    padding-right: 0px;
 }
 
 .flexnav li a {
@@ -295,7 +296,7 @@ thead tr.filter input {
 
 .flexnav .touch-button {
     width: 20px;
-    height: 29px;
+    height: 27px;
 }
 
 .flexnav .touch-button .navicon {
