@@ -15,8 +15,8 @@
     <title><?php echo $title ?></title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <?php echo HTML::style('application/style/flexnav.css'); ?>
-    <?php echo HTML::style('application/style/style.css'); ?>
     <?php echo HTML::style('application/style/jquery.dataTables.css'); ?>
+    <?php echo HTML::style('application/style/style.css'); ?>
     <?php echo HTML::script('application/scripts/jquery-1.10.2.min.js'); ?>
     <?php echo HTML::script('application/scripts/jquery.dataTables.min.js'); ?>
     <?php echo HTML::script('application/scripts/jquery.flexnav.js'); ?>
@@ -155,8 +155,8 @@
             });
             
             $(".flexnav").flexNav({
-                'animationSpeed':     250,            // default = 250
-                'transitionOpacity':  false,           // default  = True
+                'animationSpeed':     500,            // default = 250
+                'transitionOpacity':  true,           // default  = True
                 'buttonSelector':     '.menu-button', // default menu button class name = ".menu-button"
                 'hoverIntent':        false,          // Change to true for use with hoverIntent plugin
                 'hoverIntentTimeout': 150,            // hoverIntent default timeout = 150

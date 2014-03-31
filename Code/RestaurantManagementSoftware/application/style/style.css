@@ -347,3 +347,7 @@ thead tr.filter input {
 .menuheader .right .item {
     padding-right: 5px; 
 }
+
+.dataTables_wrapper {
+    position: static;
+}
