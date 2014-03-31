@@ -156,7 +156,7 @@
             
             $(".flexnav").flexNav({
                 'animationSpeed':     250,            // default = 250
-                'transitionOpacity':  true,           // default  = True
+                'transitionOpacity':  false,           // default  = True
                 'buttonSelector':     '.menu-button', // default menu button class name = ".menu-button"
                 'hoverIntent':        false,          // Change to true for use with hoverIntent plugin
                 'hoverIntentTimeout': 150,            // hoverIntent default timeout = 150
