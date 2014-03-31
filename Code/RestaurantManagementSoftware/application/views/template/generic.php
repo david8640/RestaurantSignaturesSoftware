@@ -79,7 +79,7 @@
                     <li>
                       <a>Orders</a>
                       <ul>
-                        <li><?php echo HTML::anchor('order/getRestaurantOrders', 'Restaurant'); ?></li>
+                        <li><?php echo HTML::anchor('order/getRestaurantOrders', 'View Orders'); ?></li>
                         <li><?php echo HTML::anchor('order/getStep1', 'New Order', array('id' => -1, 'lastAction' => 'findAll')); ?></li>
                       </ul>
                     </li>
