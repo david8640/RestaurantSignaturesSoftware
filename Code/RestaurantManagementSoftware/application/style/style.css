@@ -277,10 +277,6 @@ div.menu li
  .content .left {
      float: left;
  }
-
- div.content {
-    z-index: -1;
- }
  
  thead tr.filter input.search_init {
     color: #999999;
