@@ -18,8 +18,8 @@
     <thead>
         <tr>
             <th>Supplier Id</th>
-            <th>Supplier Name</th>
             <th>Product Id</th>
+            <th>Supplier Name</th>
             <th>Product Name</th>
             <th>Price</th>
             <th>Unit Of Measurement</th>
@@ -40,8 +40,8 @@
     <tfoot>
         <tr>
             <th>Supplier Id</th>
-            <th>Supplier Name</th>
             <th>Product Id</th>
+            <th>Supplier Name</th>
             <th>Product Name</th>
             <th>Price</th>
             <th>Unit Of Measurement</th>
