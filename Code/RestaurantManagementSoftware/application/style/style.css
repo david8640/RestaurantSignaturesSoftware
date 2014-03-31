@@ -348,6 +348,6 @@ thead tr.filter input {
     padding-right: 5px; 
 }
 
-.dataTables_wrapper {
+div#orders_wrapper.dataTables_wrapper {
     z-index: -1;
 }
