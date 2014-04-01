@@ -38,7 +38,7 @@
       $top_nav_items = $nav.find('>li');
       count = $top_nav_items.length;
       nav_width = 100 / count;
-      nav_percent = nav_width + "%";
+      nav_percent = roundNumber(nav_width) + "%";
     }
     if ($nav.data('breakpoint')) {
       breakpoint = $nav.data('breakpoint');
@@ -104,7 +104,7 @@
     };
     $(settings['buttonSelector']).data('navEl', $nav);
     touch_selector = '.item-with-ul, ' + settings['buttonSelector'];
-    $(touch_selector).append('<span class="touch-button"><i class="navicon">&#9660;</i></span>');
+    $(touch_selector).append('<span class="touch-button"><i class="navicon">▼</i></span>');
     toggle_selector = settings['buttonSelector'] + ', ' + settings['buttonSelector'] + ' .touch-button';
     $(toggle_selector).on('click', function(e) {
       var $btnParent, $thisNav, bs;
@@ -140,3 +140,7 @@
   };
 
 }).call(this);
+
+function roundNumber (num) {
+    return (num.toString().indexOf(".") !== -1) ? num.toFixed(4) : num;
+};

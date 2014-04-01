@@ -10,35 +10,6 @@ body {
     margin: 0px;
 }
 
-/*div.menu ul
-{
-    list-style-type:none;
-    margin:0;
-    padding:10px;
-    border: 1px black solid;
-}
-
-div.menu .right {
-    float: right;
-    margin-top: -28px;
-}
-
-div.menu .right .item {
-    padding-right: 10px;
-}
-
-div.menu a {
-    text-decoration: none;
-}
-
-div.menu li
-{
-    display:inline;
-    padding-right: 10px;
-}*/
-
-
-
 .login {
     width:250px;
     margin:auto;
@@ -117,7 +88,7 @@ div.menu li
  }
  
  .content table td {
-    padding: 8px;
+    padding: 5px;
     word-wrap: break-word;
  }
  
