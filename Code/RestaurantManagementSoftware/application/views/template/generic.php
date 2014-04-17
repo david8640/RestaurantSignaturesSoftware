@@ -8,7 +8,7 @@
  *  <date>2013-10-05</date>
  *  <summary>The template page.</summary>
  */
-?>
+?> 
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -80,7 +80,7 @@
                       <a>Orders</a>
                       <ul>
                         <li><?php echo HTML::anchor('order/getRestaurantOrders', 'View Orders'); ?></li>
-                        <li><?php echo HTML::anchor('order/getStep1', 'New Order', array('id' => -1, 'lastAction' => 'findAll')); ?></li>
+                        <li><?php echo HTML::anchor('order/getStep1/-1/findAll', 'New Order')?></li>
                       </ul>
                     </li>
                     <li>

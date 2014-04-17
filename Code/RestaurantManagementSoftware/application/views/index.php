@@ -4,7 +4,7 @@
 <div class="shortcut">
     <ul>
         <li>
-            <a href="<?php echo URL::site('order/getStep1', array('id' => -1, 'lastAction' => 'findAll')); ?>">
+            <a href="<?php echo URL::site('order/getStep1/-1/findAll'); ?>">
                 <?php echo HTML::image('application/style/images/new-order.png'); ?>
                 <span>New Order</span>
             </a>
